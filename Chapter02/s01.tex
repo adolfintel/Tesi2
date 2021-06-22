@@ -1,0 +1,54 @@
+\section{Nvidia LDAT}
+Intorno al mese di Settembre 2020, Nvidia ha distribuito un prototipo di un dispositivo chiamato Nvidia LDAT, abbreviazione di Latency Display Analysis Tool. Questo dispositivo, che non è stato poi commercializzato, è stato una delle maggiori ispirazioni per il progetto OpenLDAT.
+
+Il dispositivo Nvidia LDAT si presenta come una piccola scatola di plastica stampata in 3D su cui sono presenti un LED RGB che indica lo stato del dispositivo e i click, un sensore di luminosità, una porta Micro USB per collegarlo ad un PC che esegue il software di LDAT, un connettore per un mouse modificato, una corda per poterlo appendere più facilmente al display, e un jack audio che può essere opzionalmente collegato dalla macchina di test al dispositivo. La figura \ref{fig:nvldat_front} mostra la parte frontale del dispositivo.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Chapter02/res/nvldat_front.jpg}
+	\caption{Parte frontale del dispositivo Nvidia LDAT (da Gamers Nexus)}
+	\label{fig:nvldat_front}
+\end{figure}
+
+Non è noto nulla riguardo all'hardware presente all'interno, ma dall'immagine in figura \ref{fig:nvldat_back}, il sensore di luminosità sembra essere un fotodiodo piuttosto grande, o forse addirittura un CCD. Non sono stati eseguiti dei teardown del dispositivo, probabilmente su esplicita richiesta di Nvidia, per cui non è stato possibile osservare il tipo di microcontroller o l'elettronica all'interno.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Chapter02/res/nvldat_back.jpg}
+	\caption{Parte posteriore del dispositivo Nvidia LDAT (da Gamers Nexus)}
+	\label{fig:nvldat_back}
+\end{figure}
+
+Il software di Nvidia LDAT implementa un test per misurare quella che Nvidia chiama click-to-photon response, ossia il tempo che passa tra la pressione di un click del mouse e il cambio di luminosità sullo schermo. Il test può essere eseguito in modo automatico, con il dispositivo che esegue i click su un'applicazione, oppure in modo manuale, utilizzando un mouse modificato collegato ai due pin sulla parte frontale del dispositivo.\\
+Il software fornisce inoltre la possibilità di misurare il ritardo utilizzando l'audio catturato tramite il jack presente sul dispositivo. Questa scelta è piuttosto bizzarra, poiché la scheda audio ha una latenza diversa rispetto allo stack grafico e il display, ma può comunque fornire una stima del ritardo poiché le applicazioni processano gli input a intervalli regolari che dipendono dal framerate, per cui un'applicazione a 30 FPS avrà più ritardo di una a 60 FPS, anche sull'audio.\\
+La figura \ref{fig:nvldat_software} mostra uno screenshot del software LDAT in azione.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Chapter02/res/nvldat_software.jpg}
+	\caption{Screenshot del software Nvidia LDAT (da igorslab.de)}
+	\label{fig:nvldat_software}
+\end{figure}
+
+Il dispositivo è stato aggiornato intorno a Maggio 2021, con un case di plastica non stampata e l'aggiunta di un pulsante sulla parte frontale del dispositivo per interagire con il software Nvidia LDAT mentre il dispositivo esegue i test e la possibilità di collegare un sensore di luminosità esterno. Per il resto, il dispositivo sembra invariato. La figura \ref{fig:nvldat_v2} mostra il nuovo case.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Chapter02/res/nvldat_v2.jpg}
+	\caption{Nuova versione di Nvidia LDAT (da techpowerup.com)}
+	\label{fig:nvldat_v2}
+\end{figure}
+
+Nvidia purtroppo ha scelto di non commercializzare nessuna versione di questo dispositivo, ma lo ha solo distribuito ad alcuni giornalisti di tecnologia come parte di un "reviewers kit", ma ha creato Nvidia Reflex Latency Analyzer, una sorta di versione built-in in alcuni monitor e mouse compatibili che è in grado di misurare la latenza senza bisogno di dispositivi esterni.
+
+Nvidia Reflex Latency Analyzer\footnote{\href{https://www.nvidia.com/en-us/geforce/news/reflex-latency-analyzer-360hz-g-sync-monitors/}{https://www.nvidia.com/en-us/geforce/news/reflex-latency-analyzer-360hz-g-sync-monitors/}} consente ai display con certificazione G-Sync Ultimate (ossia con un processore Nvidia dedicato al loro interno) di eseguire il lavoro che normalmente svolgerebbe il sensore di luminosità, monitorando una piccola area dell'immagine per rilevare variazioni di luminosità. Un mouse compatibile deve essere collegato al display stesso, e il software sarà in grado di misurare il ritardo dell'intero sistema.\\
+Il requisito di un mouse esplicitamente supportato da Nvidia è necessaria al software per poter conoscere quanto del ritardo è causato dal mouse stesso e quanto dal resto del sistema. Il tempo di latenza calcolato da questo sistema è sostanzialmente lo stesso che verrebbe misurato con un dispositivo esterno come Nvidia LDAT, a meno di pochi millisecondi dovuti al tempo di risposta dei pixel del display. La figura \ref{fig:nvreflex_example} mostra un overlay con la latenza posizionato da Nvidia Geforce Experience sopra un'applicazione.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=\textwidth]{Chapter02/res/nvreflex_example.jpg}
+	\caption{Nvidia Reflex Latency Analyzer (da nvidia.com)}
+	\label{fig:nvreflex_example}
+\end{figure}
+
+Nel momento in cui viene scritto questo paragrafo (aggiornato a Giugno 2021), Nvidia Reflex Latency Analyzer è sostanzialmente inesistente sul mercato poiché supporta pochi modelli di display e mouse, e sono molto costosi per quello che offrono. Il requisito di utilizzare Nvidia Geforce Experience per utilizzarlo, un'applicazione proprietaria che richiede un login e con una pessima reputazione, non ha sicuramente contribuito alla sua diffusione.

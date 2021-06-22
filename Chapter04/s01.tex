@@ -1,0 +1,122 @@
+\section{Comunicazione col dispositivo}
+Questa sezione si concentra sul package \texttt{com.dosse.openldat.device}, che implementa tutta la parte di comunicazione con il dispositivo OpenLDAT.
+
+\subsection{DeviceFinder}
+La comunicazione col dispositivo avviene tramite l'interfaccia seriale USB esposta dal dispositivo, ma prima di poter comunicare con esso, bisogna trovarlo. Poiché al PC potrebbero essere connessi più dispositivi seriali, l'applicazione distingue i dispositivi OpenLDAT dagli altri grazie all'ID hardware impostato dal firmware come spiegato nel capitolo precedente.
+Il processo di discovery dei dispositivi è svolto dalla classe \texttt{DeviceFinder}, la quale contiene dei metodi statici per trovare i dispositivi.
+
+\paragraph{Metodi statici:}\begin{itemize}
+	\item \texttt{public static SerialPort[] findDevices()}: trova tutti i dispositivi OpenLDAT attualmente connessi e li ritorna come un array di \texttt{SerialPort} (una classe della libreria jSerialComm). Non viene fatto alcun controllo sullo stato del dispositivo stesso, nè del fatto che sia supportato o meno
+	\item \texttt{public static Device getDevice()}: un metodo più comodo per ottenere il primo device OpenLDAT connesso al PC supportato dall'applicazione, o \texttt{null} se non ce ne sono. Questo metodo è utile solo per comodità in fase di testing, l'applicazione non lo utilizza. Il metodo ritorna un'istanza di \texttt{Device}, che è la classe che implementa effettivamente la comunicazione con il dispositivo
+\end{itemize}
+
+\subsection{Device}
+Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la classe \texttt{Device} passandole la porta seriale scelta. Il costruttore di questa classe esegue tutti i controlli necessari per identificare il dispositivo, verificare che sia supportato, e ottiene l'elenco delle capability. In seguito, la classe mette a disposizione dei metodi per utilizzare il dispositivo. La classe utilizza un buffer in ricezione di 128kB per evitare di bloccare il dispositivo mentre qualcosa viene processato.
+
+\paragraph{Costruttori:}\begin{itemize}
+	\item \texttt{public Device(SerialPort com)}: crea l'istanza di \texttt{Device} utilizzando la porta seriale specificata. Durante l'inizializzazione, viene verificato il modello del dispositivo e viene richiesto l'elenco delle capability per inizializzare tutte le variabili interne alla classe. Se il dispositivo non è riconosciuto, non è compatibile, richiede una versione più recente del driver, o l'elenco delle capability non è valido, l'inizializzazione fallisce.\\
+	Il costruttore può lanciare un'eccezione \texttt{DeviceError} se l'inizializzazione fallisce o una \texttt{IOException} se ci sono problemi di comunicazione durante l'inizializzazione
+\end{itemize}
+
+\paragraph{Metodi pubblici:}\begin{itemize}
+	\item \texttt{public boolean isOpen()}: ritorna \texttt{true} se la connessione al dispositivo è attualmente aperta
+	\item \texttt{public void close()}: chiude la connessione verso il dispositivo in modo sicuro, terminando qualsiasi attività in corso
+	\item \texttt{public boolean hasLightSensor()}: ritorna \texttt{true} se il dispositivo è dotato di un sensore di luminosità
+	\item \texttt{public boolean isPrototype()}: ritorna \texttt{true} se il dispositivo si dichiara come prototipo. Nella GUI, i prototipi hanno a disposizione un menu di test dedicato
+	\item \texttt{public boolean hasOscilloscopeDebug()}: ritorna \texttt{true} se il dispositivo genera pulsazioni sul pin 10 durante l'attività
+	\item \texttt{public String getFirmwareVersion()}: ritorna la versione del firmware come una stringa. Per convenzione, le versioni del firmware contengono la data in formato YYYYMMDD seguita opzionalmente da altri caratteri, ad esempio \texttt{20210225-production}
+	\item \texttt{public String getModel()}: ritorna il modello completo del dispositivo come dichiarato dal firmware, non dall'ID hardware
+	\item \texttt{public int getModelCode()}: ritorna il modello del dispositivo come numero. Attualmente, il dispositivo OpenLDAT Model 1 è l'unico supportato ed ha il codice 1
+	\item \texttt{public String getPortName()}: ritorna il nome della porta seriale del dispositivo
+	\item \texttt{public int getMinDriverVersion()}: ritorna il codice di versione minimo del driver richiesto dal dispositivo come dichiarato dal firmware. La versione attuale del driver ha codice di versione 1
+	\item \texttt{public String getSerialNumber()}: ritorna il numero di serie del dispositivo come stringa, o la stringa \texttt{DIY} se non ce l'ha
+	\item \texttt{public boolean isBusy()}: ritorna \texttt{true} se il dispositivo sta eseguendo qualche attività ed è occupato
+	\item \texttt{public void endCurrentActivity()}: termina l'attività corrente e attende che il dispositivo torni in stato idle per accettare nuovi comandi. Questo metodo è bloccante fino a quando il dispositivo non è in stato idle. L'esecuzione richiede circa 100ms. Questo metodo va utilizzato solo per interrompere un'attività (ad esempio alla fine di un test), se si desidera passare da un'attività a un'altra, quella precedente viene interrotta automaticamente dalla nuova
+	\item \texttt{public double lightSensorMonitorMode(boolean noBuffer, byte sensitivity, boolean fastADC, LightSensorMonitorCallback callback)}: avvia il campionamento del sensore di luminosità sul dispositivo, senza pulsante.\begin{itemize}
+		\item \texttt{boolean noBuffer}: se impostato a \texttt{true}, utilizza la modalità senza buffering (più lenta ma campionamento più regolare), altrimenti utilizza la modalità con buffering
+		\item \texttt{byte sensitivity}: imposta il livello di gain del sensore tra 0 (più basso) e 3 (più alto)
+		\item \texttt{boolean fastADC}: se impostato a \texttt{true}, campiona il segnale molto più velocemente
+		\item \texttt{LightSensorMonitorCallback callback}: il callback da chiamare quando sono disponibili nuovi dati dal dispositivo. Questa classe verrà approfondita successivamente
+	\end{itemize}
+	Una volta avviato il campionamento il metodo non è bloccante, e ritorna il sample rate del segnale che sta acquisendo.\\
+	Se il dispositivo non ha un sensore di luminosità viene lanciata un'eccezione \texttt{MissingSensorException}, se si verificano errori di comunicazione, viene lanciata una \texttt{IOException}.\\
+	Se il metodo viene chiamato mentre è già in corso un'altra attività, questa viene terminata automaticamente e quella nuova viene eseguita
+	\item \texttt{public double getLightSensorMonitorModeSampleRate(boolean noBuffer, boolean fastADC)}: ritorna la frequenza di campionamento che offrirebbe il dispositivo nel campionare il sensore di luminosità senza il pulsante, con le impostazioni richieste.\begin{itemize}
+		\item \texttt{boolean noBuffer}: se impostato a \texttt{true}, utilizza la modalità senza buffering (più lenta ma campionamento più regolare), altrimenti utilizza la modalità con buffering
+		\item \texttt{boolean fastADC}: se impostato a \texttt{true}, campiona il segnale molto più velocemente
+	\end{itemize}
+	Vedi anche: tabella \ref{tab:openldat_samplerates} (con \texttt{MONITOR=1}).\\
+	Viene lanciata un'eccezione \texttt{MissingSensorException} se il dispositivo non ha un sensore di luminosità
+	\item \texttt{public double lightSensorButtonMode(boolean noBuffer, byte sensitivity, boolean fastADC, boolean noClick, boolean autoFire, LightSensorButtonCallback callback)}: avvia il campionamento del sensore di luminosità sul dispositivo, con il pulsante.\begin{itemize}
+		\item \texttt{boolean noBuffer}: se impostato a \texttt{true}, utilizza la modalità senza buffering (più lenta ma campionamento più regolare), altrimenti utilizza la modalità con buffering
+		\item \texttt{byte sensitivity}: imposta il livello di gain del sensore tra 0 (più basso) e 3 (più alto)
+		\item \texttt{boolean fastADC}: se impostato a \texttt{true}, campiona il segnale molto più velocemente
+		\item \texttt{boolean noClick}: se impostato a \texttt{true}, i click vengono registrati ma non viene simulato un click del mouse
+		\item \texttt{boolean autoFire}: se impostato a \texttt{true}, i click vengono generati automaticamente, altrimenti vengono ricevuti tramite il pulsante esterno
+		\item \texttt{LightSensorButtonCallback callback}: il callback da chiamare quando sono disponibili nuovi dati dal dispositivo. Questa classe verrà approfondita successivamente
+	\end{itemize}
+	Una volta avviato il campionamento il metodo non è bloccante, e ritorna il sample rate del segnale che sta acquisendo.\\
+	Se il dispositivo non ha un sensore di luminosità viene lanciata un'eccezione \texttt{MissingSensorException}, se si verificano errori di comunicazione, viene lanciata una \texttt{IOException}.\\
+	Se il metodo viene chiamato mentre è già in corso un'altra attività, questa viene terminata automaticamente e quella nuova viene eseguita
+	\item \texttt{public double getLightSensorButtonModeSampleRate(boolean noBuffer, boolean fastADC)}: ritorna la frequenza di campionamento che offrirebbe il dispositivo nel campionare il sensore di luminosità senza il pulsante, con le impostazioni richieste.\begin{itemize}
+		\item \texttt{boolean noBuffer}: se impostato a \texttt{true}, utilizza la modalità senza buffering (più lenta ma campionamento più regolare), altrimenti utilizza la modalità con buffering
+		\item \texttt{boolean fastADC}: se impostato a \texttt{true}, campiona il segnale molto più velocemente
+	\end{itemize}
+	Vedi anche: tabella \ref{tab:openldat_samplerates} (con \texttt{MONITOR=0}).\\
+	Viene lanciata un'eccezione \texttt{MissingSensorException} se il dispositivo non ha un sensore di luminosità
+\end{itemize}
+
+\subsection{Callback e errori}
+I package \texttt{com.dosse.openldat.device.callback} e \texttt{com.dosse.openldat.device.errors} contengono le classi che implementano i callback e gli errori menzionate precedentemente.
+
+\subsubsection{DeviceError}
+Questa classe estende \texttt{Exception} ed è usata per definire tutti gli errori che possono verificarsi all'interno di \texttt{Device}.
+
+\paragraph{Costruttori:}\begin{itemize}
+	\item \texttt{public DeviceError(int type)}: crea l'eccezione utilizzando uno dei tipi predefiniti nella classe stessa (\texttt{FAILED\_TO\_CONNECT}, \texttt{UNSUPPORTED\_MODEL}, \texttt{NOT\_OPENLDAT\_DEVICE}, \texttt{DEVICE\_ID\_FAILED}, \texttt{FIRMWARE\_BUILT\_WITH\_SERIALPLOT}, \texttt{FIRMWARE\_NEEDS\_NEWER\_DRIVER}, \texttt{FIRMWARE\_UNKNOWN}, \texttt{FIRMWARE\_LIGHTSENSOR\_MISSING\_BUFSIZES})
+	\item \texttt{public DeviceError(String message)}: crea l'eccezione utilizzando un messaggio personalizzato
+\end{itemize}
+
+\paragraph{Metodi pubblici:}\begin{itemize}
+	\item \texttt{public int getType()}: ritorna il tipo di eccezione specificata nel costruttore, oppure \texttt{CUSTOM\_ERROR} se è stata inizializzata con un messaggio personalizzato (ottenibile con \texttt{getMessage()})
+\end{itemize}
+
+\subsubsection{MissingSensorException}
+Questa classe estende \texttt{Exception} ed è usata per gli errori in cui si cerca di utilizzare un sensore non presente sul dispositivo. Funziona in modo analogo a \texttt{DeviceError}.
+
+\paragraph{Costruttori:}\begin{itemize}
+	\item \texttt{public MissingSensorException(int type)}: crea l'eccezione utilizzando uno dei tipi predefiniti nella classe stessa (attualmente solo \texttt{LIGHT\_SENSOR})
+	\item \texttt{public MissingSensorException(String message)}: crea l'eccezione utilizzando un messaggio personalizzato
+\end{itemize}
+
+\paragraph{Metodi pubblici:}\begin{itemize}
+	\item \texttt{public int getType()}: ritorna il tipo di eccezione specificata nel costruttore, oppure \texttt{CUSTOM\_ERROR} se è stata inizializzata con un messaggio personalizzato (ottenibile con \texttt{getMessage()})
+\end{itemize}
+
+\subsubsection{LightSensorMonitorCallback}
+Questa classe implementa i callback per il metodo \texttt{lightSensorMonitorMode} della classe \texttt{Device}. Non è obbligatorio fare l'override di tutti i metodi per utilizzarla.
+
+\paragraph{Metodi pubblici:}\begin{itemize}
+	\item \texttt{public void onDataBufferReceived(int[] data){}}: questo callback viene chiamato quando viene ricevuto un nuovo buffer di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'array \texttt{data} contiene i sample ricevuti dal dispositivo sotto forma di interi tra 0 e 1023. La lunghezza dell'array è sempre costante (32 sample).\\
+	Attenzione: questo callback deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
+	\item \texttt{public void onDataSampleReceived(int data){}}: questo callback viene chiamato quando viene ricevuto un nuovo sample dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). Il sample è rappresentato con un intero tra 0 e 1023.\\
+	Attenzione: questo callback deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
+	\item \texttt{public void onError(Exception e)}: questo callback viene chiamato se si verifica un errore, per esempio se il dispositivo viene disconnesso mentre si sta campionando. Se non si fa l'override di questo metodo, il suo comportamento di default è stampare l'eccezione e lo stacktrace
+\end{itemize}
+
+La scelta di tenere metodi separati per la gestione di un intero buffer e per la gestione dei singoli sample è stata fatta perché spesso è possibile applicare qualche tipo di ottimizzazione per ridurre il carico sulla CPU se si processano interi buffer anziché singoli sample.
+
+\subsubsection{LightSensorButtonCallback}
+Questa classe implementa i callback per il metodo \texttt{lightSensorButtonMode} della classe Device. Il suo funzionamento è analogo a quello di \texttt{LightSensorMonitorCallback}, ma oltre anziché ricevere solo la luce, si riceve anche lo stato del pulsante. Non è obbligatorio fare l'override di tutti i metodi per utilizzarla.
+
+\paragraph{Metodi pubblici:}\begin{itemize}
+	\item \texttt{public void onDataBufferReceived(int[] light, int[] click){}}: questo callback viene chiamato quando viene ricevuto un nuovo buffer di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'array \texttt{light} contiene i sample del sensore di luminosità sotto forma di interi tra 0 e 1023, mentre l'array \texttt{click} contiene i sample del pulsante sotto forma di interi tra 0 e 1. I due array hanno la stessa lunghezza. La lunghezza dei due array è sempre costante (21 sample).\\
+	Attenzione: questo callback deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
+	\item \texttt{public void onDataSampleReceived(int light, int click){}}: questo callback viene chiamato quando viene ricevuto un nuovo sample dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). L'intero \texttt{light} contiene il valore di luminosità come intero tra 0 e 1023, mentre l'intero \texttt{click} contiene lo stato del pulsante come intero tra 0 e 1.\\
+	Attenzione: questo callback deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
+	\item \texttt{public void onError(Exception e)}: questo callback viene chiamato se si verifica un errore, per esempio se il dispositivo viene disconnesso mentre si sta campionando. Se non si fa l'override di questo metodo, il suo comportamento di default è stampare l'eccezione e lo stacktrace
+\end{itemize}
+
+\subsection{Esempio di utilizzo}
+Nel seguente listato viene mostrato come è possibile utilizzare le classi appena descritte per collegarsi al dispositivo e stampare i valori del sensore di luminosità e del pulsante sul terminale.
+\lstinputlisting[language=Java]{Chapter04/res/DeviceExample.java}

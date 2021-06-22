@@ -1,0 +1,15 @@
+Uno dei problemi che da sempre affliggono gli appassionati di videogiochi, soprattutto chi lo fa in ambito competitivo, è la latenza totale del sistema, ossia l'intervallo di tempo che passa tra un'azione nel mondo fisico, come la pressione di un tasto del mouse, e la visualizzazione del risultato sullo schermo.\\
+Il problema non è nulla di nuovo, ed esiste dagli albori della computer grafica in tempo reale. Nel 2012, John Carmack, uno dei più influenti e famosi sviluppatori di engine per videogiochi, ha puntualizzato questo problema nel seguente tweet\footnote{\href{https://twitter.com/id_aa_carmack/status/193480622533120001}{https://twitter.com/id\_aa\_carmack/status/193480622533120001}}:
+\begin{quotation}
+	"I can send an IP packet to Europe faster than I can send a pixel to the screen.  How f’d up is that?"
+\end{quotation}
+Dal 2012 ad oggi molte cose sono cambiate: da una parte la diffusione di tecnologie come display ad alto refresh rate, VESA Adaptive Sync (e la controparte proprietaria Nvidia G-Sync), e le ottimizzazioni nei driver per applicazioni a latenza critica hanno migliorato la situazione, ma dall'altra l'aumento vertiginoso della complessità delle pipeline grafiche dei videogiochi, l'utilizzo di tecniche di antialiasing temporale, il checkerboard rendering, il triplo buffering, lo smoothing del movimento del mouse, e il compositing del desktop hanno peggiorato notevolmente la situazione, al punto che molti considerano qualsiasi framerate sotto i 60 FPS ingiocabile per via del ritardo di input percepibile.
+
+Si può intuire fin da subito che i fattori coinvolti nel problema sono molteplici, e partono dal microcontroller all'interno del mouse per arrivare fino ai pixel dello schermo, sebbene i due principali sono ovviamente l'applicazione e il display.
+
+Gli obiettivi di questa tesi sono:
+\begin{itemize}
+	\item Capire quali sono i fattori coinvolti nella latenza totale del sistema
+	\item Sviluppare un dispositivo e un software per misurare vari tipi di metriche di latenza
+	\item Utilizzare il dispositivo e il software per confrontare tra loro diversi display, hardware, applicazioni, sistemi operativi, eccetera, al fine di capire come varia la latenza, ma anche se i produttori di display rispettano quanto scrivono nelle specifiche
+\end{itemize} 

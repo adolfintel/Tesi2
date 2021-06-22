@@ -1,0 +1,41 @@
+\section{Possibili evoluzioni future}
+Durante lo sviluppo sono state proposte e testate alcune idee che però non sono presenti nella versione presentata in questa tesi. In questa sezione verranno elencate alcune di queste proposte che sarebbero interessanti per l'evoluzione futura del progetto.
+
+\subsection{Colorimetro}
+Il colorimetro TCS34725 che è stato usato per alcuni test nel capitolo sull'hardware inizialmente voleva essere inserito permanentemente nel dispositivo, per poter implementare test di luminosità, contrasto, range dinamico, curve di gamma, uniformità della retroilluminazione, temperatura del bianco, e accuratezza dei colori. Tutti questi test sono stati inizialmente implementati, ma in fase di testing è emerso che il gamut di questo colorimetro non è sufficientemente ampio per poter coprire anche solo lo spazio sRGB, per cui è stato rimosso dal dispositivo e dall'applicazione.
+
+Future versioni del dispositivo OpenLDAT potrebbero utilizzare il colorimetro AMS AS73211 per i test che richiedono letture lente ma accurate; questo sensore è infatti più costoso ma risponde allo spettro dei tre componenti XYZ dello spazio colore CIE 1931, che è ideale per questa applicazione. Dato il costo del sensore e dell'elettronica necessaria per collegarlo a un microcontroller (circa 30€), probabilmente sarà un componente opzionale.
+
+\subsection{Test rimossi}
+In seguito alla rimozione del TCS34725, i test di luminosità, contrasto, range dinamico, curva di gamma e uniformità della retroilluminazione sono stati reimplementati utilizzando solo il sensore ALS-PT19, ma in fase di testing è emerso che il sensore non è in grado di rilevare il livello di nero con accuratezza sufficiente, producendo risultati troppo diversi rispetto alla versione originale dei test.
+
+La causa di questo problema è una combinazione di tre fattori:\begin{itemize}
+	\item Il sensore ALS-PT19 tende a sovrastimare la luminosità in condizioni di luce molto bassa. Questo potrebbe essere risolto con una calibrazione, ma andrebbe fatta per ogni dispositivo utilizzando un altro sensore, come un colorimetro professionale. Questa soluzione non è stata ritenuta accettabile dall'autore di questa tesi
+	\item L'ADC del microcontroller utilizzato ha solo 10 bit di risoluzione, per cui anche al livello di gain più elevato non si riesce ad avere una misura di risoluzione sufficientemente elevata per misurare correttamente contrasto e range dinamico, soprattutto su display VA e OLED in cui il nero è molto profondo
+	\item Al livello massimo di gain e su livelli di luminosità molto bassi, il rumore catturato dall'ambiente tende ad alterare troppo la misura, per cui non è possibile aumentare ulteriormente il gain per cercare di misurare meglio il livello di nero
+\end{itemize}
+
+Inoltre, per utilizzare il sensore ALS-PT19 per misurare il livello di luminosità in nit, sarebbe necessaria una calibrazione da eseguire su ogni dispositivo utilizzando un altro sensore.
+
+È stato implementato e successivamente rimosso anche un test riguardante il glare, ovvero l'alone che un oggetto bianco ha attorno su uno sfondo nero. Questo era di interesse perché il glare tende ad essere fastidioso su display dotati di local dimming, ma purtroppo il test catturava semplicemente la dimensione del foro presente nel case: non appena un pixel bianco si avvicinava all'apertura, il sensore lo rilevava immediatamente come glare. Una lente davanti al sensore potrebbe risolvere questo problema, o un'apertura più piccola, ma questa potrebbe peggiorare le prestazioni del sensore in altri test.
+
+Future versioni del dispositivo potrebbero continuare ad usare il sensore ALS-PT19 ma usare un microcontroller con un ADC a risoluzione più alta. Questo consenterebbe anche di aumentare l'accuratezza dei test già implementati, di ridurre il numero di livelli di gain necessari per il sensore, e di estendere il suo range di livelli di luminosità.
+
+\subsection{Commercializzazione}
+Come spiegato nell'introduzione, poiché non esistono dispositivi simili sul mercato, potrebbe essere interessante commercializzare il dispositivo, consentendo a potenziali utenti che non hanno le capacità, la voglia, o gli strumenti necessari per realizzare il dispositivo di acquistarlo già pronto all'uso.
+
+Questa prima iterazione del dispositivo, pur avendo margine di miglioramento, ha il vantaggio di costare molto poco da realizzare, soprattutto se si acquistano i componenti in numeri piuttosto elevati, e potrebbe essere venduta direttamente come kit da saldare o come dispositivo pronto all'uso sul sito del progetto. Per finanziare lo sviluppo e la produzione di una versione futura con più funzionalità si potrebbe provare ad avviare una campagna di crowdfunding.
+
+Per far conoscere l'esistenza del progetto, potrebbe essere utile contattare alcuni potenziali utenti, soprattutto giornalisti tecnologici che avrebbero bisogno di uno strumento di questo tipo pronto all'uso. Questo consentirebbe anche di testare il dispositivo su un campione di display molto più grande di quello attuale, e di ricevere feedback sulle prestazioni e sull'usabilità del dispositivo e dell'applicazione.
+
+Per dare un aspetto più professionale al dispositivo, sarebbe interessante anche provare a creare un nuovo case che non sia realizzato con la stampa 3D, ma con uno stampo e della plastica normale.
+
+\subsection{Migliorie all'applicazione OpenLDAT}
+Durante lo sviluppo e il testing sono emerse alcuni possibili aree di espansione e miglioramento per l'applicazione OpenLDAT:\begin{itemize}
+	\item Per poter testare un maggior numero di dispositivi, l'applicazione andrebbe portata su più piattaforme, in particolar modo Android, così da poter testare degli smartphone. Questo richiederebbe la realizzazione di un nuovo backend grafico e una nuova GUI per dispositivi mobili
+	\item La GUI attualmente implementata potrebbe essere resa più user-friendly e mostrare più informazioni. Ad esempio, il test del ritardo di input potrebbe mostrare oltre ai tempi la distribuzione di probabilità
+	\item L'implementazione di ulteriori backend grafici consentirebbero di confrontare il ritardo di API grafiche come DirectX e Vulkan, oltre a toolkit grafici come GDI, GTK e Qt. L'implementazione di varie modalità di fullscreen potrebbe anch'essa essere interessante
+	\item Il supporto a HDR e WCG è migliorabile. Nonostante il codice dei test lo supporti, il backend grafico OpenGL è attualmente vittima di un bug della libreria LWJGL che fa si che non dichiari al sistema Windows il supporto HDR/WCG. Gli sviluppatori della libreria LWJGL garantiscono che questo problema verrà risolto nella prossima versione della libreria. Il backend Swing non è affetta dal problema
+	\item Il supporto ai display con DPI alti è migliorabile. Attualmente questa feature è implementata dall'applicaizone stessa, ma versioni più recenti di Java implementano esse stesse lo scaling in modo trasparente all'applicazione. Questa nuova modalità di scaling sarà probabilmente utilizzata nelle versioni successive dell'applicazione, se non introduce problemi
+	\item Creazione di un database pubblico di display testati dagli utenti, su cui l'applicazione può caricare nuove informazioni
+\end{itemize}

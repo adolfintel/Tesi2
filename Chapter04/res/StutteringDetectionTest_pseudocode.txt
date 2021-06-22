@@ -1,0 +1,86 @@
+Imposta il colore dello sfondo su bianco
+Mostra il target al centro dello schermo
+Attendi la pressione del tasto Invio
+Rimuovi il target
+Attendi 500ms
+
+//Determina il livello di gain da utilizzare per il sensore (0=minimo, 3=massimo) e se sono presenti dei disturbi tipo PWM
+sensitivity=3;
+flickeringDetected=false;
+Ripeti:
+    Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+    Se il valore massimo catturato supera 750 e sensitivity>0:
+        sensitivity--;
+    Altrimenti:
+        Se la differenza tra il valore minimo e massimo catturato supera 16:
+            flickeringDetected=true;
+        Interrompi il ciclo;
+Fine ciclo
+
+//Inizia la cattura del segnale
+bSize=d.getLightSensorMonitorModeSampleRate(noBuffer=true,fastADC=false)*(durationMs/1000);
+IBuffer f;
+Se flickeringDetected=true:
+    f=new RunningAverageSmoothingFilter(bSize,0.99);
+Altrimenti:
+    f=new CircularBuffer(bSize);
+Attiva il flickering tra bianco e nero
+Inizia la cattura della luminosità usando sensitivity come gain, noBuffer=true, fastADC=false, memorizza i dati su f, e memorizza il sampleRate
+Attendi che il buffer f sia pieno
+Attendi 300ms
+Interrompi la cattura
+Disattiva il flickering
+Imposta il colore dello sfondo su nero
+
+//Analisi: normalizzazione
+int[] samples=f.getData();
+double max=Massimo(samples), min=Minimo(samples);
+double range=max-min;
+Se range<32:
+    Errore: contrasto insufficiente
+Per i da 0 a samples.length, ripeti: //porta il segnale catturato nel range 0-1023
+    samples[i]=1023*((samples[i]-min)/range);
+Fine ciclo
+Estrai il 40-esimo percentile da samples e chiamalo whiteThreshold, sopra questo valore il segnale è considerato bianco
+Estrai il 60-esimo percentile da samples e chiamalo blackThreshold, sopra questo valore il segnale è considerato nero
+
+//Analisi: estrazione delle transizioni
+transitions={};
+state=0;
+Per i da 1 a samples.length, ripeti:
+    switch(state):
+        case 0: //nero, in attesa del bianco
+            Se samples[i-1]<whiteThreshold e samples[i]>=whiteThreshold:
+                Aggiungi i a transitions;
+                state=1;
+            Passa al prossimo sample;
+        case 1:
+            Se samples[i-1]>blackThreshold e samples[i]<blackThreshold:
+                state=0;
+            Passa al prossimo sample;
+Fine ciclo
+
+//Analisi: estrazione dei tempi per ogni coppia di frame bianco/nero
+frameTimes={};
+Per i da 1 a transitions.length, ripeti:
+    double t=(1000*(transitions[i]-transitions[i-1]))/sampleRate;
+    Aggiungi t a frameTimes;
+Fine ciclo
+Se frameTimes è vuoto:
+    Errore: analisi fallita
+
+//Analisi: rilevamento dello stuttering
+double stutteringThreshold=(1000/getRefreshRate())*2*1.1;
+stutters=0;
+Per ogni t in frameTimes:
+    Se t>stutteringThreshold:
+        stutters++;
+Fine ciclo
+
+//Ritorna i risultati
+Chiudi la schermata di test
+Chiama onDone con i seguenti dati:
+    "flickeringDetected": flickeringDetected,
+    "frameTimes": frameTimes,
+    "stutteringThreshold": stutteringThreshold,
+    "stutters": stutters

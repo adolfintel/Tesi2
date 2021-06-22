@@ -1,0 +1,88 @@
+Imposta il colore dello sfondo su nero
+Mostra il target al centro dello schermo
+Attendi la pressione del tasto Invio
+Rimuovi il target
+Attendi 500ms
+
+//Determina il livello di gain da utilizzare per il sensore (0=minimo, 3=massimo) per tenere il livello di nero sotto il valore di 100
+sensitivity=3;
+Ripeti:
+    Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+    Estrai il valore massimo del segnale catturato e memorizzalo in una variabile black
+    Se black>100 e sensitivity>0:
+        sensitivity--;
+    Altrimenti:
+        Interrompi il ciclo;
+Fine ciclo
+
+//Inizia la cattura del segnale
+Attiva il flash bianco al click
+double sampleRate=getLightSensorButtonModeSampleRate(noBuffer=false,fastADC=true);
+CircularBuffer light = new CircularBuffer(sampleRate*(durationMs/1000));
+CircularBuffer click = new CircularBuffer(sampleRate*(durationMs/1000));
+Inizia la cattura di luminosità e click usando sensitivity come gain, noBuffer=false, fastADC=true, autoFire=true, noClick=false, memorizza i dati sui buffer light e click
+Attendi che il buffer light sia pieno
+Interrompi la cattura
+Disattiva il flash bianco al click
+
+//Analisi: estrai un elenco di click e transizioni dal nero al bianco con i relativi timestamp
+int[] samples=light.getData(), clickSamples=click.getData();
+double max=Massimo(samples);
+double range=max-black;
+Se range<32:
+    Errore: contrasto insufficiente
+double whiteThreshold=black+range*0.3; //sopra questo valore consideriamo il segnale bianco
+double blackThreshold=black+range*0.7; //sotto questo valore consideriamo il segnale nero
+transitions={}, clicks={};
+state=-1;
+Per i da 0 a samples.length, ripeti:
+    switch(state):
+        case -1: //in attesa del primo click
+            Se clickSamples[i]=1 e samples[i]<=blackThreshold:
+                Aggiungi i a clicks;
+                state=0;
+            Passa al prossimo sample;
+        case 0: //nero, in attesa del bianco
+            Se clickSamples[i]=1:
+                Aggiungi i a clicks;
+            Se samples[i-1]<whiteThreshold e samples[i]>=whiteThreshold:
+                Aggiungi i a transitions;
+                state=1;
+            Passa al prossimo sample;
+        case 1: //bianco, in attesa del nero
+            Se clickSamples[i]=1:
+                Aggiungi i a clicks;
+            Se samples[i-1]>blackThreshold e samples[i]<=blackThreshold:
+                state=0;
+            Passa al prossimo sample;
+Fine ciclo
+
+//Analisi: associa le transizioni ai click in modo "intelligente". Ogni click viene associato alla prima transizione che viene dopo di esso, ma solo se non c'è un altro click più vicino a quella transizione. In presenza di PWM, a ogni click possono corrispondere molte transizioni, l'algoritmo ignora le transizioni extra
+latencyTimes={};
+int j=0;
+Per i da 0 a clicks.length, ripeti:
+    Mentre j<transitions.length, ripeti:
+        Se transitions[j]>clicks[i]:
+            Per k da i a clicks.length, ripeti:
+                Se clicks[k]<transitions[j]:
+                    i=k;
+            Fine ciclo
+            double delay=(1000*(transitions[j]-clicks[i]))/sampleRate;
+            Aggiungi delay a latencyTimes;
+            j++;
+            Interrompi ciclo;
+        Altrimenti:
+            j++;
+    Fine ciclo
+Fine ciclo
+Se latencyTimes è vuoto:
+    Errore: analisi fallita
+
+//Ritorna i risultati
+Chiudi la schermata di test
+Chiama onDone con i seguenti dati:
+    "times": latencyTimes,
+    "percentileL": 33-esimo percentile delle latenze,
+    "percentile50": 50-esimo percentile delle latenze, //mediana, è quello che ci interessa di più
+    "percentileH": 66-esimo percentile delle latenze,
+    "distribution": distribuzione dei tempi di latenza

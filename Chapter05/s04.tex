@@ -1,0 +1,109 @@
+\section{Tempi di risposta e overdrive dei pixel}
+In questa sezione vengono misurati i tempi di risposta dei pixel dei vari display, e vedere come questi sono influenzati dall'overdrive e dalla tecnologia utilizzata.
+
+Sono stati eseguiti i seguenti test:\begin{itemize}
+	\item Confronto dei tempi di risposta tra display diversi, con e senza overdrive
+	\item Confronto degli errori di transizione commessi dai display con e senza overdrive
+\end{itemize}
+
+\subsection{Tempi di risposta}
+In questo test sono stati misurati i tempi di risposta dei pixel dei vari display con e senza overdrive. In tutti i casi è stato utilizzato come range di riferimento lo standard VESA 10-90\%.
+
+\begin{figure}[h!]
+	\centering
+	\pgfplotstableread[col sep=comma]{
+		model,odoff,odoffemin,odoffemax,odon,odonemin,odonemax,fix
+		BenQ XL2420T (TN),NaN,NaN,NaN,2.61,1.48,3.80,-10
+		Acer Predator XB271HU (TN),NaN,NaN,NaN,4.06,2.79,3.76,-10
+		ASUS VP228HE (TN),4.80,3.39,11.83,NaN,NaN,NaN,-10
+		Samsung C34H890 (VA),7.81,5.17,27.90,7.79,4.26,18.25,-10
+		Sharp Aquos LC-40FG3242E (TN),NaN,NaN,NaN,8.44,5.71,20.67,-10
+		Philips 32PFS4132 (TN),NaN,NaN,NaN,9.38,2.84,3.61,-10
+		LG 27GL850-B (IPS HDR),9.74,3.94,4.46,2.91,1.92,11.69,-10
+		AOC Q2770P (IPS),12.33,6.06,9.01,7.37,3.09,3.74,-10
+		BenQ GL2706PQ (TN),12.97,11.60,9.08,2.59,1.41,3.72,-10
+		ASUS VW228 (TN),13.13,12.09,29.60,NaN,NaN,NaN,-10
+		Samsung P2770HD (TN),13.34,10.70,17.19,NaN,NaN,NaN,-10
+		LG E2360 (TN),13.98,12.36,29.25,NaN,NaN,NaN,-10
+		Octigen M19W (TN),14.61,13.10,13.03,NaN,NaN,NaN,-10
+		Acer Swift 3 (IPS),15.01,5.04,10.21,NaN,NaN,NaN,-10
+		Thinkpad T480 2018 (IPS),15.76,6.01,7.18,NaN,NaN,NaN,-10
+		Huawei MateBook D 2019 (IPS),16.98,4.05,14.31,NaN,NaN,NaN,-10
+		Sony VAIO SVF1532C5E (TN),17.50,14.39,16.04,NaN,NaN,NaN,-10
+		MacBook Pro 13" 2017 (IPS),19.49,8.74,12.60,NaN,NaN,NaN,-10
+	}\dataset
+	\begin{tikzpicture}
+		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=4cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Tempo di risposta (ms), width=\textwidth-2cm, height=17cm, xmin=0, ymin=-1, ymax=18] %ymax messo a mano con il numero di display per migliore formattazione
+			\addplot plot[forget plot] table[x=fix] {\dataset};
+			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
+			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
+			\legend{Overdrive Off, Overdrive On}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Tempi di riposta dei display testati}
+	\label{fig:pixelresponse_times}
+\end{figure}
+
+Il grafico in figura \ref{fig:pixelresponse_times} mostra un confronto tra vari display. Per i display che permettono di regolare l'intensità dell'overdrive, questa è stata impostata al livello minimo necessario per far si che almeno uno dei tempi di risposta sia vicino al tempo di risposta dichiarato dal produttore nelle specifiche. Alcuni display non implementano l'overdrive, altri lo implementano ma non permettono di regolarne l'intensità o di disattivarlo.\\
+Sul grafico, la lunghezza della barra indica la media geometrica dei tempi di risposta, mentre le linee indicano l'intervallo minimo e massimo dei tempi misurati. I dati ottenuti mostrano alcuni risultati interessanti:\begin{itemize}
+	\item Come prevedibile, i display ad alto refresh rate sono in cima alla classifica, ma anche alcuni display più lenti sono tra i primi
+	\item I display TN sembrano avere una maggiore variabilità nei tempi di transizione rispetto agli IPS
+	\item Alcuni display mostrano una risposta asimmetrica, come il BenQ GL2706PQ in tabella \ref{tab:pixelresponse_asymmetric}, in cui i tempi in discesa sono significativamente più bassi rispetto ai tempi in salita
+	\item Alcuni display sono significativamente più veloci a transizionare verso gli estremi rispetto ai valori intermedi, come l'AOC Q2770P in tabella \ref{tab:pixelresponse_q2770p}. Probabilmente questo è una qualche forma di overdrive che il pannello utilizza per transizionare più velocemente tra gli estremi
+	\item Il display Samsung C34H890 è l'unico display in cui l'overdrive non ha sostanzialmente effetti sui tempi di risposta. Nel grafico viene ridotto leggermente il range dei valori misurati poiché migliora il comportamento di alcune transizioni tra valori bassi, riducendo il tipico effetto "smearing" dei colori scuri sui pannelli VA
+\end{itemize}
+
+\begin{table}[h!]
+	\centering
+	\resizebox{\columnwidth}{!}{
+		\csvautotabular{Chapter05/res/pixelResponse_asymmetric.txt}
+	}
+	\caption{\label{tab:pixelresponse_asymmetric}Tempi di risposta asimmetrici del BenQ GL2706PQ}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	\resizebox{\columnwidth}{!}{
+		\csvautotabular{Chapter05/res/pixelResponse_q2770p.txt}
+	}
+	\caption{\label{tab:pixelresponse_q2770p}Tempi di risposta dell'AOC Q2770P}
+\end{table}
+
+\subsection{Errore di transizione}
+In questo test è stato misurato l'errore massimo che il display raggiunge durante la transizione dei pixel, con e senza overdrive. I valori di errore sono stati misurati in percentuale assoluta. Sono stati esclusi dal test i display che hanno una retroilluminazione PWM, in quanto ridurrebbe l'accuratezza del test.
+
+\begin{figure}[h!]
+	\centering
+	\pgfplotstableread[col sep=comma]{
+		model,odoff,odoffemin,odoffemax,odon,odonemin,odonemax,fix
+		BenQ XL2420T (TN),NaN,NaN,NaN,2.80,2.56,14.55,-10
+		Acer Predator XB271HU (TN),NaN,NaN,NaN,7.90,7.26,14.81,-10
+		Samsung C34H890 (VA),0.32,0.32,1.79,1.21,1.21,6.43,-10
+		LG 27GL850-B (IPS HDR),0.39,0.39,0.22,26.39,24.82,22.98,-10
+		AOC Q2770P (IPS),0.17,0.17,0.41,4.14,4.14,16.32,-10
+		BenQ GL2706PQ (TN),0.56,0.35,0.82,11.75,9.87,33.99,-10
+		ASUS VP228HE (TN),0.44,0.44,1.14,NaN,NaN,NaN,-10
+		Octigen M19W (TN),0.25,0.25,0.65,NaN,NaN,NaN,-10
+		Acer Swift 3 (IPS),0.35,0.35,0.25,NaN,NaN,NaN,-10
+		Thinkpad T480 2018 (IPS),0.17,0.17,0.36,NaN,NaN,NaN,-10
+		Huawei MateBook D 2019 (IPS),0.15,0.15,0.31,NaN,NaN,NaN,-10
+		Sony VAIO SVF1532C5E (TN),0.31,0.21,0.93,NaN,NaN,NaN,-10
+		MacBook Pro 13" 2017 (IPS),0.22,0.22,0.59,NaN,NaN,NaN,-10
+	}\dataset
+	\begin{tikzpicture}
+		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=4cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Errore di transizione (\%), width=\textwidth-2cm, height=13cm, xmin=0, ymin=-1, ymax=13] %ymax messo a mano con il numero di display per migliore formattazione]
+			\addplot plot[forget plot] table[x=fix] {\dataset};
+			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
+			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
+			\legend{Overdrive Off, Overdrive On}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Errore di transizione in percentuale assoluta. Sono omessi gli schermi con retroilluminazione PWM}
+	\label{fig:pixeloverdrive_nopwm}
+\end{figure}
+
+Il grafico in figura \ref{fig:pixeloverdrive_nopwm} mostra un confronto tra vari display. Per i display che permettono di regolare l'intensità dell'overdrive, questa è stata impostata al livello minimo necessario per far si che almeno uno dei tempi di risposta sia vicino al tempo di risposta dichiarato dal produttore nelle specifiche. Alcuni display non implementano l'overdrive, altri lo implementano ma non permettono di regolarne l'intensità o di disattivarlo.
+
+Nota: in seguito all'analisi manuale di alcuni dei segnali catturati in questo test, l'algoritmo è stato cambiato leggermente per essere più accurato e non sottostimare alcuni risultati. Lo pseudocodice nel capitolo precedente fa riferimento alla versione aggiornata.
+
+Questo conclude il capitolo sui risultati sperimentali raccolti con il dispositivo.

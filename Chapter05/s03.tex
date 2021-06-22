@@ -1,0 +1,32 @@
+\section{Microstuttering}
+L'obiettivo di questo test è determinare se i display testati mostrano microstuttering, sia alla frequenza nativa che in overclock (se lo supporta).
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|c|c|c|} 
+		\hline
+		\textbf{Dispositivo} & \textbf{Freq. nativa} & \textbf{Overclock}  \\ 
+		\hline
+		Acer Predator XB271HU & No & No \\ \hline
+		Acer Swift 3 & No & N/A \\ \hline
+		AOC Q2770P & No & Si \\ \hline
+		ASUS VP228HE & No & No \\ \hline
+		ASUS VW228 & No & N/A \\ \hline
+		BenQ GL2706PQ & No & Si \\ \hline
+		BenQ XL2420T & No & No \\ \hline
+		Huawei MateBook D 2019 & No & N/A \\ \hline
+		LG 27GL850-B & No & No \\ \hline
+		LG E2360 & No & No \\ \hline
+		Octigen M19W & No & No \\ \hline
+		Philips 32PFS4132 & No & N/A \\ \hline
+		Philips 105MB & No & No \\ \hline
+		Samsung C34H890 & No & No \\ \hline
+		Samsung P2770HD & No & N/A \\ \hline
+		Sony VAIO SVF1532C5E & No & N/A \\ \hline
+		Sharp Aquos LC-40FG3242E & No & N/A \\ \hline
+		Thinkpad T480 2018 & No & N/A \\ \hline
+	\end{tabular}
+	\caption{\label{tab:microstuttering_list}Confronto della presenza di microstuttering tra i display testati. N/A indica che non è stato possibile eseguire l'overclock su questo dispositivo}
+\end{table}
+
+La tabella \ref{tab:microstuttering_list} mostra i risultati dei test. Si può notare che (fortunatamente) nessuno dei display testati presenta microstuttering in condizioni di utilizzo normale, mentre l'overclock racconta una storia diversa: diversi display non accettano un segnale a frequenza più elevata, mentre l'AOC Q2770P e il BenQ GL2706PQ hanno mostrato un severo microstuttering a qualsiasi frequenza diversa dal loro refresh nativo (60Hz). Poiché questi due monitor sono tra quelli che nel test dell'input lag hanno mostrato di attendere di aver ricevuto un intero fotogramma prima di visualizzarlo, è possibile che questo sia causato dal software che esegue il processamento all'interno del monitor e fa andare il pannello al refresh nativo indipendentemente dalla frequenza del segnale in ingresso.

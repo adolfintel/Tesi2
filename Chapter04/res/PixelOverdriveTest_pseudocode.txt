@@ -1,0 +1,162 @@
+Imposta il colore dello sfondo su nero
+Mostra il target al centro dello schermo
+Attendi la pressione del tasto Invio
+Rimuovi il target
+
+//Crea un array steps che contiene delle tuple <luminosità, gain, livelloMedio, livelloMassimo>
+steps={};
+i=0;
+Ripeti: //inizializzazione dell'array
+    Aggiungi {i,3,0,0} a steps;
+    Se i=255:
+        Interrompi il ciclo;
+    i+=step;
+    Se i>255:
+        i=255;
+Fine ciclo
+
+//Determina il livello di gain da usare per ogni elemento in steps e rileva la presenza di rumore
+flickeringDetected=false;
+sensitivity=3;
+maxNoise=0;
+int[] noisiestSample=null;
+Per ogni step in steps, ripeti:
+    l=step[0]/255; //passa dalla luminosità in range 0-255 al range 0-1
+    Imposta lo sfondo a luminosità l
+    Attendi 500ms
+    Ripeti:
+        Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+        Se il livello massimo del segnale supera 650 e sensitivity>0:
+            sensitivity--;
+        Altrimenti:
+            Calcola la differenza tra il livello minimo e massimo del segnale catturato
+            Se la differenza supera 16:
+                flickeringDetected=true;
+                Se la differenza calcolata supera maxNoise:
+                    Aggiorna maxNoise alla differenza calcolata;
+                    Memorizza la cattura in noisiestSample;
+            step[1]=sensitivity; //memorizza il gain per questo livello di luminosità
+            Calcola il livello medio del segnale catturato e memorizzalo in step[2];
+            Memorizza il livello massimo del segnale catturato in step[3];
+            Interrompi il ciclo;
+    Fine ciclo
+Fine ciclo
+
+//Per estendere il range del sensore, tenta di determinare con precisione i livelli di gain del dispositivo. Per ogni livello s di gain (0=minimo, 3=massimo), trova il livello di luminosità più alto che può misurare, e lo usa per calcolare i livelli gain del sensore per i livelli inferiori a s.
+double[] gain = new double[]{1, 1.258, 2.101, 13.883}; //valori di riferimento in caso di fallimento
+Se steps.length>=8 e flickeringDetected=false:
+    Per s da 3 a 1 incluso, a passi decrescenti di 1, ripeti:
+        int[] bestStep=null;
+        Per ogni step in steps, ripeti:
+            Se step[1]>=s e (bestStep=null oppure step[0]>bestStep[0]):
+                bestStep=step;
+        Fine ciclo
+        Se bestStep non è null:
+            float l=bestStep[0]/255;
+            Imposta la luminosità dello sfondo a l
+            int[] levels=new int[4];
+            Per i da 0 a s incluso, ripeti:
+                Cattura 0.1s dal sensore utilizzando i come gain;
+                Memorizza la media del segnale catturato in levels[i];
+            Fine ciclo
+            Per i da 1 a s incluso, ripeti:
+                gain[i]=levels[i]/levels[0];
+            Fine ciclo
+    Fine ciclo
+Fine ciclo
+
+//Inizializza un filtro se necessario
+double sampleRate=getLightSensorMonitorSampleRate(noBuffer=true,fastADC=true);
+peakHoldFilterSize=-1;
+Se flickeringDetected=true:
+    peakHoldFilterSize=PeakHoldFilter.findBestWindowSize(noisiestSample,sampleRate*0.001,sampleRate*0.02,sampleRate*0.00011,16); //determina la dimensione minima della finestra del PeakHoldFilter per far si che la differenza massima nei sample catturati sia 16, mantenendo però la dimensione della finestra tra un minimo di 1ms e un massimo di 20ms, a passi di 0.11ms.
+    Se peakHoldFilterSize=-1: //non è stata trovata una dimensione ideale per la finestra, usa default (8.5ms)
+        peakHoldFilterSize=sampleRate*0.0085;
+
+//Cattura una transizione tra ogni coppia di valori di luminosità in steps
+Per ogni from in steps, ripeti:
+    Per ogni to in steps, ripeti:
+        lFrom=from[0]/255; lTo=to[0]/255; //passa dalla luminosità in range 0-255 al range 0-1
+        Se lFrom=lTo oppure (skipTo0And255=true e (lTo=0 o lTo=1)):
+            Passa alla prossima coppia;
+        Imposta lo sfondo a luminosità lFrom
+        Attendi 500ms
+        sensitivity = to[1]; //utilizziamo il gain che permette la miglior risoluzione per il livello di luminosità di destinazione
+        IBuffer transition;
+        Se flickeringDetected=true:
+            transition=new PeakHoldFilter(sampleRate*0.6,peakHoldFilterSize); 
+        Altrimenti:
+            transition=new CircularBuffer(sampleRate*0.6);
+        Inizia la cattura della luminosità usando sensitivity come gain, noBuffer=true, fastADC=true, memorizza i dati su transition
+        Attendi 50ms
+        Imposta lo sfondo a luminosità lTo
+        Attendi che il buffer light sia pieno
+        Interrompi la cattura
+        //Analisi: estrai i livelli di luminosità della transizione
+        Se flickeringDetected:
+            endL=to[3]; //in presenza di PWM, usa il valore massimo di questo livello di luminosità
+        Altrimenti:
+            endL=to[2]; //altrimenti, usa il livello medio
+        Se method=METHOD_RELATIVE:
+            Se flickeringDetected:
+                absoluteFromL=from[3]/gain[from[1]];
+                absoluteToL=to[3]/gain[to[1]];
+            Altrimenti:
+                absoluteFromL=from[2]/gain[from[1]];
+                absoluteToL=to[2]/gain[to[1]];
+        Se method=METHOD_ABSOLUTE:
+            black=steps[0];
+            white=steps.lastElement;
+            Se lFrom>lTo:
+                Se flickeringDetected:
+                    absoluteFromL=white[3]/gain[white[1]];
+                    absoluteToL=black[3]/gain[black[1]];
+                Altrimenti:
+                    absoluteFromL=white[2]/gain[white[1]];
+                    absoluteToL=black[2]/gain[black[1]];
+            Altrimenti:
+                Se flickeringDetected:
+                    absoluteFromL=black[3]/gain[black[1]];
+                    absoluteToL=white[3]/gain[white[1]];
+                Altrimenti:
+                    absoluteFromL=black[2]/gain[black[1]];
+                    absoluteToL=white[2]/gain[white[1]];
+        //Analisi: determina il punto in cui il segnale raggiunge endL
+        Ordina l'array samples in ordine crescente
+        transitionI=-1;
+        Per i da 1 a samples.length, ripeti:
+            Se samples[i]>=endL e samples[i-1]<endL:
+                transitionI=i;
+                Interrompi il ciclo;
+        Fine ciclo
+        Se transitionI==-1: //endL non è stato raggiunto, nessun overshoot
+            Errore per la transizione da from a to = 0.0;
+            Passa alla prossima transizione;
+        Se lFrom>lTo: //transizione dal chiaro al scuro (undershoot prima di transitionI)
+            samples=samples.range(0,transitionI);
+        Altrimenti: //transizione dallo scuro al chiaro (overshoot dopo transitionI)
+            samples=samples.range(transitionI,samples.length);
+        Se samples.length==0:
+            Errore per la transizione da from a to = 0.0;
+        //Analisi: calcolo dell'overshoot/undershoot
+        Se endL=0: //assunzione: non si può andare sotto il livello di nero
+            Errore per la transizione da from a to = 0.0;
+        Se lFrom>lTo: //da chiaro a scuro, cerchiamo undershoot
+            int undershoot=endL-samples[samples.length*0.001]; //0.1-esimo percentile basso
+            double absoluteRange=absoluteFromL-absoluteToL;
+            double absoluteUndershoot=undershoot/gain[sensitivity];
+            Errore per la transizione da from a to = 100*(absoluteUndershoot/absoluteRange);
+        Altrimenti:
+            int overshoot=samples[samples.length*0.999]-endL; //99.9-esimo percentile alto
+            double absoluteRange=absoluteToL-absoluteFromL;
+            double absoluteUndershoot=undershoot/gain[sensitivity];
+            Errore per la transizione da from a to = 100*(absoluteUndershoot/absoluteRange);            
+    Fine ciclo
+Fine ciclo
+        
+//Ritorna i risultati
+Chiudi la schermata di test
+Chiama onDone con i seguenti dati:
+    "steps": Array con i livelli di luminosità in steps (solo l'elemento 0, niente gain),
+    "flickeringDetected": flickeringDetected,
+    "eFrom>To": overshoot/undershoot delle transizioni, //From e To sono da rimpiazzare con dei livelli di luminosità presenti in steps

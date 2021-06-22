@@ -1,0 +1,44 @@
+Imposta il colore dello sfondo su un grigio 80%
+Mostra il target al centro dello schermo
+Attendi la pressione del tasto Invio
+Rimuovi il target
+Attendi 500ms
+
+//Determina il livello di gain da utilizzare per il sensore (0=minimo, 3=massimo)
+sensitivity=3;
+Ripeti:
+    Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+    Se il valore massimo catturato supera 750 e sensitivity>0:
+        sensitivity--;
+    Altrimenti:
+        Se la differenza tra il valore minimo e massimo catturato supera 8:
+            noisy=true;
+        Interrompi il ciclo;
+Fine ciclo
+
+//Inizia la cattura del segnale
+bSize=getLightSensorMonitorModeSampleRate(fastADC=true,noBuffer=true)*1; //buffer per almeno 1 secondo di cattura
+Arrotonda bSize alla potenza di 2 superiore più vicina
+FFTFilter b = new FFTFilter(bSize);
+Inizia la cattura dal sensore di luminosità su b usando sensitivity come gain, fastADC=true, noBuffer=true, memorizza il sampleRate
+Attendi che il buffer b sia pieno
+Interrompi la cattura
+
+//Analisi: trova il picco più alto tra 40 e 2500 Hz
+int[] bins=b.getData();
+double pwmFreq=0, maxIntensity=0;
+Per i da 0 a bins.length, ripeti:
+    double freq=(i/bins.length)*(sampleRate/2);
+    Se freq>=40 e freq<=2500 e bins[i]>=bins.length*0.15:
+        Se bins[i]>maxIntensity:
+            pwmFreq=freq;
+            maxIntensity=bins[i];
+Fine ciclo
+
+//Ritorna i risultati
+Chiudi la schermata di test
+Chiama onDone con i seguenti dati:
+    "noisy": noisy,
+    "frequency": pwmFreq,
+    "raw": b.getOriginalData(),
+    "sampleRate": sampleRate

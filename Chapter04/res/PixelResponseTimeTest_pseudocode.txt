@@ -1,0 +1,116 @@
+Imposta il colore dello sfondo su nero
+Mostra il target al centro dello schermo
+Attendi la pressione del tasto Invio
+Rimuovi il target
+
+//Crea un array steps che contiene ogni coppia luminosità-gain
+steps={};
+i=0;
+Ripeti: //inizializzazione dell'array
+    Aggiungi {i,3} a steps;
+    Se i=255:
+        Interrompi il ciclo;
+    i+=step;
+    Se i>255:
+        i=255;
+Fine ciclo
+
+//Determina il livello di gain da usare per ogni elemento in steps e rileva la presenza di rumore
+flickeringDetected=false;
+sensitivity=3;
+maxNoise=0;
+int[] noisiestSample=null;
+Per ogni step in steps, ripeti:
+    l=step[0]/255; //passa dalla luminosità in range 0-255 al range 0-1
+    Imposta lo sfondo a luminosità l
+    Attendi 500ms
+    Ripeti:
+        Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+        Se il livello massimo del segnale supera 650 e sensitivity>0:
+            sensitivity--;
+        Altrimenti:
+            Calcola la differenza tra il livello minimo e massimo del segnale catturato
+            Se la differenza supera 16:
+                flickeringDetected=true;
+                Se la differenza calcolata supera maxNoise:
+                    Aggiorna maxNoise alla differenza calcolata;
+                    Memorizza la cattura in noisiestSample;
+            step[1]=sensitivity; //memorizza il gain per questo livello di luminosità
+            Interrompi il ciclo;
+    Fine ciclo
+Fine ciclo
+
+//Inizializza un filtro se necessario
+double sampleRate=getLightSensorMonitorSampleRate(noBuffer=true,fastADC=true);
+peakHoldFilterSize=-1;
+Se flickeringDetected=true:
+    peakHoldFilterSize=PeakHoldFilter.findBestWindowSize(noisiestSample,sampleRate*0.001,sampleRate*0.02,sampleRate*0.00011,16); //determina la dimensione minima della finestra del PeakHoldFilter per far si che la differenza massima nei sample catturati sia 16, mantenendo però la dimensione della finestra tra un minimo di 1ms e un massimo di 20ms, a passi di 0.11ms.
+    Se peakHoldFilterSize=-1: //non è stata trovata una dimensione ideale per la finestra, usa default (8.5ms)
+        peakHoldFilterSize=sampleRate*0.0085;
+
+//Cattura una transizione tra ogni coppia di valori di luminosità in steps
+Per ogni from in steps, ripeti:
+    Per ogni to in steps, ripeti:
+        lFrom=from[0]/255; lTo=to[0]/255; //passa dalla luminosità in range 0-255 al range 0-1
+        Se lFrom=lTo:
+            Passa alla prossima coppia;
+        Imposta lo sfondo a luminosità lFrom
+        Attendi 500ms
+        sensitivity=Minimo(from[1],to[1]); //bisogna catturare l'intera transizione, quindi scegliamo il gain minimo tra i due
+        Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+        Se flickeringDetected=true:
+            Imposta startL al livello massimo del segnale catturato
+        Altrimenti:
+            Imposta startL al livello medio del segnale catturato
+        IBuffer transition; //buffer per 0.6s di cattura
+        Se flickeringDetected=true:
+            transition=new PeakHoldFilter(sampleRate*0.6,peakHoldFilterSize); 
+        Altrimenti:
+            transition=new CircularBuffer(sampleRate*0.6);
+        Inizia la cattura della luminosità usando sensitivity come gain, noBuffer=true, fastADC=true, memorizza i dati su transition
+        Attendi 50ms
+        Imposta lo sfondo a luminosità lTo
+        Attendi che il buffer light sia pieno
+        Interrompi la cattura
+        Cattura 0.1s dal sensore di luminosità utilizzando sensitivity come gain
+        Se flickeringDetected=true:
+            Imposta endL al livello massimo del segnale catturato
+        Altrimenti:
+            Imposta endL al livello medio del segnale catturato
+        //Analisi: estrai il tempo di transizione
+        int[] samples=transition.getData();
+        Se lFrom<lTo: //inverti l'array così si può riusare lo stesso algoritmo per le transizioni da chiaro a scuro
+            Inverti l'array samples;
+            Scambia startL e endL
+        int range=startL-endL;
+        state=0;
+        int transitionStart=0, transitionEnd=0;
+        Per i da 0 a samples.length, ripeti:
+            switch(state):
+                case 0: //in attesa dell'inizio della transizione
+                    Se samples[i]-endL<=range*th2:
+                        transitionStart=i;
+                        state=1;
+                    Passa al sample successivo;
+                case 1: //in attesa del termine della transizione
+                    Se samples[i]-endL>range*th2: //falso inizio della transizione a causa del noise
+                        transitionStart=0;
+                        transitionEnd=0;
+                        state=0;
+                    Altrimenti, Se samples[i]-endL<=range*th1 e transitionEnd=0: //trovato il termine della transizione
+                        transitionEnd=i;
+                    Passa al sample successivo
+        Fine ciclo
+        Se transitionEnd<transitionStart: //non è stata trovata la fine della transizione
+            Tempo di transizione da from a to = Infinito;
+        Altrimenti:
+            Tempo di transizione da from a to = 1000*((transitionEnd-transitionStart)/sampleRate);
+    Fine ciclo
+Fine ciclo
+
+//Ritorna i risultati
+Chiudi la schermata di test
+Chiama onDone con i seguenti dati:
+    "steps": Array con i livelli di luminosità in steps (solo l'elemento 0, niente gain),
+    "flickeringDetected": flickeringDetected,
+    "tFrom>To": tempi in millisecondi delle transizioni, //From e To sono da rimpiazzare con dei livelli di luminosità presenti in steps

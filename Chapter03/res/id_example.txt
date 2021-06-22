@@ -1,0 +1,10 @@
+OpenLDAT Model 1
+FW: 20210225
+LightSensor: 1
+LBuffer: 32
+SBuffer: 21
+OscilloscopeDebug: 1
+SerialDebug: 0
+Prototype: 1
+MinAppVer: 1
+SerialNo: DIY

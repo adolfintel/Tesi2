@@ -1,0 +1,90 @@
+%compilare con xelatex!
+
+\documentclass[a4paper]{report}
+
+\usepackage[english,italian]{babel}
+\usepackage[hyphens]{url}
+\usepackage{siunitx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{ternary}
+%\usepgfplotslibrary{external}
+%\tikzexternalize
+\usetikzlibrary{calc}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{color}
+\lstset{
+	frame=tb,
+	aboveskip=3mm,
+	belowskip=3mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\footnotesize\ttfamily},
+	breaklines=true,
+	keywordstyle=\color{blue},
+	commentstyle=\color{gray},
+	stringstyle=\color{orange},
+	tabsize=2
+}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{csvsimple}
+\usepackage{pdflscape}
+
+%\usepackage[a-1b]{pdfx}
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+\includegraphics[width=\textwidth]{Logo.jpg}\\
+{\large{\bf Corso di Laurea Magistrale in Informatica}}
+\end{center}
+\vspace{12mm}
+\begin{center}
+%titolo provvisorio, sicuramente ne troviamo uno migliore
+{\huge{\bf OpenLDAT}}\\
+\vspace{4mm}
+{\huge{\bf Un sistema di misurazione di metriche di latenza dei display}}\\
+\vspace{4mm}
+\end{center}
+\vspace{12mm}
+\begin{flushright}
+{\large{\bf Tesi di Laurea di:}}\\
+{\large{\bf Federico Dossena}}\\
+{\large{\bf Matr. 909390}}\\
+\end{flushright}
+\vspace{4mm}
+\begin{flushleft}
+{\large{\bf Relatore:}}\\
+{\large{\bf Prof. Andrea Trentini}}\\
+\vspace{4mm}
+{\large{\bf Correlatore:}}\\
+{\large{\bf Prof. Alessandro Rizzi}}\\
+\end{flushleft}
+\vspace{12mm}
+\begin{center}
+{\large{\bf Anno Accademico 2020/2021}}
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+\input{Chapter01/Main.tex}
+\newpage
+\input{Chapter02/Main.tex}
+\newpage
+\input{Chapter03/Main.tex}
+\newpage
+\input{Chapter04/Main.tex}
+\newpage
+\input{Chapter05/Main.tex}
+\newpage
+\input{Chapter06/Main.tex}
+\newpage
+\input{Biblio.tex}
+
+\end{document}
