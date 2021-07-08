@@ -1,6 +1,6 @@
 %compilare con xelatex!
 
-\documentclass[a4paper]{report}
+\documentclass[12pt,a4paper]{report}
 
 \usepackage[english,italian]{babel}
 \usepackage[hyphens]{url}
@@ -33,6 +33,11 @@
 \usepackage{graphicx}
 \usepackage{csvsimple}
 \usepackage{pdflscape}
+
+\usepackage[a4paper,top=3cm,bottom=3cm,outer=4.5cm,verbose,headheight=1cm,heightrounded]{geometry}
+\setlength{\marginparwidth}{4cm} %per farci stare todonotes, nel final si può rimuovere
+\usepackage{todonotes}
+%\usepackage[disable]{todonotes}%poi nel finale
 
 %\usepackage[a-1b]{pdfx}
 
@@ -71,7 +76,9 @@
 \end{center}
 \end{titlepage}
 
+\listoftodos
 \tableofcontents
+
 \newpage
 \input{Chapter01/Main.tex}
 \newpage
