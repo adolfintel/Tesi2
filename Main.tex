@@ -34,11 +34,13 @@
 \usepackage{graphicx}
 \usepackage{csvsimple}
 \usepackage{pdflscape}
-
 \usepackage[a4paper,top=3cm,bottom=3cm,outer=4.5cm,verbose,headheight=1cm,heightrounded]{geometry}
 \setlength{\marginparwidth}{4cm} %per farci stare todonotes, nel final si può rimuovere
 \usepackage{todonotes}
 %\usepackage[disable]{todonotes}%poi nel finale
+\usepackage[toc,numberedsection=nameref,nopostdot=true,automake]{glossaries-extra}
+\makeglossaries
+\input{Glossario.tex}
 
 %\usepackage[a-1b]{pdfx}
 
@@ -93,6 +95,8 @@
 \input{RisultatiSperimentali.tex}
 \newpage
 \input{Conclusioni.tex}
+\newpage
+\printunsrtglossaries
 \newpage
 \input{Biblio.tex}
 

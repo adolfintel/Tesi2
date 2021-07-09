@@ -145,35 +145,6 @@ Il passo finale nella produzione del display è uno strato protettivo di vetro p
 
 Questo conclude la panoramica sulle tecnologie di display più comunemente utilizzate.
 
-\subsection{Glossario}
-In questa sezione vengono definiti in modo semplice e diretto alcuni termini relativi ai display che saranno utilizzati nel corso della tesi, oltre a quelli già definiti.
-
-\textbf{Refresh rate}: la frequenza con cui vengono aggiornate le immagini sullo schermo. Tipicamente è 60 Hz.
-
-\textbf{VRR}: Variable Refresh Rate, consente al display di variare il refresh rate entro un certo intervallo, consentendo alla GPU di inviare i fotogrammi quando sono pronti, riducendo il ritardo ed eliminando il tearing\todo{atrent: fai un glossario vero e proprio dei termini, in fondo al testo, ci sono pacchetti latex che te lo fanno!} senza bisogno di VSync. Lo standard si chiama VESA Adaptive Sync, i nomi commerciali sono Nvidia G-Sync e AMD Freesync.
-
-\textbf{Tempo di risposta dei pixel}: il tempo in millisecondi che un pixel impiega per transizionare tra un colore e un altro. Esistono vari metodi per misurarlo.
-
-\textbf{Overdrive}: una tecnica utilizzata per ridurre i tempi di risposta dei pixel "esagerando" le transizioni (per esempio, se si deve passare da 32 a 64, se per un breve istante si passa a 128 e poi si torna a 64 la transizione sarà più rapida). Overdrive eccessivo può causare artefatti visibili.
-
-\textbf{Motion blur / Ghosting}: scia visibile dietro agli oggetti in movimento causata dai tempi di risposta dei pixel.
-
-\textbf{Inverse ghosting}: artefatto creato dall'eccessivo overdrive, simile al ghosting, ma di colore opposto.
-
-\textbf{PWM}: Pulse Width Modulation, lampeggio periodico della retroilluminazione per variare la luminosità.
-
-\textbf{Strobing}: disattivazione intenzionale della retroilluminazione, tipicamente per nascondere le transizioni dei pixel.
-
-\textbf{Black Frame Insertion}: tecnica adottata dai display a refresh rate molto alto (240Hz e più) per ridurre il motion blur percepito inserendo dei fotogrammi neri tra i fotogrammi di un segnale a frequenza inferiore.
-
-\textbf{Contrasto dinamico}: tecnica adottata da alcuni display per variare il livello della retroilluminazione in base alla luminosità dell'immagine attualmente visualizzata. Permette di falsare un contrasto più elevato nei test.
-
-\textbf{HDR / WGC}: High Dynamic Range e Wide Color Gamut. Indica la possibilità del display di visualizzare un range di luminosità e di colori più ampio rispetto al normale. In termini di marketing, tipicamente questo significa che il display è in grado di accettare un segnale RGB a 10 bit per canale nello spazio colore BT.2020. Esistono diversi standard che lo definiscono nel dettaglio, come HDR10 e Dolby Vision, e certificazioni come VESA DisplayHDR che indicano i livelli minimi di luminosità che un display deve avere per essere definito HDR.
-
-\textbf{Local Dimming}: tecnica simile al contrasto dinamico, ma anziché variare la luminosità dell'intero schermo, può variare solo determinate zone controllando individualmente i LED della retrolluminazione. Tende a creare aloni attorno agli oggetti luminosi.
-
-%altro da aggiungere?
-
 \section{Il progetto OpenLDAT}
 \subsection{Storia del progetto}
 L'idea del progetto OpenLDAT nasce intorno a Marzo 2019, quando durante una presentazione di Google Stadia, discutendo i problemi di latenza dell'idea di eseguire videogiochi in streaming, viene mostrata al pubblico la tabella in figura \ref{fig:stadialies}.
