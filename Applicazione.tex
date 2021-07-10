@@ -239,7 +239,7 @@ Questa classe implementa un filtro che permette di inserire dati nel dominio del
 \end{itemize}
 
 \subsubsection{RunningAverageSmoothingFilter}
-Questa classe implementa un filtro che "leviga" i dati utilizzando una sorta di media mobile.
+Questa classe implementa un filtro che ``smussa'' i dati utilizzando una sorta di media mobile.
 
 Il filtro funziona in questo modo: internamente viene mantenuto il valore di output corrente che chiamiamo $currentValue$, inizializzato a 0; ogni volta che viene aggiunto un nuovo sample $new$, si aggiorna in questo modo: $currentValue=smoothing*currentValue+(1-smoothing)*new$, dove $smoothing$ è un valore tra 0 e 1 e indica la resistenza che il filtro oppone a cambiare il valore (0 è istantaneo, 1 non cambia mai). Valori tipici per $smoothing$ sono molto vicini a 1.
 
@@ -367,7 +367,7 @@ Entrambe le backend implementano un'interfaccia generica \texttt{ITestScreen}, c
 	\item \texttt{public int getScreenH()}: ritorna l'altezza dello schermo in pixel
 	\item \texttt{public int getRefreshRate()}: ritorna il refresh rate dello schermo in Hz
 	\item \texttt{public boolean setColor(float r, float g, float b)}: imposta il colore dello sfondo con tre valori RGB tra 0 e 1. Ritorna true se il colore nuovo è diverso da quello corrente, altrimenti false
-	\item \texttt{public void setTarget(float x, float y, float size, boolean black)}: mostra il target e la scritta "Move sensor on target and press Enter" alle coordinate specificate. Le coordinate \texttt{x},\texttt{y} si riferiscono al centro del target e vanno tra 0 e 1, dove 0,0 è l'angolo in alto a sinistra e 1,1 è l'angolo in basso a destra. Impostando \texttt{black} a true, il target e il testo saranno di colore nero, altrimenti saranno bianchi. La dimensione del target è definita come $size*min(W,H)$. Un valore tipico per \texttt{size} è 0.15. Il target è sempre quadrato
+	\item \texttt{public void setTarget(float x, float y, float size, boolean black)}: mostra il target e la scritta ``Move sensor on target and press Enter'' alle coordinate specificate. Le coordinate \texttt{x},\texttt{y} si riferiscono al centro del target e vanno tra 0 e 1, dove 0,0 è l'angolo in alto a sinistra e 1,1 è l'angolo in basso a destra. Impostando \texttt{black} a true, il target e il testo saranno di colore nero, altrimenti saranno bianchi. La dimensione del target è definita come $size*min(W,H)$. Un valore tipico per \texttt{size} è 0.15. Il target è sempre quadrato
 	\item \texttt{public void setTargetAbsolute(float x, float y, float size, boolean black)}: analogo a \texttt{setTarget} ma le coordinate sono assolute anziché nel range 0-1
 	\item \texttt{public void hideTarget()}: nasconde il target e la scritta precedentemente attivati con \texttt{setTarget} o \texttt{setTargetAbsolute}
 	\item \texttt{public void setFlashOnClick(boolean flashOnClick)}: se impostato a \texttt{true}, quando l'applicazione riceve un click genera un flash bianco di 100ms
@@ -808,7 +808,7 @@ Questo test non ha parametri da configurare, per cui viene eseguito immediatamen
 
 \subsubsection{Tempi di risposta dei pixel}
 Questo test ha due parametri che possono essere configurati, mostrati in figura \ref{fig:gui_pixelresponse_settings}:\begin{itemize}
-	\item \textbf{Evaluation method}: permette di scegliere il range della transizione di cui misurare il tempo. Lo standard VESA prevede di misurare il tempo richiesto per la transizione dal 10\% al 90\%, per cui questo è il default, ma può essere selezionata anche un'altra modalità chiamata umoristicamente "BS Manufactures Say" per misurare il range 30\%-70\%, che è più tipicamente usato dai produttori di schermi "da gaming"
+	\item \textbf{Evaluation method}: permette di scegliere il range della transizione di cui misurare il tempo. Lo standard VESA prevede di misurare il tempo richiesto per la transizione dal 10\% al 90\%, per cui questo è il default, ma può essere selezionata anche un'altra modalità chiamata umoristicamente ``BS Manufactures Say'' per misurare il range 30\%-70\%, che è più tipicamente usato dai produttori di schermi ``da gaming''
 	\item \textbf{Step size}: il passo tra due sfumature di grigio. Valori più piccoli testano più sfumature di grigio ma rendono il test molto più lungo. I valori implementati sono 16 (lento), 32 (default) e 64 (veloce). Questi valori sono su una scala tra 0 e 255 solo per comodità, il test utilizza il formato dei pixel del desktop
 \end{itemize}
 

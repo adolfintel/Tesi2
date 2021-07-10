@@ -289,7 +289,7 @@ I comandi che l'applicazione può mandare al dispositivo sono composti da 2 o pi
 \subsection{Identificazione del dispositivo}
 L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi:
 \begin{itemize}
-	\item I dispositivi OpenLDAT vengono trovati in base all'ID hardware personalizzato. Il dispositivo si dichiara con il nome "OpenLDAT Model 1" e ID hardware (VID:PID) 4370:0001, il che lo rende facilmente distinguibile da altri dispositivi basati sulla stessa board che potrebbero essere connessi al PC. La figura \ref{fig:lsusb} mostra un output del comando \texttt{lsusb} di GNU/Linux mentre il dispositivo è connesso. Non è necessario installare nessun driver per comunicare col dispositivo
+	\item I dispositivi OpenLDAT vengono trovati in base all'ID hardware personalizzato. Il dispositivo si dichiara con il nome ``OpenLDAT Model 1'' e ID hardware (VID:PID) 4370:0001, il che lo rende facilmente distinguibile da altri dispositivi basati sulla stessa board che potrebbero essere connessi al PC. La figura \ref{fig:lsusb} mostra un output del comando \texttt{lsusb} di GNU/Linux mentre il dispositivo è connesso. Non è necessario installare nessun driver per comunicare col dispositivo
 	\item Una volta stabilita la connessione, l'applicazione utilizza il comando \texttt{ID} per chiedere al dispositivo le sue capability, in base alle quale decide se il dispositivo è supportato. Il formato di questo elenco verrà discusso nel paragrafo successivo.
 \end{itemize}
 
@@ -398,7 +398,7 @@ Per massimizzare la velocità di esecuzione, queste due ISR sono in realtà impl
 
 L'invio dei click del mouse avviene tramite la libreria HID-Project di NicoHood\footnote{\href{https://www.arduino.cc/reference/en/libraries/hid-project/}{https://www.arduino.cc/reference/en/libraries/hid-project/}}, scaricabile tramite il gestore di librerie di Arduino IDE.
 
-Attenzione: l'arrivo di un interrupt causa inevitabilmente un'interruzione del campionamento, ma poiché la durata delle ISR è così breve, ed è un ordine di grandezza più piccola dei valori che vogliamo misurare, l'applicazione può ignorare questi "buchi" nel campionamento senza perdere precisione.
+Attenzione: l'arrivo di un interrupt causa inevitabilmente un'interruzione del campionamento, ma poiché la durata delle ISR è così breve, ed è un ordine di grandezza più piccola dei valori che vogliamo misurare, l'applicazione può ignorare questi ``buchi'' nel campionamento senza perdere precisione.
 
 La generazione automatica dei click, se richiesta con il flag \texttt{AUTOFIRE}, avviene configurando il timer 4 del microcontroller 32U4 per generare un segnale a circa 1Hz che esce dal pin D6 e entra direttamente nel pin D7, lo stesso da cui entrano i click esterni e collegato al LED frontale. La configurazione di questo timer non influisce su nessun'altra funzione di Arduino utilizzata nel firmware. Utilizzando questo sistema, inoltre, non si rallenta il firmware (ad eccezione dell'occasionale interrupt).\\
 Il timer 4 è un timer a 10 bit configurabile tramite un set di registri\cite{atmega32u4_datasheet}, e viene configurato in questo modo: output sul pin D6, ciclo completo dei 1024 valori del contatore, segnale \texttt{HIGH} quando il contatore è sotto il valore di 64, prescaler impostato al valore massimo di 16384, conteggio che parte da 0. Il risultato è un'onda quadra con un periodo di circa 1.048576s e un duty cycle del 6.25\%, perfetta per generare interrupt periodici.\\
@@ -420,7 +420,7 @@ La figura \ref{fig:serialdebug} mostra un esempio di output sul serial plotter.
 	\label{fig:serialdebug}
 \end{figure}
 
-Per misurare le tempistiche di esecuzione del firmware (e in particolar modo, determinare il sample rate nelle varie modalità) non si può semplicemente fare una differenza tra timestamp e stamparla su seriale, poiché questo rallenterebbe troppo l'esecuzione, per cui la tecnica che viene implementata quando il firmware è compilato col flag \texttt{OSCILLOSCOPE\_DEBUG} è quella di generare un segnale che è \texttt{HIGH} mentre il firmware sta leggendo il sensore, e \texttt{LOW} mentre sta scrivendo sulla seriale (o viceversa); collegando un oscilloscopio all'uscita di questo segnale è possibile misurarne la frequenza (e quindi il sample rate) e verificare anche la presenza di "buchi" nel campionamento. Con la stessa tecnica è possibile misurare i tempi di esecuzione delle ISR.\\
+Per misurare le tempistiche di esecuzione del firmware (e in particolar modo, determinare il sample rate nelle varie modalità) non si può semplicemente fare una differenza tra timestamp e stamparla su seriale, poiché questo rallenterebbe troppo l'esecuzione, per cui la tecnica che viene implementata quando il firmware è compilato col flag \texttt{OSCILLOSCOPE\_DEBUG} è quella di generare un segnale che è \texttt{HIGH} mentre il firmware sta leggendo il sensore, e \texttt{LOW} mentre sta scrivendo sulla seriale (o viceversa); collegando un oscilloscopio all'uscita di questo segnale è possibile misurarne la frequenza (e quindi il sample rate) e verificare anche la presenza di ``buchi'' nel campionamento. Con la stessa tecnica è possibile misurare i tempi di esecuzione delle ISR.\\
 La generazione di questo segnale non può essere fatta utilizzando funzioni come \texttt{digitalWrite} poiché richiedono parecchi microsecondi per essere eseguite e questo invaliderebbe completamente la misura. Studiando la documentazione del microcontroller 32U4 si scopre la presenza di una funzione speciale del pin 10: quando il bit 6 del registro \texttt{PINB} viene scritto ad 1, il valore corrente di quel pin viene invertito\cite{atmega32u4_datasheet}. Scrivere il registro \texttt{PINB} richiede un singolo ciclo di clock, che corrisponde a 62ns, un ordine di grandezza inferiore ai tempi che stiamo cercando di misurare.\\
 Per rendere facilmente utilizzabile questa funzione nel firmware, sono state realizzate tre macro:
 \begin{itemize}
@@ -649,7 +649,7 @@ Nell'esempio in figura \ref{fig:flashing_01}, al dispositivo viene assegnato il 
 	sudo ./flash.sh /dev/device
 \end{verbatim}
 
-Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio "Successs! You now have an OpenLDAT device" come in figura \ref{fig:flashing_02}.\\
+Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio ``Successs! You now have an OpenLDAT device'' come in figura \ref{fig:flashing_02}.\\
 Se si verificano degli errori durante la procedura, i dettagli verranno mostrati per consentire di capire il problema.
 
 Attenzione: è raro ma possibile che il nome della porta seriale assegnata al dispositivo cambi durante l'esecuzione dello script facendolo fallire. Se dovesse succedere, si può riprovare con un'altra porta USB o un altro PC, oppure utilizzando Arduino IDE.
@@ -680,7 +680,7 @@ All'interno della cartella del firmware è presente una cartella chiamata \textt
 	.\flash.bat COM6
 \end{verbatim}
 
-Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio "Successs! You now have an OpenLDAT device" come in figura \ref{fig:flashing_08}.\\
+Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio ``Successs! You now have an OpenLDAT device'' come in figura \ref{fig:flashing_08}.\\
 Se si verificano degli errori durante la procedura, i dettagli verranno mostrati per consentire di capire il problema.
 
 Attenzione: l'installazione automatica dei driver di Windows Update potrebbe interferire durante la procedura di flashing. Se dovesse succedere, rieseguire la procedura dal Passo 2.
