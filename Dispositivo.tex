@@ -447,7 +447,7 @@ La figura \ref{fig:oscilloscopedebug} mostra un esempio del segnale generato da 
 	\label{fig:oscilloscopedebug}
 \end{figure}
 
-Attenzione: le velocità di campionamento possono variare leggermente a causa degli aggiornamenti del compilatore GCC e delle librerie Arduino. Per questo motivo viene fornito un firmware precompilato in formato .hex flashabile con il tool avrdude.
+Attenzione: le velocità di campionamento possono variare leggermente a causa degli aggiornamenti del compilatore GCC e delle librerie Arduino. Per questo motivo viene fornito un firmware precompilato in formato .hex da caricare sul dispositivo con il tool avrdude.
 
 \section{Assemblaggio e flashing del dispositivo}
 Questa sezione è una guida passo-passo per l'assemblaggio e la preparazione del dispositivo OpenLDAT.
@@ -514,7 +514,7 @@ Per via delle tolleranze di produzione del PCB e del case, l'incastro potrebbe n
 	\item Se il coperchio entra ma esce facilmente dall'incastro, o se si vuole una garanzia in più che resti chiuso, si può posizionare una goccia di colla a caldo sulle due guide e poi incastrare il coperchio mentre è ancora calda
 \end{itemize}
 
-L'assemblaggio è ora completo e il dispositivo è pronto per essere flashato.
+L'assemblaggio è ora completo e il dispositivo è pronto per ricevere il firmware.
 
 \begin{figure}[H]
 	\centering
@@ -629,13 +629,13 @@ L'assemblaggio è ora completo e il dispositivo è pronto per essere flashato.
 \end{figure}
 
 \subsection{Flashing}
-Il dispositivo OpenLDAT è inutile senza il suo firmware, per cui va flashato prima di utilizzarlo. Vengono forniti due metodi per caricare il firmware:
+Il dispositivo OpenLDAT è inutile senza il suo firmware, per cui va programmato prima di utilizzarlo. Vengono forniti due metodi per caricare il firmware:
 \begin{itemize}
-	\item \textbf{Script automatico}: assieme al firmware viene fornito uno script che flasha il dispositivo con un firmware precompilato e testato. Questa è la soluzione consigliata per chi vuole solo utilizzare OpenLDAT e non sviluppare. Al momento lo script è disponibile per GNU/Linux e Windows
-	\item \textbf{Usando Arduino IDE}: il progetto del firmware può essere caricato in Arduino IDE e flashato da lì. Questa è la soluzione ideale per chi vuole sviluppare versioni modificate del firmware, ma richiede che l'IDE venga configurata opportunamente e introduce alcune complicazioni
+	\item \textbf{Script automatico}: assieme al firmware viene fornito uno script che carica sul dispositivo un firmware precompilato e testato. Questa è la soluzione consigliata per chi vuole solo utilizzare OpenLDAT e non sviluppare. Al momento lo script è disponibile per GNU/Linux e Windows
+	\item \textbf{Usando Arduino IDE}: il progetto del firmware può essere caricato in Arduino IDE e caricato sul dispositivo da lì. Questa è la soluzione ideale per chi vuole sviluppare versioni modificate del firmware, ma richiede che l'IDE venga configurata opportunamente e introduce alcune complicazioni
 \end{itemize}
 
-Le due sezioni successive spiegano passo-passo come flashare il dispositivo con questi due metodi.
+Le due sezioni successive spiegano passo-passo come eseguire il flashing il dispositivo con questi due metodi.
 
 \subsubsection{Flashing con lo script automatico (GNU/Linux)}
 All'interno della cartella del firmware è presente una cartella chiamata \texttt{Prebuilt}, all'interno della quale è presente il firmware precompilato e lo script \texttt{flash.sh}.
@@ -645,14 +645,14 @@ All'interno della cartella del firmware è presente una cartella chiamata \textt
 	sudo apt install python3 avrdude
 \end{verbatim}
 
-\paragraph{Passo 2} Aprire un terminale all'interno della cartella \texttt{Prebuilt}, collegare il dispositivo da flashare, e prendere nota del nome che viene assegnato alla porta seriale del dispositivo. Questo comando permette di elencare le porte seriali attualmente assegnate:
+\paragraph{Passo 2} Aprire un terminale all'interno della cartella \texttt{Prebuilt}, collegare il dispositivo da programmare, e prendere nota del nome che viene assegnato alla porta seriale del dispositivo. Questo comando permette di elencare le porte seriali attualmente assegnate:
 \begin{verbatim}
 	ls -l /dev/serial/by-id
 \end{verbatim}
 
 Nell'esempio in figura \ref{fig:flashing_01}, al dispositivo viene assegnato il nome \texttt{ttyACM0}.
 
-\paragraph{Passo 3} Flashare il dispositivo eseguendo il seguente comando, sostituendo a \texttt{device} il nome della porta seriale determinato nel passo precedente:
+\paragraph{Passo 3} Eseguire il flashing del dispositivo con il seguente comando, sostituendo a \texttt{device} il nome della porta seriale determinato nel passo precedente:
 \begin{verbatim}
 	sudo ./flash.sh /dev/device
 \end{verbatim}
@@ -681,9 +681,9 @@ All'interno della cartella del firmware è presente una cartella chiamata \textt
 
 \paragraph{Passo 1} Installare Arduino IDE utilizzando l'installatore sul sito web\footnote{\href{https://www.arduino.cc/en/software}{https://www.arduino.cc/en/software}}, lasciando i file nel loro percorso di default, e assicurandosi di installare anche i driver di Arduino.
 
-\paragraph{Passo 2} Collegare il dispositivo da flashare, entrare nella cartella \texttt{Prebuilt} e fare doppio click su flash.bat per visualizzare l'elenco di porte COM, come in figura figura \ref{fig:flashing_07}. Prendere nota della porta del dispositivo da flashare, nell'esempio è \texttt{COM6}.
+\paragraph{Passo 2} Collegare il dispositivo da programmare, entrare nella cartella \texttt{Prebuilt} e fare doppio click su flash.bat per visualizzare l'elenco di porte COM, come in figura figura \ref{fig:flashing_07}. Prendere nota della porta del dispositivo, nell'esempio è \texttt{COM6}.
 
-\paragraph{Passo 3} Aprire un terminale all'interno della cartella Prebuilt ed eseguire il seguente comando, sostituendo a \texttt{COM6} la porta del dispositivo da flashare determinata nel passo precedente:
+\paragraph{Passo 3} Aprire un terminale all'interno della cartella Prebuilt ed eseguire il seguente comando, sostituendo a \texttt{COM6} la porta del dispositivo da programmare determinata nel passo precedente:
 \begin{verbatim}
 	.\flash.bat COM6
 \end{verbatim}
@@ -728,13 +728,13 @@ Su MacOS, il file si trova nel seguente percorso:\\
 Una volta localizzato il file, aggiungere il seguente listato alla fine del file e salvare.
 \lstinputlisting{Dispositivo_files/boards.txt}
 
-\paragraph{Passo 3} Collegare il dispositivo da flashare e avviare Arduino IDE. Se è stato fatto tutto correttamente, dovrebbe essere possibile selezionare il dispositivo dall'elenco di porte seriali (figura \ref{fig:flashing_03}) e dovrebbe essere possibile selezionare come modello il dispositivo OpenLDAT Model 1 (figura \ref{fig:flashing_04}).
+\paragraph{Passo 3} Collegare il dispositivo da programmare e avviare Arduino IDE. Se è stato fatto tutto correttamente, dovrebbe essere possibile selezionare il dispositivo dall'elenco di porte seriali (figura \ref{fig:flashing_03}) e dovrebbe essere possibile selezionare come modello il dispositivo OpenLDAT Model 1 (figura \ref{fig:flashing_04}).
 
 \paragraph{Passo 4} Aprire il gestore delle librerie di Arduino IDE e scaricare la libreria HID-Project di NicoHood (figura \ref{fig:flashing_06}). Qualora non fosse disponibile, è inclusa una copia della libreria nel file \texttt{Libraries.zip} nella cartella del firmware, che può essere estratta nella cartella libraries di Arduino.
 
-\paragraph{Passo 5} Caricare il progetto \texttt{OpenLDAT} presente nella cartella del firmware in Arduino IDE e premere il pulsante Upload (figura \ref{fig:flashing_05}). A questo punto il dispositivo è flashato e pronto all'uso.
+\paragraph{Passo 5} Caricare il progetto \texttt{OpenLDAT} presente nella cartella del firmware in Arduino IDE e premere il pulsante Upload (figura \ref{fig:flashing_05}). A questo punto il dispositivo ha il firmware ed è pronto all'uso.
 
-Attenzione: su alcune distribuzioni GNU/Linux è necessario dare al proprio utente i permessi per accedere alle porte seriali o eseguire Arduino IDE con sudo per poter flashare il dispositivo.
+Attenzione: su alcune distribuzioni GNU/Linux è necessario dare al proprio utente i permessi per accedere alle porte seriali o eseguire Arduino IDE con sudo per poter programmare il dispositivo.
 
 Attenzione: è raro ma possibile che il nome della porta seriale assegnata al dispositivo cambi durante il flashing facendolo fallire. Arduino IDE tenterà di rimediare questa cosa, ma se non riesce si può riprovare con un'altra porta USB o un altro PC.
 
@@ -764,7 +764,7 @@ Attenzione: il flashing con Arduino IDE introduce il problema della riproducibil
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Dispositivo_files/flashing_05.png}
-	\caption{Pronto a flashare}
+	\caption{Pronto per il flashing}
 	\label{fig:flashing_05}
 \end{figure}
 
