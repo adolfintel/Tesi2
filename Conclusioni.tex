@@ -5,6 +5,54 @@
 
 Nei capitoli precedenti sono stati illustrati il funzionamento del dispositivo e dell'applicazione OpenLDAT e i test che sono stati condotti su un campione di display per testarne l'utilità e il corretto funzionamento sul più ampio range possibile di scenari. Il progetto ha mostrato delle buone prestazioni, raggiungendo gli obiettivi che erano stati prefissati e mostrando anche alcuni risultati che potrebbero essere oggetto di studi più approfonditi, tuttavia durante lo sviluppo e il testing sono stati incontrati alcuni problemi, idee, e possibili aree di miglioramento per future iterazioni del dispositivo e dell'applicazione OpenLDAT che sono oggetto di questo capitolo.
 
+La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le caratteristiche di Nvidia LDAT rispetto a quelle fornite dal progetto OpenLDAT. Poiché non sono note ufficialmente le caratteristiche di Nvidia LDAT, alcuni valori sono frutto di osservazioni sul dispositivo e sull'applicazione, e potrebbero essere errati; questi valori sono marcati con [?].
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|l|c|c|} 
+		\hline
+		& \textbf{Nvidia LDAT} & \textbf{OpenLDAT}  \\ 
+		\hline
+		\textbf{Sensore} & Fotodiodo [?] & ALS PT-19 \\
+		\hline
+		\textbf{Livelli di gain} & 1 & 4 \\
+		\hline
+		\textbf{Risoluzione} & 10 bit [?] & 10 bit \\
+		\hline
+		\textbf{Sample rate} & \textasciitilde 1000Hz [?] & Fino a \textasciitilde 30kHz \\
+		\hline
+		\textbf{LED per validazione} & Si & Si \\
+		\hline
+		\textbf{Generazione click} & Si & Si \\
+		\hline
+		\textbf{Pulsante esterno} & Si & Si \\
+		\hline
+		\textbf{Ingresso audio} & Si & No \\
+		\hline
+		\textbf{Test: Input lag automatico} & No & Si \\
+		\hline
+		\textbf{Test: Input lag manuale} & Si & Si \\
+		\hline
+		\textbf{Test: PWM} & No & Si \\
+		\hline
+		\textbf{Test: Microstuttering} & No & Si \\
+		\hline
+		\textbf{Test: Tempi di risposta} & No & Si \\
+		\hline
+		\textbf{Test: Overdrive} & No & Si \\
+		\hline
+		\textbf{Light to sound} & No & Si \\
+		\hline
+		\textbf{Sistemi operativi} & Windows & Windows, Linux, MacOS \\
+		\hline
+		\textbf{Licenza} & Proprietaria & Libera \\
+		\hline
+		\textbf{Costo} & N/A & \textasciitilde 15€ \\
+		\hline
+	\end{tabular}
+	\caption{\label{tab:openldat_nvidialdat_comparison}Confronto tra le caratteristiche di Nvidia LDAT contro OpenLDAT}
+\end{table}
+
 \section{Possibili evoluzioni future}
 Durante lo sviluppo sono state proposte e testate alcune idee che però non sono presenti nella versione presentata in questa tesi. In questa sezione verranno elencate alcune di queste proposte che sarebbero interessanti per l'evoluzione futura del progetto.
 

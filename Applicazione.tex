@@ -18,7 +18,7 @@ Prima di iniziare lo sviluppo sono state prese in considerazione più tecnologie
 L'applicazione è strutturata in quattro parti principali più alcune classi di utilità:
 \begin{itemize}
 	\item \textbf{Comunicazione con il dispositivo} (package \texttt{com.dosse.openldat.device}): è sostanzialmente un driver per il dispositivo OpenLDAT che ha il compito di rilevare il dispositivo e consentire al resto dell'applicazione di utilizzarlo in modo semplice, senza preoccuparsi dei dettagli di comunicazione
-	\item \textbf{Processamento di base} (package \texttt{com.dosse.openldat.processing}): fornisce un insieme di strumenti per memorizzare i dati in arrivo dal dispositivo e dei filtri che possono essere applicati su di essi (ad esempio, FFT)
+	\item \textbf{Elaborazione di base} (package \texttt{com.dosse.openldat.processing}): fornisce un insieme di strumenti per memorizzare i dati in arrivo dal dispositivo e dei filtri che possono essere applicati su di essi (ad esempio, FFT)
 	\item \textbf{I test} (package \texttt{com.dosse.openldat.tests}): questa è la parte principale dell'applicazione e implementa tutti i test che sono stati sviluppati per OpenLDAT, oltre a due backend grafiche per disegnare sullo schermo con e senza OpenGL
 	\item \textbf{La GUI} (package \texttt{com.dosse.openldat.ui}): implementa l'interfaccia grafica per l'applicazione che permette di configurare ed eseguire i test e visualizzarne in modo grafico i risultati
 \end{itemize}
@@ -140,7 +140,7 @@ Questa classe implementa i callback per il metodo \texttt{lightSensorMonitorMode
 	\item \texttt{public void onError(Exception e)}: questo callback viene chiamato se si verifica un errore, per esempio se il dispositivo viene disconnesso mentre si sta campionando. Se non si fa l'override di questo metodo, il suo comportamento di default è stampare l'eccezione e lo stacktrace
 \end{itemize}
 
-La scelta di tenere metodi separati per la gestione di un intero buffer e per la gestione dei singoli sample è stata fatta perché spesso è possibile applicare qualche tipo di ottimizzazione per ridurre il carico sulla CPU se si processano interi buffer anziché singoli sample.
+La scelta di tenere metodi separati per la gestione di un intero buffer e per la gestione dei singoli sample è stata fatta perché spesso è possibile applicare qualche tipo di ottimizzazione per ridurre il carico sulla CPU se si lavora su interi buffer anziché singoli sample.
 
 \subsubsection{LightSensorButtonCallback}
 Questa classe implementa i callback per il metodo \texttt{lightSensorButtonMode} della classe Device. Il suo funzionamento è analogo a quello di \texttt{LightSensorMonitorCallback}, ma oltre anziché ricevere solo la luce, si riceve anche lo stato del pulsante. Non è obbligatorio fare l'override di tutti i metodi per utilizzarla.
@@ -157,7 +157,7 @@ Questa classe implementa i callback per il metodo \texttt{lightSensorButtonMode}
 Nel seguente listato viene mostrato come è possibile utilizzare le classi appena descritte per collegarsi al dispositivo e stampare i valori del sensore di luminosità e del pulsante sul terminale.
 \lstinputlisting[language=Java]{Applicazione_files/DeviceExample.java}
 
-\section{Processamento di base}
+\section{Elaborazione di base}
 I dati catturati dal sensore, dopo che sono stati ricevuti, devono essere memorizzati per poter estrarre informazioni utili. Per fare questo, il package \texttt{com.dosse.openldat.processing} fornisce dei buffer e alcuni filtri per rendere più facile l'analisi che in seguito sarà svolta dal codice dei test.
 
 \subsection{Buffer}
@@ -218,7 +218,7 @@ La classe è thread-safe.
 \end{itemize}
 
 \subsection{Filtri}
-Il package \texttt{com.dosse.openldat.processing.filters} contiene alcuni filtri che sono usati per semplificare l'analisi dei dati raccolti. A tutti gli effetti, un filtro non è altro che un tipo speciale di buffer, che però esegue un qualche tipo di processamento sui dati che gli vengono inseriti.
+Il package \texttt{com.dosse.openldat.processing.filters} contiene alcuni filtri che sono usati per semplificare l'analisi dei dati raccolti. A tutti gli effetti, un filtro non è altro che un tipo speciale di buffer, che però esegue un qualche tipo di elaborazione sui dati che gli vengono inseriti.
 
 \subsubsection{FFTFilter}
 Questa classe implementa un filtro che permette di inserire dati nel dominio del tempo (sample) e ottenere una rappresentazione degli stessi dati nel dominio di frequenza utilizzando una FFT (Fast Fourier Transform). La trasformazione viene eseguita dalla libreria jTransforms, ma prima viene applicata ai dati una funzione di windowing di Blackman-Harris, per generare dati più puliti. Per velocizzare l'esecuzione, l'FFT non viene eseguita ad ogni sample aggiunto, ma solo nel momento in cui vengono richiesti i dati.
@@ -747,7 +747,7 @@ Il menu principale fornisce accesso alle seguenti funzioni:\begin{itemize}
 	\item \textbf{Pixel Response Time}: esegue il test che misura il tempo di risposta dei pixel tra diverse sfumature di grigio
 	\item \textbf{Pixel Overdrive (Overshoot/Undershoot)}: esegue il test che misura l'errore di transizione causato dall'overdrive dei pixel
 	\item \textbf{Light To Sound}: avvia la modalità Light To Sound, per ascoltare i dati catturati dal sensore di luminosità
-	\item \textbf{Driver test}: fornsice accesso a un pannello da cui è possibile testare tutte le funzioni del dispositivo, del driver, e del processamento di base
+	\item \textbf{Driver test}: fornsice accesso a un pannello da cui è possibile testare tutte le funzioni del dispositivo, del driver, e dell'elaborazione di base
 	\item \textbf{Advanced settings}: permette di cambiare alcune impostazioni dell'applicazione che normalmente sono determinate automaticamente
 	\item \textbf{About OpenLDAT}: mostra informazioni sull'applicazione
 \end{itemize}
