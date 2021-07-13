@@ -1,30 +1,38 @@
 \newglossaryentry{refreshrate}{
 	name={Refresh rate},
-	description={la frequenza con cui vengono aggiornate le immagini sullo schermo. Tipicamente è 60 Hz.}
+	description={La frequenza con cui vengono aggiornate le immagini sullo schermo. Tipicamente è 60 Hz.}
 }
 \newglossaryentry{vrr}{
 	name={VRR},
-	description={Variable Refresh Rate, consente al display di variare il refresh rate entro un certo intervallo, consentendo alla GPU di inviare i fotogrammi quando sono pronti, riducendo il ritardo ed eliminando il tearing senza bisogno di VSync. Lo standard si chiama VESA Adaptive Sync, i nomi commerciali sono Nvidia G-Sync e AMD Freesync.}
+	description={Variable Refresh Rate, consente al display di variare il \textit{refresh rate} entro un certo intervallo, consentendo alla GPU di inviare i fotogrammi quando sono pronti, riducendo il ritardo ed eliminando il tearing senza bisogno di VSync. Lo standard si chiama VESA Adaptive Sync, i nomi commerciali sono Nvidia G-Sync e AMD Freesync.}
+}
+\newglossaryentry{frc}{
+	name={LFC / FRC},
+	description={Low Framerate Compensation, indica la capacità di un display con VRR di accettare segnali di frequenza inferiore al minimo supportato dal display.}
+}
+\newglossaryentry{overclock}{
+	name={Overclock},
+	description={La pratica di utilizzare un segnale di frequenza più alta rispetto alla specifica; nel caso dei display indica l'utilizzo di un \textit{refresh rate} più alto rispetto a quello massimo nativo, al fine di ridurre la latenza del sistema.}
 }
 \newglossaryentry{responsetime}{
 	name={Tempo di risposta dei pixel},
-	description={il tempo in millisecondi che un pixel impiega per transizionare tra un colore e un altro. Esistono vari metodi per misurarlo.}
+	description={Il tempo in millisecondi che un pixel impiega per transizionare tra un colore e un altro. Esistono vari metodi per misurarlo.}
 }
 \newglossaryentry{overdrive}{
 	name={Overdrive},
-	description={una tecnica utilizzata per ridurre i tempi di risposta dei pixel ``esagerando'' le transizioni (per esempio, se si deve passare da 32 a 64, se per un breve istante si passa a 128 e poi si torna a 64 la transizione sarà più rapida). Overdrive eccessivo può causare artefatti visibili.}
+	description={Tecnica utilizzata per ridurre i tempi di risposta dei pixel ``esagerando'' le transizioni (per esempio, se si deve passare da 32 a 64, se per un breve istante si passa a 128 e poi si torna a 64 la transizione sarà più rapida). \textit{Overdrive} eccessivo può causare artefatti visibili che prendono il nome di \textit{inverse ghosting}.}
 }
 \newglossaryentry{ghosting}{
 	name={Motion blur / Ghosting},
-	description={scia visibile dietro agli oggetti in movimento causata dai tempi di risposta dei pixel.}
+	description={Scia visibile dietro agli oggetti in movimento causata dai tempi di risposta dei pixel.}
 }
 \newglossaryentry{inverseghosting}{
 	name={Inverse ghosting},
-	description={artefatto creato dall'eccessivo overdrive, simile al ghosting, ma di colore opposto.}
+	description={Artefatto creato dall'eccessivo \textit{overdrive}, simile al \textit{ghosting}, ma di colore opposto.}
 }
 \newglossaryentry{smearing}{
 	name={Smearing},
-	description={solitamente usato come sinonimo di ghosting, indica delle scie il cui colore cambia nel tempo, a causa dei tempi di risposta diversi dei vari subpixel. Questo artefatto è solitamente visibile su display VA e OLED quando si transiziona tra due sfumature di grigio scure.}
+	description={Spesso usato come sinonimo di \textit{ghosting}, indica delle scie il cui colore cambia nel tempo, a causa dei tempi di risposta diversi dei vari \textit{subpixel}. Questo artefatto è solitamente visibile su display VA e OLED quando si transiziona tra due sfumature di grigio scure.}
 }
 \newglossaryentry{pwm}{
 	name={PWM},
@@ -32,15 +40,15 @@
 }
 \newglossaryentry{strobing}{
 	name={Strobing},
-	description={disattivazione intenzionale della retroilluminazione, tipicamente per nascondere le transizioni dei pixel.}
+	description={Disattivazione intenzionale della retroilluminazione, tipicamente per nascondere le transizioni dei pixel.}
 }
 \newglossaryentry{bfi}{
 	name={Black Frame Insertion},
-	description={tecnica adottata dai display a refresh rate molto alto (240Hz e più) per ridurre il motion blur percepito inserendo dei fotogrammi neri tra i fotogrammi di un segnale a frequenza inferiore.}
+	description={Tecnica adottata dai display a \textit{refresh rate} molto alto (240Hz e più) per ridurre il \textit{motion blur} percepito inserendo dei fotogrammi neri tra i fotogrammi di un segnale a frequenza inferiore.}
 }
 \newglossaryentry{dynamiccontrast}{
 	name={Contrasto dinamico},
-	description={tecnica adottata da alcuni display per variare il livello della retroilluminazione in base alla luminosità dell'immagine attualmente visualizzata. Permette di falsare un contrasto più elevato nei test.}
+	description={Tecnica adottata da alcuni display per variare il livello della retroilluminazione in base alla luminosità dell'immagine attualmente visualizzata. Permette di falsare un contrasto più elevato nei test.}
 }
 \newglossaryentry{hdrwcg}{
 	name={HDR / WGC},
@@ -48,17 +56,39 @@
 }
 \newglossaryentry{localdimming}{
 	name={Local Dimming},
-	description={tecnica simile al contrasto dinamico, ma anziché variare la luminosità dell'intero schermo, può variare solo determinate zone controllando individualmente i LED della retrolluminazione. Tende a creare aloni attorno agli oggetti luminosi.}
+	description={Tecnica simile al contrasto dinamico, ma anziché variare la luminosità dell'intero schermo, può variare solo determinate zone controllando individualmente i LED della retrolluminazione. Tende a creare aloni attorno agli oggetti luminosi.}
 }
-
 \newglossaryentry{microstuttering}{
 	name={Microstuttering},
-	description={presenza di occasionali fotogrammi doppi, che causano dei brevissimi ``scatti'' molto visibili su movimenti lenti e costanti. Può essere causato, oltre che dall'applicazione stessa, anche da una configurazione errata del display.}
+	description={Presenza di occasionali fotogrammi doppi, che causano dei brevissimi ``scatti'' molto visibili su movimenti lenti e costanti. Può essere causato, oltre che dall'applicazione stessa, anche da una configurazione errata del display (\textit{overclock}).}
 }
-
 \newglossaryentry{stuttering}{
 	name={Stuttering},
-	description={visibili ``scatti'' nel movimento causati da brevi blocchi nell'esecuzione dell'applicazione, solitamente per via di un hardware troppo poco potente. Informalmente viene anche detto ``laggate'' o ``lag spikes''. Spesso il termine stuttering viene usato per indicare anche il microstuttering, ma sono due concetti leggermente diversi: i blocchi causati dallo stuttering sono misurabili nell'ordine dei decimi di secondo, mentre il microstuttering solitamente causa blocchi di un fotogramma o poco più}
+	description={Visibili ``scatti'' nel movimento causati da brevi blocchi nell'esecuzione dell'applicazione, solitamente per via di un hardware troppo poco potente. Informalmente viene anche detto ``laggate'' o \textit{``lag spikes''}. Spesso il termine viene usato per indicare anche il \textit{microstuttering}, ma sono due concetti leggermente diversi: i blocchi causati dallo \textit{stuttering} sono misurabili nell'ordine dei decimi di secondo, mentre il \textit{microstuttering} solitamente causa blocchi di un fotogramma o poco più}
+}
+\newglossaryentry{backlightbleeding}{
+	name={Backlight bleeding},
+	description={Non uniformità della retroilluminazione, specialmente visibile sui bordi (da cui il nome).}
+}
+\newglossaryentry{framerate}{
+	name={Framerate},
+	description={Velocità dei fotogrammi, tipicamente misurata in fotogrammi al secondo (FPS)}
+}
+\newglossaryentry{frametime}{
+	name={Frametimes},
+	description={Tempi di fotogramma, ossia il tempo in millisecondi che è stato necessario per produrre un fotogramma e visualizzarlo. È l'inverso del \textit{framerate}}
+}
+\newglossaryentry{dpi}{
+	name={DPI / PPI},
+	description={Dots Per Inch, Pixels Per Inch. Pur indicando concetti diversi, sono usati sostanzialmente come sinonimi per indicare la densità di un display. Valori più alti indicano che nello stesso spazio ci sono più pixel, per cui il display ha una risoluzione più alta. La maggior parte dei display per PC hanno una densità di circa 96 DPI; display ad alti DPI richiedono che il sistema e le applicazioni siano in grado di scalare il testo e la grafica, altrimenti risulteranno troppo piccoli all'utente.}
+}
+\newglossaryentry{gamma}{
+	name={Gamma},
+	description={La curva che mette in relazione i livelli di luminosità in input con quelli che vengono effettivamente generati dal display. A volte è anche detta curva caratteristica. Sui display moderni, il valore tipico per gamma è 2.2. Formula: $L_{out}=L_{in}^\gamma$.}
+}
+\newglossaryentry{VSync}{
+	name={VSync},
+	description={Sincronia verticale, ossia la possibilità di attendere l'intervallo di \textit{VBlank} del dislpay prima di cambiare il fotogramma che si sta attualmente visualizzando, evitando così ``strappi'' nell'immagine (\textit{tearing})}
 }
 
 %altro da aggiungere?

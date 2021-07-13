@@ -13,10 +13,10 @@ Il dispositivo OpenLDAT ha sostanzialmente quattro compiti:
 	\item Gestire la comunicazione con il PC, ricevendo comandi e inviando i dati del sensore e del mouse virtuale
 \end{itemize}
 
-Un obiettivo principale del progetto è anche far si che il dispositivo sia costruito usando componenti off-the-shelf, con costi relativamente bassi (molto meno di un colorimetro), senza bisogno di apparecchiature speciali per la sua costruzione. In altre parole, deve essere costruibile nel tipico laboratorio di un maker.
+Un obiettivo principale del progetto è anche far si che il dispositivo sia costruito usando componenti \textit{off-the-shelf}, con costi relativamente bassi (molto meno di un colorimetro), senza bisogno di apparecchiature speciali per la sua costruzione. In altre parole, deve essere costruibile nel tipico laboratorio di un maker.
 
 \section{Hardware}
-Alla base del dispositivo c'è uno Sparkfun Pro Micro 5V/16MHz: si tratta di una board con microcontroller Arduino-compatibile, open hardware, basata sul microcontroller ATmega 32U4 e dotata di una connessione Micro USB. La figura \ref{fig:sparkfun_promicro} mostra la board e le sue dimensioni molto ridotte.
+Alla base del dispositivo c'è uno Sparkfun Pro Micro 5V/16MHz: si tratta di una MCU Arduino-compatibile, open-hardware, basata sul microcontroller ATmega 32U4 e dotata di una connessione Micro-USB. La figura \ref{fig:sparkfun_promicro} mostra la board e le sue dimensioni molto ridotte.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{Dispositivo_files/sparkfun_promicro.jpg}
@@ -24,13 +24,13 @@ Alla base del dispositivo c'è uno Sparkfun Pro Micro 5V/16MHz: si tratta di una
 	\label{fig:sparkfun_promicro}
 \end{figure}
 
-La scelta di questa board non è casuale, per il progetto ci interessano le seguenti caratteristiche:
+La scelta di questa MCU non è casuale, per il progetto ci interessano le seguenti caratteristiche:
 \begin{itemize}
-	\item ADC per approssimazioni successive a 10 bit, con la possibilità di controllare via software il comportamento dell'ADC, variando così la velocità di campionamento e i tempi del circuito sample-and-hold
+	\item ADC per approssimazioni successive a 10 bit, con la possibilità di controllare via software il comportamento dell'ADC, variando così la velocità di campionamento e i tempi del circuito \textit{sample-and-hold}
 	\item Timer configurabili per generare segnali di varia natura, anche di frequenza molto bassa
 	\item Controller USB programmabile, così da poter simulare vari tipi di dispositivo (nel caso di OpenLDAT, una porta seriale e un mouse)
 	\item Comunicazione via seriale asincrona rispetto all'esecuzione del firmware (entro certi limiti)
-	\item Pin GPIO con supporto ad interrupt, pullup, e logica tri-state
+	\item Pin GPIO con supporto ad \textit{interrupt}, \textit{pull-up}, e logica \textit{tri-state}
 	\item Alta disponibilità di cloni poco costosi
 	\item Ampiamente documentato, sia dal produttore che dalla community, poiché è completamente compatibile con l'Arduino Leonardo
 	\item Dimensioni ridotte, che consentono di creare un dispositivo di dimensioni ragionevoli e che riceve meno interferenze dall'esterno
@@ -44,7 +44,7 @@ Altre caratteristiche generali del microcontroller 32U4 sono:
 	\item 1kB di EEPROM
 \end{itemize}
 
-Il secondo componente chiave è il sensore di luminosità Everlight ALS-PT19. Si tratta di un fototransistor dai tempi di risposta molto bassi, con una buona linearità, e un costo molto contenuto. Poiché questo componente è SMD ed è estremamente piccolo, è stato scelto di usare il breakout Adafruit ALS-PT19 mostrato in figura \ref{fig:adafruit_pt19}, che monta il sensore e una resistenza da 10k\si{\ohm} su un piccolo PCB, così da poterlo montare facilmente e avere un valore misurabile in tensione anziché in corrente. Variando il valore della resistenza tra il fototransistor e la massa, si regola la sensibilità del sensore (più è alta la resistenza e più è sensibile alla luce).
+Il secondo componente chiave è il sensore di luminosità Everlight ALS-PT19. Si tratta di un fototransistor dai tempi di risposta molto bassi, con una buona linearità, e un costo molto contenuto. Poiché questo componente è SMD ed è estremamente piccolo, è stato scelto di usare il \textit{breakout} Adafruit ALS-PT19 mostrato in figura \ref{fig:adafruit_pt19}, che monta il sensore e una resistenza da 10k\si{\ohm} su un piccolo PCB, così da poterlo montare facilmente e avere un valore misurabile in tensione anziché in corrente. Variando il valore della resistenza tra il fototransistor e la massa, si regola la sensibilità del sensore (più è alta la resistenza e più è sensibile alla luce).
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{Dispositivo_files/als-pt19.jpg}
@@ -124,7 +124,7 @@ La figura \ref{fig:circuit} mostra lo schema elettrico del circuito che è stato
 	\label{fig:circuit}
 \end{figure}
 
-La regolazione del guadagno del sensore avviene mediante le resistenze R3 (330k\si{\ohm}), R4 (22k\si{\ohm}), e R5 (47k\si{\ohm}), posizionate in parallelo in serie alla resistenza da 10k\si{\ohm} già presente sul PCB dell'ALS-PT19. R3 è permanentemente connessa a massa, mentre R4 e R5 possono essere attivate e disattivate controllando lo stato dei pin D14 e D15 rispettivamente. Un pin GPIO in stato \texttt{LOW} equivale ad un collegamento a massa di resistenza trascurabile, mentre un pin in stato \texttt{Z} equivale ad un pin disconnesso (la documentazione del microcontroller indica un'impedenza di 100M\si{\ohm} in questo stato). Svolgendo i calcoli si possono stimare i quattro possibli valori di resistenza davanti al sensore, mostrati in tabella \ref{tab:pt19_gains}. Questi valori sono ovviamente delle stime, e non tengono conto delle tolleranze di produzione delle resistenze e del microcontroller.
+La regolazione del gain del sensore avviene mediante le resistenze R3 (330k\si{\ohm}), R4 (22k\si{\ohm}), e R5 (47k\si{\ohm}), posizionate in parallelo in serie alla resistenza da 10k\si{\ohm} già presente sul PCB dell'ALS-PT19. R3 è permanentemente connessa a massa, mentre R4 e R5 possono essere attivate e disattivate controllando lo stato dei pin D14 e D15 rispettivamente. Un pin GPIO in stato \texttt{LOW} equivale ad un collegamento a massa di resistenza trascurabile, mentre un pin in stato \texttt{Z} equivale ad un pin disconnesso (la documentazione del microcontroller indica un'impedenza di 100M\si{\ohm} in questo stato). Svolgendo i calcoli si possono stimare i quattro possibli valori di resistenza davanti al sensore, mostrati in tabella \ref{tab:pt19_gains}. Questi valori sono ovviamente delle stime, e non tengono conto delle tolleranze di produzione delle resistenze e del microcontroller.
 \begin{table}
 	\centering
 	\begin{tabular}{|c|c|c|} 
@@ -162,20 +162,20 @@ Conoscendo il tipo di luce che genera la retroilluminazione del display (si assu
 	\caption{\label{tab:pt19_nits}Range di luminosità del display consigliabile per ogni livello di gain}
 \end{table}
 
-La generazione dei click interna e esterna al dispositivo e il lampeggio del LED sono gestiti sulla parte destra dello schema in figura \ref{fig:circuit}. I click vengono captati tramite interrupt sul pin D7. Sfruttando la logica tri-state dei pin GPIO è possibile utilizzare lo stesso circuito per gestire sia i click automatici che quelli manuali:
+La generazione dei click interna e esterna al dispositivo e il lampeggio del LED sono gestiti sulla parte destra dello schema in figura \ref{fig:circuit}. I click vengono captati tramite \textit{interrupt} sul pin D7. Sfruttando la logica tri-state dei pin GPIO è possibile utilizzare lo stesso circuito per gestire sia i click automatici che quelli manuali:
 \begin{itemize}
-	\item Quando il dispositivo genera autonomamente i click, un timer interno al microcontroller manda brevi pulsazioni a una frequenza di circa 1Hz dal pin D6, e quindi varia tra gli stati \texttt{HIGH} e \texttt{LOW}, mentre il pin D4 è posizionato in stato \texttt{Z}, come se fosse disconnesso. Quando il segnale dal pin D6 passa ad \texttt{HIGH}, D7 riceve l'interrupt, e contemporaneamente si accende il LED. I pin per il pulsante sono inattivi in questa modalità, e cortocircuitarli non ha alcun effetto sul dispositivo
+	\item Quando il dispositivo genera autonomamente i click, un timer interno al microcontroller manda brevi pulsazioni a una frequenza di circa 1Hz dal pin D6, e quindi varia tra gli stati \texttt{HIGH} e \texttt{LOW}, mentre il pin D4 è posizionato in stato \texttt{Z}, come se fosse disconnesso. Quando il segnale dal pin D6 passa ad \texttt{HIGH}, D7 riceve l'\textit{interrupt}, e contemporaneamente si accende il LED. I pin per il pulsante sono inattivi in questa modalità, e cortocircuitarli non ha alcun effetto sul dispositivo
 	\item Quando il dispositivo riceve i click dall'esterno, il pin D4 è in stato \texttt{HIGH} per fornire alimentazione al pulsante esterno, mentre il pin D6 è in stato Z, come se fosse disconnesso. Quando il pulsante esterno viene premuto, i due contatti per il pulsante vengono cortocircuitati, D7 riceve l'interrupt, e contemporaneamente si accende il LED
 \end{itemize}
 
-La resistenza R1 serve per limitare la luminosità del LED, mentre la resistenza R2 fa da pull-down per evitare che il pin D7 vada in stato floating quando si ricevono i click dall'esterno e il pulsante esterno non è premuto.
+La resistenza R1 serve per limitare la luminosità del LED, mentre la resistenza R2 fa da \textit{pull-down} per evitare che il pin D7 vada in stato floating quando si ricevono i click dall'esterno e il pulsante esterno non è premuto.
 
 Poiché il lampeggio del LED è gestito in modo totalmente analogico, non c'è ritardo introdotto dal firmware.
 
 \subsection{PCB}
 Il circuito può essere stampato su un PCB a singolo strato delle dimensioni di 23x41mm e uno spessore di 1.6mm, su cui poi si saldano i componenti. Il PCB è pensato per essere semplice da realizzare anche in casa se si hanno gli strumenti per farlo, non è necessario utilizzare servizi di produzione professionali.
 
-La figura \ref{fig:pcb} mostra due viste del PCB da sopra e da sotto: sul lato superiore sono presenti la board con il microcontroller, i pin per il mouse esterno e il LED, mentre sul lato inferiore sono presenti il breakout con il sensore ALS-PT19 e le varie resistenze per controllarne il gain. Tutte le piste che collegano i componenti sono sul lato inferiore.
+La figura \ref{fig:pcb} mostra due viste del PCB da sopra e da sotto: sul lato superiore sono presenti la board con il microcontroller, i pin per il mouse esterno e il LED, mentre sul lato inferiore sono presenti il \textit{breakout} con il sensore ALS-PT19 e le varie resistenze per controllarne il gain. Tutte le piste che collegano i componenti sono sul lato inferiore.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{Dispositivo_files/openldat_pcb.png}
@@ -190,7 +190,7 @@ Il case è composto da tre parti (di cui una opzionale):
 \begin{itemize}
 	\item La base (figura \ref{fig:case_base}): è la parte principale, dalla forma circolare con un diametro di 59mm e un'altezza di 21mm, con quattro supporti in cui incastrare il PCB, due supporti laterali in cui incastrare il coperchio, un foro di 14x14mm sulla parte inferiore dove può passare la luce verso il sensore, e uno sul lato per la porta USB. Attorno al foro per il sensore è presente un piccolo incavo in cui è possibile, opzionalmente, incollare un vetrino da microscopio 22x22mm per proteggere il sensore. Sempre opzionalmente, è possibile posizionare dei feltrini sottili o del velluto sulla parte che si appoggia sullo schermo, per un'ulteriore protezione contro graffi accidentali
 	\item Il coperchio (figura \ref{fig:case_top}): si incastra nei due supporti laterali e permette di bloccare la luce dall'esterno. Due fori consentono il collegamento del pulsante esterno e rendono visibile il LED sul dispositivo, due barrette tengono fermo il PCB, qualora dovesse uscire dagli incastri della base
-	\item Diffusore per il LED (figura \ref{fig:case_ledcover}): un piccolo pezzo di plastica trasparente, del tutto opzionale, che può essere incastrato nel foro per il LED presente sul coperchio, così da rendere più esteticamente piacevole la luce del LED del dispositivo. Rende inoltre visibile la luce dei LED sulla board del microcontroller, che si illuminano durante la comunicazione con il PC
+	\item Diffusore per il LED (figura \ref{fig:case_ledcover}): un piccolo pezzo di plastica trasparente, del tutto opzionale, che può essere incastrato nel foro per il LED presente sul coperchio, così da rendere più esteticamente piacevole la luce del LED del dispositivo. Rende inoltre visibile la luce dei LED sulla MCU, che si illuminano durante la comunicazione con il PC
 \end{itemize}
 
 Se stampato correttamente, la distribuzione del peso del case stesso gli permette di stare fermo quando è appoggiato al display.
@@ -224,15 +224,15 @@ La tabella \ref{tab:bom} mostra tutto il materiale necessario per costruire il d
 		\hline
 		\textbf{Essenziale} & \textbf{Nome} & \textbf{Fornitore} & \textbf{Prezzo (€)}  \\ 
 		\hline
-		Si & Sparkfun Pro Micro 5V/16MHz (clone) con header & Aliexpress (keyword: 32u4) & 4.98         \\ 
+		Si & Sparkfun Pro Micro 5V/16MHz (clone) con header & Aliexpress (\textit{keyword}: 32u4) & 4.98         \\ 
 		\hline
-		Si & Adafruit ALS-PT19 con header & Aliexpress (keyword: als pt19) & 2.28         \\
+		Si & Adafruit ALS-PT19 con \textit{header} & Aliexpress (\textit{keyword}: als pt19) & 2.28         \\
 		\hline
 		Si & PCB OpenLDAT & Aisler & 2.45        \\
 		\hline
 		Si & Resistenze ¼W: 1M\si{\ohm}, 1k\si{\ohm}, 330k\si{\ohm}, 22k\si{\ohm}, 47k\si{\ohm} & Qualsiasi & 0.10        \\
 		\hline
-		Si & 2 pin header maschio & Inclusi col sensore & 0.00\\
+		Si & 2 \textit{pin header} maschio & Inclusi col sensore & 0.00\\
 		\hline
 		Si & LED 5mm (qualsiasi colore) & Qualsiasi & 0.02 \\
 		\hline
@@ -247,9 +247,9 @@ La tabella \ref{tab:bom} mostra tutto il materiale necessario per costruire il d
 \end{table}
 
 \subsection{Costruzione del mouse modificato}
-Per misurare la latenza di una macchina separata è necessario modificare un mouse (o volendo un controller) in modo che quando viene premuto il tasto per fare fuoco vengano cortocircuitati i due pin per il pulsante esterno sul dispositivo OpenLDAT. Eseguire questa modifica richiede un minimo di competenze elettroniche poiché ogni modello di mouse è diverso: nei casi più semplici è possibile collegare i contatti del pulsante ai pin del dispositivo, ma più in generale è consigliabile l'uso di un analog switch come l'integrato Vishay DG213DJ\cite{vishay_dg213_datasheet}, il quale può essere alimentato direttamente dal mouse, può gestire sia segnali normalmente alti che normalmente bassi, e può cortocircuitare i pin del pulsante esterno in risposta ai click in totale sicurezza.\\
+Per misurare la latenza di una macchina separata è necessario modificare un mouse (o volendo un controller) in modo che quando viene premuto il tasto per fare fuoco vengano cortocircuitati i due pin per il pulsante esterno sul dispositivo OpenLDAT. Eseguire questa modifica richiede un minimo di competenze elettroniche poiché ogni modello di mouse è diverso: nei casi più semplici è possibile collegare i contatti del pulsante ai pin del dispositivo, ma più in generale è consigliabile l'uso di un \textit{analog switch} come l'integrato Vishay DG213DJ\cite{vishay_dg213_datasheet}, il quale può essere alimentato direttamente dal mouse, può gestire sia segnali normalmente alti che normalmente bassi, e può cortocircuitare i pin del pulsante esterno in risposta ai click in totale sicurezza. È sconsigliabile l'uso di optoisolatori, filtri RC, o qualsiasi altro costrutto che potrebbe ritardare il segnale di più di qualche microsecondo.\\
 Sul dispositivo OpenLDAT, il pin di sinistra porta un segnale \texttt{HIGH} (5V), mentre il pin di destra è in alta impedenza in attesa di ricevere il segnale. La soglia di attivazione del pin di destra è circa 3V\cite{atmega32u4_datasheet}. La quantità di corrente che può passare è limitata a pochi mA dal LED e dalle resistenze presenti tra il pin di destra e la massa.\\
-Il circuito in figura \ref{fig:modmouse_example} mostra un esempio di circuito per un mouse modificato, ma potrebbe variare molto tra mouse diversi: potrebbe essere necessario cambiare o rimuovere la resistenza in input o creare un pull-up/pull-down, o costruire un circuito totalmente diverso.
+Il circuito in figura \ref{fig:modmouse_example} mostra un esempio di circuito per un mouse modificato, ma potrebbe variare molto tra mouse diversi: potrebbe essere necessario cambiare o rimuovere la resistenza in input o creare un \textit{pull-up}/\textit{pull-down}, o costruire un circuito totalmente diverso.
 
 \begin{figure}[h!]
 	\centering
@@ -265,7 +265,7 @@ Attenzione: un circuito errato potrebbe danneggiare permanentemente il dispositi
 \section{Firmware}
 Il firmware installato sul microcontroller ATmega 32U4 è stato sviluppato in C++ usando Arduino IDE, e ha i seguenti compiti:
 \begin{itemize}
-	\item Permettere all'applicazione di identificare i dispositivi OpenLDAT connessi e le loro capability
+	\item Permettere all'applicazione di identificare i dispositivi OpenLDAT connessi e le loro \textit{capability}
 	\item Ricevere comandi dall'applicazione e inviare l'output via seriale
 	\item Configurare l'hardware per le varie modalità di funzionamento (ADC, gain del sensore, generazione automatica o manuale dei click)
 	\item Campionare il sensore (e se richiesto il bottone esterno) nel modo più veloce e regolare possibile
@@ -286,7 +286,7 @@ I comandi che l'applicazione può mandare al dispositivo sono composti da 2 o pi
 \begin{itemize}
 	\item Il primo byte identifica il comando. Nella versione attuale sono implementati tre comandi: \begin{itemize}
 		\item \texttt{IDLE} (0x49): interrompe qualsiasi attività in corso e si prepara a ricevere un nuovo comando
-		\item \texttt{ID} (0x44): invia informazioni sul dispositivo e le sue capability all'applicazione, poi si prepara a ricevere un nuovo comando
+		\item \texttt{ID} (0x44): invia informazioni sul dispositivo e le sue \textit{capability} all'applicazione, poi si prepara a ricevere un nuovo comando
 		\item \texttt{LIGHTSENSOR} (0x4C): configura il dispositivo e avvia il campionamento. L'esecuzione di questo comando continua fino a quando non viene ricevuto un nuovo comando
 	\end{itemize}
 	Eventuali comandi non validi vengono ignorati
@@ -298,7 +298,7 @@ I comandi che l'applicazione può mandare al dispositivo sono composti da 2 o pi
 L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi:
 \begin{itemize}
 	\item I dispositivi OpenLDAT vengono trovati in base all'ID hardware personalizzato. Il dispositivo si dichiara con il nome ``OpenLDAT Model 1'' e ID hardware (VID:PID) 4370:0001, il che lo rende facilmente distinguibile da altri dispositivi basati sulla stessa board che potrebbero essere connessi al PC. La figura \ref{fig:lsusb} mostra un output del comando \texttt{lsusb} di GNU/Linux mentre il dispositivo è connesso. Non è necessario installare nessun driver per comunicare col dispositivo
-	\item Una volta stabilita la connessione, l'applicazione utilizza il comando \texttt{ID} per chiedere al dispositivo le sue capability, in base alle quale decide se il dispositivo è supportato. Il formato di questo elenco verrà discusso nel paragrafo successivo.
+	\item Una volta stabilita la connessione, l'applicazione utilizza il comando \texttt{ID} per chiedere al dispositivo le sue \textit{capability}, in base alle quale decide se il dispositivo è supportato. Il formato di questo elenco verrà discusso nel paragrafo successivo.
 \end{itemize}
 
 \begin{figure}[h]
@@ -310,13 +310,13 @@ L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi
 
 L'elenco delle capability è inviato come testo ASCII. Il seguente listato mostra un possibile output del comando \texttt{ID}.
 \lstinputlisting{Dispositivo_files/id_example.txt}
-L'elenco è un insieme di stringhe ASCII, separate da un carattere newline (\texttt{\textbackslash n}), e terminate da una riga vuota (doppio newline). La prima riga contiene il nome completo del dispositivo, mentre le righe successive sono un elenco di capability in formato \texttt{Nome: Valore}.
+L'elenco è un insieme di stringhe ASCII, separate da un carattere \textit{newline} (\texttt{\textbackslash n}), e terminate da una riga vuota (doppio \textit{newline}). La prima riga contiene il nome completo del dispositivo, mentre le righe successive sono un elenco di \textit{capability} in formato \texttt{Nome: Valore}.
 
-Le capability attualmente implementate sono le seguenti:
+Le \textit{capability} attualmente implementate sono le seguenti:
 \begin{itemize}
 	\item \texttt{FW}: stringa contenente la versione del firmware del dispositivo, obbligatoria
 	\item \texttt{LightSensor}: booleano che indica se è presente il sensore di luminosità. Se è presente, devono essere presenti anche le proprietà \texttt{LBuffer} e \texttt{SBuffer}, due interi il cui significato verrà spiegato nella sezione sul campionamento
-	\item \texttt{OscilloscopeDebug}: booleano che indica se è possibile collegare un oscilloscopio al pin 10 per ottenere metriche sul timing del dispositivo
+	\item \texttt{OscilloscopeDebug}: booleano che indica se è possibile collegare un oscilloscopio al pin 10 per ottenere metriche sul \textit{timing} del dispositivo
 	\item \texttt{SerialDebug}: booleano che indica se il firmware è pensato per comunicare manualmente tramite il serial plotter di Arduino IDE oppure se è pensato per comunicare con l'applicazione. Rallenta notevolmente l'esecuzione del firmware
 	\item \texttt{Prototype}: booleano che indica se il dispositivo è un prototipo o una versione finale. Per i prototipi sono disponibili delle funzionalità aggiuntive nell'applicazione
 	\item \texttt{MinAppVer}: intero che indica la versione del driver minima richiesta da questo dispositivo, obbligatorio
@@ -329,7 +329,7 @@ All'accensione del dispositivo, il codice di inizializzazione avvia un'interfacc
 Il comando \texttt{LIGHTSENSOR} viene inviato dall'applicazione al dispositivo quando vuole utilizzare il sensore. Questo comando ha 7 possibili flag, che sono usati per configurare il dispositivo in vari modi. Considerando il byte di flag che segue il comando, partendo dal bit 0 (LSB) arrivando al bit 7 (MSB):
 \begin{itemize}
 	\item \textbf{Bit 0 (LSB)}: \texttt{AUTOFIRE}. Quando è impostato a 1, il dispositivo genera i click automaticamente, altrimenti li riceve dal pulsante esterno. Il valore di questo flag è ignorato se il flag \texttt{MONITOR} è impostato a 1
-	\item \textbf{Bit 1}: \texttt{NOBUFFER}. Quando è impostato a 1, invia ogni sample immediatamente (più lento) anziché aspettare di aver riempito un buffer da mandare in blocco (più veloce)
+	\item \textbf{Bit 1}: \texttt{NOBUFFER}. Quando è impostato a 1, invia ogni \textit{sample} immediatamente (più lento) anziché aspettare di aver riempito un \textit{buffer} da mandare in blocco (più veloce)
 	\item \textbf{Bit 2}: \texttt{HIGHSENS1}. Controlla la resistenza da 22k\si{\ohm} collegata al pin D14. Se è impostato a 1, la resistenza è attiva, aumentando il gain. Assieme al flag \texttt{HIGHSENS2} permette di selezionare 4 livelli di gain del sensore
 	\item \textbf{Bit 3}: \texttt{MONITOR}. Quando è impostato a 1, viene letto il sensore ignorando i click (interni o esterni). Permette una lettura più veloce del sensore
 	\item \textbf{Bit 4}: \texttt{NOCLICK}. Quando è impostato a 1, i click non vengono inviati tramite l'interfaccia USB HID mouse. I click sono comunque visibili sul LED e sull'interfaccia seriale. Il valore di questo flag è ignorato se il flag \texttt{MONITOR} è impostato a 1
@@ -365,17 +365,17 @@ Combinando i flag \texttt{NOBUFFER}, \texttt{FASTADC} e \texttt{MONITOR} in dive
 	\caption{\label{tab:openldat_samplerates}Velocità di campionamento}
 \end{table}
 
-Il flag \texttt{NOBUFFER} permette di attivare o disattivare il buffering sul dispositivo dei dati da mandare al PC. L'interfaccia seriale del microcontroller possiede due buffer di 64 byte (uno in ingresso e uno in uscita), e finché il buffer di scrittura non è pieno, le operazioni di scrittura su seriale non sono bloccanti, ma richiedono comunque del tempo per la copia dei dati sul buffer della seriale. Il firmware del dispositivo offre quindi una modalità con buffer, in cui il sensore viene letto il più velocemente possibile, i dati vengono messi in un buffer, e poi con una singola chiamata vengono copiati sul buffer di uscita della seriale. Questa copia avviene ogni 32 sample (\texttt{LBUFFER}) se si sta leggendo solo il sensore di luminosità, oppure ogni 21 sample (\texttt{SBUFFER}) se si sta leggendo anche il pulsante. Quando il firmware esegue la copia sul buffer della seriale, causa una breve interruzione nel campionamento, per cui la qualità del segnale catturato è leggermente inferiore in questa modalità rispetto a quella senza buffer, ma poiché vengono eseguite meno operazioni di scrittura su seriale, il sample rate effettivo è più alto.
+Il flag \texttt{NOBUFFER} permette di attivare o disattivare il \textit{buffering} sul dispositivo dei dati da mandare al PC. L'interfaccia seriale del microcontroller possiede due \textit{buffer} di 64 byte (uno in ingresso e uno in uscita), e finché il \textit{buffer} di scrittura non è pieno, le operazioni di scrittura su seriale non sono bloccanti, ma richiedono comunque del tempo per la copia dei dati sul \textit{buffer} della seriale. Il firmware del dispositivo offre quindi una modalità con \textit{buffer}, in cui il sensore viene letto il più velocemente possibile, i dati vengono messi in un \textit{buffer}, e poi con una singola chiamata vengono copiati sul \textit{buffer} di uscita della seriale. Questa copia avviene ogni 32 \textit{sample} (\texttt{LBUFFER}) se si sta leggendo solo il sensore di luminosità, oppure ogni 21 \textit{sample} (\texttt{SBUFFER}) se si sta leggendo anche il pulsante. Quando il firmware esegue la copia sul \textit{buffer} della seriale, causa una breve interruzione nel campionamento, per cui la qualità del segnale catturato è leggermente inferiore in questa modalità rispetto a quella senza \textit{buffer}, ma poiché vengono eseguite meno operazioni di scrittura su seriale, il \textit{sample rate} effettivo è più alto.
 
 Il formato dei dati che vengono inviati all'applicazione è diverso a seconda della configurazione scelta:
 \begin{itemize}
-	\item \textbf{\texttt{NOBUFFER=1}, \texttt{MONITOR=1}}: viene letto solo il sensore di luminosità, e i sample sono inviati uno per volta. Ogni sample è formato da 2 byte contenenti un intero senza segno tra 0 e 1023 (little endian)
-	\item \textbf{\texttt{NOBUFFER=1}, \texttt{MONITOR=0}}: viene letto sia il sensore che il click, e i sample sono inviati uno per volta. Ogni sample è formato da 3 byte: i primi 2 byte contengono il valore del sensore di luminosità, e il terzo byte contiene 1 se in quel momento è stato premuto il pulsante, 0 altrimenti. Il segnale del pulsante è già debounced
-	\item \textbf{\texttt{NOBUFFER=0}, \texttt{MONITOR=1}}: viene letto solo il sensore di luminosità, e vengono inviati all'applicazione blocchi di 32 sample di 2 byte ciascuno contenenti i valori di luminosità. In totale vengono inviati 64 byte per blocco
-	\item \textbf{\texttt{NOBUFFER=0}, \texttt{MONITOR=0}}: vengono letti sia il sensore di luminosità che il click, e vengono inviati prima 21 coppie di byte contenenti i valori di luminosità, poi vengono inviati 21 byte singoli contenenti lo stato del pulsante per ogni sample di luminosità ricevuto. In totale vengono inviati 63 byte per blocco
+	\item \textbf{\texttt{NOBUFFER=1}, \texttt{MONITOR=1}}: viene letto solo il sensore di luminosità, e i \textit{sample} sono inviati uno per volta. Ogni \textit{sample} è formato da 2 byte contenenti un intero senza segno tra 0 e 1023 (little-endian)
+	\item \textbf{\texttt{NOBUFFER=1}, \texttt{MONITOR=0}}: viene letto sia il sensore che il click, e i \textit{sample} sono inviati uno per volta. Ogni \textit{sample} è formato da 3 byte: i primi 2 byte contengono il valore del sensore di luminosità, e il terzo byte contiene 1 se in quel momento è stato premuto il pulsante, 0 altrimenti. Il segnale del pulsante è già \textit{debounced}
+	\item \textbf{\texttt{NOBUFFER=0}, \texttt{MONITOR=1}}: viene letto solo il sensore di luminosità, e vengono inviati all'applicazione blocchi di 32 \textit{sample} di 2 byte ciascuno contenenti i valori di luminosità. In totale vengono inviati 64 byte per blocco
+	\item \textbf{\texttt{NOBUFFER=0}, \texttt{MONITOR=0}}: vengono letti sia il sensore di luminosità che il click, e vengono inviati prima 21 coppie di byte contenenti i valori di luminosità, poi vengono inviati 21 byte singoli contenenti lo stato del pulsante per ogni \textit{sample} di luminosità ricevuto. In totale vengono inviati 63 byte per blocco
 \end{itemize}
 
-Per massimizzare la velocità di esecuzione, queste quattro situazioni sono implementate nel firmware come quattro funzioni separate; la scelta della versione da utilizzare avviene durante il parsing del comando.
+Per massimizzare la velocità di esecuzione, queste quattro situazioni sono implementate nel firmware come quattro funzioni separate; la scelta della versione da utilizzare avviene durante il \textit{parsing} del comando.
 
 I flag \texttt{HIGHSENS1} e \texttt{HIGHSENS2} permettono di selezionare tra 4 possibili livelli di gain, mostrati in tabella \ref{tab:openldat_gains}. Il guadagno del sensore non ha effetti sulla velocità di campionamento.
 \begin{table}[h!]
@@ -396,25 +396,25 @@ I flag \texttt{HIGHSENS1} e \texttt{HIGHSENS2} permettono di selezionare tra 4 p
 	\caption{\label{tab:openldat_gains}Livelli di gain implementati}
 \end{table}
 
-Quando il flag \texttt{MONITOR} è impostato a 0, il dispositivo ascolta i click in arrivo dall'esterno o generati automaticamente tramite l'utilizzo di un interrupt. Nel firmware sono presenti due ISR:\begin{itemize}
+Quando il flag \texttt{MONITOR} è impostato a 0, il dispositivo ascolta i click in arrivo dall'esterno o generati automaticamente tramite l'utilizzo di un \textit{interrupt}. Nel firmware sono presenti due ISR:\begin{itemize}
 	\item Per i click automatici è sufficiente una ISR semplice che risponde all'arrivo di un segnale \texttt{HIGH} sul pin D7 e lo gestisce impostando una variabile \texttt{buttonPressed} a 1 e se necessario inviando un click tramite l'interfaccia USB HID
-	\item Per i click provenienti dall'esterno è necessaria una ISR che implementi il debouncing, altrimenti per ogni pressione verrebbero registrati più click. Questa ISR più complessa si attiva all'arrivo di un segnale \texttt{HIGH} sul pin D7, esegue il debouncing di 200ms, e se passa il test imposta \texttt{buttonPressed} a 1 e se necessario simula il click
+	\item Per i click provenienti dall'esterno è necessaria una ISR che implementi il \textit{debouncing}, altrimenti per ogni pressione verrebbero registrati più click. Questa ISR più complessa si attiva all'arrivo di un segnale \texttt{HIGH} sul pin D7, esegue il \textit{debouncing} di 200ms, e se passa il test imposta \texttt{buttonPressed} a 1 e se necessario simula il click
 \end{itemize}
 
 L'esecuzione delle ISR non rallenta significativamente il campionamento, in quanto richiedono pochi microsecondi per essere eseguite.\\
-Per massimizzare la velocità di esecuzione, queste due ISR sono in realtà implementate nel firmware come quattro ISR: due semplici (con e senza simulazione del click), e due con debouncing (con e senza simulazione del click). La scelta dell'ISR da usare avviene durante il parsing del comando.
+Per massimizzare la velocità di esecuzione, queste due ISR sono in realtà implementate nel firmware come quattro ISR: due semplici (con e senza simulazione del click), e due con \textit{debouncing} (con e senza simulazione del click). La scelta dell'ISR da usare avviene durante il \textit{parsing} del comando.
 
 L'invio dei click del mouse avviene tramite la libreria HID-Project di NicoHood\footnote{\href{https://www.arduino.cc/reference/en/libraries/hid-project/}{https://www.arduino.cc/reference/en/libraries/hid-project/}}, scaricabile tramite il gestore di librerie di Arduino IDE.
 
-Attenzione: l'arrivo di un interrupt causa inevitabilmente un'interruzione del campionamento, ma poiché la durata delle ISR è così breve, ed è un ordine di grandezza più piccola dei valori che vogliamo misurare, l'applicazione può ignorare questi ``buchi'' nel campionamento senza perdere precisione.
+Attenzione: l'arrivo di un \textit{interrupt} causa inevitabilmente un'interruzione del campionamento, ma poiché la durata delle ISR è così breve, ed è un ordine di grandezza più piccola dei valori che vogliamo misurare, l'applicazione può ignorare questi ``buchi'' nel campionamento senza perdere precisione.
 
-La generazione automatica dei click, se richiesta con il flag \texttt{AUTOFIRE}, avviene configurando il timer 4 del microcontroller 32U4 per generare un segnale a circa 1Hz che esce dal pin D6 e entra direttamente nel pin D7, lo stesso da cui entrano i click esterni e collegato al LED frontale. La configurazione di questo timer non influisce su nessun'altra funzione di Arduino utilizzata nel firmware. Utilizzando questo sistema, inoltre, non si rallenta il firmware (ad eccezione dell'occasionale interrupt).\\
-Il timer 4 è un timer a 10 bit configurabile tramite un set di registri\cite{atmega32u4_datasheet}, e viene configurato in questo modo: output sul pin D6, ciclo completo dei 1024 valori del contatore, segnale \texttt{HIGH} quando il contatore è sotto il valore di 64, prescaler impostato al valore massimo di 16384, conteggio che parte da 0. Il risultato è un'onda quadra con un periodo di circa 1.048576s e un duty cycle del 6.25\%, perfetta per generare interrupt periodici.\\
-Durante la configurazione vengono disattivati gli interrupt per evitare di generare click accidentali.
+La generazione automatica dei click, se richiesta con il flag \texttt{AUTOFIRE}, avviene configurando il timer 4 del microcontroller 32U4 per generare un segnale a circa 1Hz che esce dal pin D6 e entra direttamente nel pin D7, lo stesso da cui entrano i click esterni e collegato al LED frontale. La configurazione di questo timer non influisce su nessun'altra funzione di Arduino utilizzata nel firmware. Utilizzando questo sistema, inoltre, non si rallenta il firmware (ad eccezione dell'occasionale \textit{interrupt}).\\
+Il timer 4 è un timer a 10 bit configurabile tramite un set di registri\cite{atmega32u4_datasheet}, e viene configurato in questo modo: output sul pin D6, ciclo completo dei 1024 valori del contatore, segnale \texttt{HIGH} quando il contatore è sotto il valore di 64, \textit{prescaler} impostato al valore massimo di 16384, conteggio che parte da 0. Il risultato è un'onda quadra con un periodo di circa 1.048576s e un \textit{duty cycle} del 6.25\%, perfetta per generare \textit{interrupt} periodici.\\
+Durante la configurazione vengono disattivati gli \textit{interrupt} per evitare di generare click accidentali.
 
-Il flag \texttt{FASTADC}, se impostato a 1, permette di campionare il sensore di luminosità molto più velocemente del normale, seppur con alcune limitazioni. L'ADC del microcontroller 32U4 è composto da due parti: un ADC ad approssimazioni successive (SAR) e un circuito sample and hold che carica un condensatore da 14pF che mantiene il valore da campionare mentre l'ADC esegue il suo compito.\\
-Normalmente, l'esecuzione di una \texttt{analogRead} richiede circa 112us, il che limita la frequenza di campionamento a circa 8.9kHz, e una volta considerata l'elaborazione che va fatta per memorizzare e inviare il sample, la frequenza di campionamento è limitata a circa 7kHz. Leggendo la documentazione del microcontroller 32U4, si scopre che alterando il registro \texttt{ADCSRA} è possibile variare il clock dell'ADC dal default di 125kHz fino un massimo di 1MHz\cite{atmega32u4_datasheet}, a costo di due limitazioni: una maggiore sensibilità a rumori di conversione, e un'impedenza massima del segnale da campionare drasticamente ridotta poiché il condensatore del circuito sample and hold ha meno tempo di caricarsi.\\
-Nel firmware del dispositivo, quando il flag \texttt{FASTADC} è impostato a 1, il clock viene portato a 500kHz, ottenendo così un tempo di circa 30us per \texttt{analogRead} (dai 112us originali), per una frequenza massima teorica di campionamento di circa 33.2kHz, che scende a circa 30kHz una volta aggiunto il tempo di elaborazione. L'impedenza del sensore è abbastanza bassa da non creare problemi a questa velocità di campionamento, indipendentemente dal livello di gain selezionato. La rumorosità del segnale catturato non sembra essere alterata in questa modalità nella versione finale del dispositivo assembato su PCB, ma era misurabile a circa 1-2 bit nei primi prototipi assemblati su schede millefori, poiché captavano molte più interferenze dall'esterno.
+Il flag \texttt{FASTADC}, se impostato a 1, permette di campionare il sensore di luminosità molto più velocemente del normale, seppur con alcune limitazioni. L'ADC del microcontroller 32U4 è composto da due parti: un ADC ad approssimazioni successive (SAR) e un circuito \textit{sample-and-hold} che carica un condensatore da 14pF che mantiene il valore da campionare mentre l'ADC esegue il suo compito.\\
+Normalmente, l'esecuzione di una \texttt{analogRead} richiede circa 112us, il che limita la frequenza di campionamento a circa 8.9kHz, e una volta considerata l'elaborazione che va fatta per memorizzare e inviare il \textit{sample}, la frequenza di campionamento è limitata a circa 7kHz. Leggendo la documentazione del microcontroller 32U4, si scopre che alterando il registro \texttt{ADCSRA} è possibile variare il clock dell'ADC dal default di 125kHz fino un massimo di 1MHz\cite{atmega32u4_datasheet}, a costo di due limitazioni: una maggiore sensibilità a rumori di conversione, e un'impedenza massima del segnale da campionare drasticamente ridotta poiché il condensatore del circuito \textit{sample-and-hold} ha meno tempo di caricarsi.\\
+Nel firmware del dispositivo, quando il flag \texttt{FASTADC} è impostato a 1, il clock viene portato a 500kHz, ottenendo così un tempo di circa 30us per \texttt{analogRead} (dai 112us originali), per una frequenza massima teorica di campionamento di circa 33.2kHz, che scende a circa 30kHz una volta aggiunto il tempo di elaborazione. L'impedenza del sensore è abbastanza bassa da non creare problemi a questa velocità di campionamento, indipendentemente dal livello di gain selezionato. La rumorosità del segnale catturato non sembra essere alterata in questa modalità nella versione finale del dispositivo assemblato su PCB, ma era misurabile a circa 1-2 bit nei primi prototipi assemblati su schede millefori, poiché captavano molte più interferenze dall'esterno.
 
 \subsection{Debugging e misurazione delle tempistiche}
 Per permettere un debugging più semplice del firmware utilizzando solo Arduino IDE, è stato aggiunto il flag di compilazione \texttt{SERIAL\_DEBUG}. Quando questo flag è abilitato, il firmware non genera output nel formato binario per l'applicazione, ma in formato testuale, compatibile con il serial monitor e il serial plotter di Arduino IDE. Questo rallenta notevolmente il campionamento, per cui qualsiasi misurazione fatta in questa modalità è da considerarsi invalida, e l'applicazione rifiuta il collegamento se questa modalità è attiva.\\
@@ -428,7 +428,7 @@ La figura \ref{fig:serialdebug} mostra un esempio di output sul serial plotter.
 	\label{fig:serialdebug}
 \end{figure}
 
-Per misurare le tempistiche di esecuzione del firmware (e in particolar modo, determinare il sample rate nelle varie modalità) non si può semplicemente fare una differenza tra timestamp e stamparla su seriale, poiché questo rallenterebbe troppo l'esecuzione a causa dei calcoli necessari e le continue chiamate a \texttt{Serial.write}, per cui la tecnica che viene implementata quando il firmware è compilato col flag \texttt{OSCILLOSCOPE\_DEBUG} è quella di generare un segnale che è \texttt{HIGH} mentre il firmware sta leggendo il sensore, e \texttt{LOW} mentre sta scrivendo sulla seriale (o viceversa); collegando un oscilloscopio all'uscita di questo segnale è possibile misurarne la frequenza (e quindi il sample rate) e verificare anche la presenza di ``buchi'' nel campionamento. Con la stessa tecnica è possibile misurare i tempi di esecuzione delle ISR.\\
+Per misurare le tempistiche di esecuzione del firmware (e in particolar modo, determinare il \textit{sample rate} nelle varie modalità) non si può semplicemente fare una differenza tra \textit{timestamp} e stamparla su seriale, poiché questo rallenterebbe troppo l'esecuzione a causa dei calcoli necessari e le continue chiamate a \texttt{Serial.write}, per cui la tecnica che viene implementata quando il firmware è compilato col flag \texttt{OSCILLOSCOPE\_DEBUG} è quella di generare un segnale che è \texttt{HIGH} mentre il firmware sta leggendo il sensore, e \texttt{LOW} mentre sta scrivendo sulla seriale (o viceversa); collegando un oscilloscopio all'uscita di questo segnale è possibile misurarne la frequenza (e quindi il \textit{sample rate}) e verificare anche la presenza di ``buchi'' nel campionamento. Con la stessa tecnica è possibile misurare i tempi di esecuzione delle ISR.\\
 La generazione di questo segnale non può essere fatta utilizzando funzioni come \texttt{digitalWrite} poiché richiedono parecchi microsecondi per essere eseguite e questo invaliderebbe completamente la misura. Studiando la documentazione del microcontroller 32U4 si scopre la presenza di una funzione speciale del pin 10: quando il bit 6 del registro \texttt{PINB} viene scritto ad 1, il valore corrente di quel pin viene invertito\cite{atmega32u4_datasheet}. Scrivere il registro \texttt{PINB} richiede un singolo ciclo di clock, che corrisponde a 62ns, un ordine di grandezza inferiore ai tempi che stiamo cercando di misurare.\\
 Per rendere facilmente utilizzabile questa funzione nel firmware, sono state realizzate tre macro:
 \begin{itemize}
@@ -436,9 +436,9 @@ Per rendere facilmente utilizzabile questa funzione nel firmware, sono state rea
 	\item \texttt{OSCILLOSCOPE\_DEBUG\_PULSE()}: inverte il valore del pin 10 manipolando il registro \texttt{PINB}
 	\item \texttt{OSCILLOSCOPE\_DEBUG\_END()}: reimposta in pin 10 ad alta impedenza e cancella lo stato \texttt{HIGH} o \texttt{LOW}
 \end{itemize}
-Nella versione finale del firmware, queste macro sono usate per generare una pulsazione per ogni sample (con flag \texttt{NOBUFFER} impostato a 1) o per ogni buffer (senza flag \texttt{NOBUFFER}). In modalità con buffering, per ottenere il sample rate, la frequenza del segnale generato va moltiplicata per la dimensione del buffer (32 se il flag \texttt{MONITOR} è impostato a 1, altrimenti 21).
+Nella versione finale del firmware, queste macro sono usate per generare una pulsazione per ogni \textit{sample} (con flag \texttt{NOBUFFER} impostato a 1) o per ogni \textit{buffer} (senza flag \texttt{NOBUFFER}). In modalità con buffering, per ottenere il \textit{sample rate}, la frequenza del segnale generato va moltiplicata per la dimensione del \textit{buffer} (32 se il flag \texttt{MONITOR} è impostato a 1, altrimenti 21).
 
-La figura \ref{fig:oscilloscopedebug} mostra un esempio del segnale generato da questa modalità di debugging. Il dispositivo stava operando con \texttt{NOBUFFER=1}, \texttt{MONITOR=1}, \texttt{FASTADC=1}, per un sample rate di 21000Hz. Piccole variazioni della frequenza di questo segnale sono perfettamente normali, e possono avvenire in seguito a interrupt (click automatici o esterni) o semplicemente per variazioni sul segnale di clock; non influiscono in maniera rilevante sulle misurazioni fatte dall'applicazione.
+La figura \ref{fig:oscilloscopedebug} mostra un esempio del segnale generato da questa modalità di debugging. Il dispositivo stava operando con \texttt{NOBUFFER=1}, \texttt{MONITOR=1}, \texttt{FASTADC=1}, per un \textit{sample rate} di 21000Hz. Piccole variazioni della frequenza di questo segnale sono perfettamente normali, e possono avvenire in seguito a \textit{interrupt} (click automatici o esterni) o semplicemente per variazioni sul segnale di clock; non influiscono in maniera rilevante sulle misurazioni fatte dall'applicazione.
 
 \begin{figure}[h]
 	\centering
@@ -460,7 +460,7 @@ Prima di iniziare, bisogna preparare i seguenti strumenti:
 	\item Saldatore a stagno a 450°C
 	\item Rotolo di stagno per saldatura, meglio se con flussante
 	\item Tronchesino o strumento di taglio simile
-	\item Una breadboard o altro strumento in cui tenere fermi i pin header mentre si salda
+	\item Una \textit{breadboard} o altro strumento in cui tenere fermi i \textit{pin header} mentre si salda
 \end{itemize}
 
 Attenzione: la qualità delle saldature influisce direttamente sulla qualità dei segnali che il dispositivo OpenLDAT sarà in grado di catturare.
@@ -474,9 +474,9 @@ Una volta preparati tutti gli strumenti, si possono preparare i materiali (figur
 	\item LED da 5mm
 \end{itemize}
 
-\paragraph{Passo 1} Saldare gli header sulla board Sparkfun Pro Micro, in modo che la parte in plastica e la parte lugna dei pin sia sotto alla board. Per tenere i pin fermi e dritti mentre si salda, è utile infilarli in una breadboard o in un soldering jig apposito, come in figura \ref{fig:assembly_02}.
+\paragraph{Passo 1} Saldare gli header sulla board Sparkfun Pro Micro, in modo che la parte in plastica e la parte lugna dei pin sia sotto alla board. Per tenere i pin fermi e dritti mentre si salda, è utile infilarli in una \textit{breadboard} o in un \textit{soldering jig} apposito, come in figura \ref{fig:assembly_02}.
 
-\paragraph{Passo 2} Saldare gli header sul piccolo PCB del sensore ALS-PT19, in modo che la parte in plastica e la parte lunga dei pin sia sotto al PCB e il sensore sia sopra, come in figura \ref{fig:assembly_03}. Poiché il PCB è molto piccolo, bisogna prestare attenzione a non scaldarlo troppo col saldatore, altrimenti il sensore potrebbe danneggiarsi.
+\paragraph{Passo 2} Saldare gli \textit{header} sul piccolo PCB del sensore ALS-PT19, in modo che la parte in plastica e la parte lunga dei pin sia sotto al PCB e il sensore sia sopra, come in figura \ref{fig:assembly_03}. Poiché il PCB è molto piccolo, bisogna prestare attenzione a non scaldarlo troppo col saldatore, altrimenti il sensore potrebbe danneggiarsi.
 
 \paragraph{Passo 3} Sulla parte posteriore del PCB OpenLDAT (quella dove ci sono le piste), posizionare le resistenze nelle posizioni corrette, piegando le gambette per tenerle ferme come in figura \ref{fig:assembly_04}, dopodiché saldarle e tagliare l'eccesso con il tronchesino, come in figura \ref{fig:assembly_05}.\\
 \textbf{Attenzione: se le resistenze non sono in posizione corretta, i livelli di gain del sensore saranno totalmente diversi da quelli che si aspetta l'applicazione, e questa produrrà risultati invalidi.}\\
@@ -519,7 +519,7 @@ L'assemblaggio è ora completo e il dispositivo è pronto per ricevere il firmwa
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Dispositivo_files/assembly_01.jpg}
-	\caption{Materiali necessari per costriuire il dispositivo OpenLDAT}
+	\caption{Materiali necessari per costruire il dispositivo OpenLDAT}
 	\label{fig:assembly_01}
 \end{figure}
 
@@ -635,12 +635,12 @@ Il dispositivo OpenLDAT è inutile senza il suo firmware, per cui va programmato
 	\item \textbf{Usando Arduino IDE}: il progetto del firmware può essere caricato in Arduino IDE e caricato sul dispositivo da lì. Questa è la soluzione ideale per chi vuole sviluppare versioni modificate del firmware, ma richiede che l'IDE venga configurata opportunamente e introduce alcune complicazioni
 \end{itemize}
 
-Le due sezioni successive spiegano passo-passo come eseguire il flashing il dispositivo con questi due metodi.
+Le due sezioni successive spiegano passo-passo come eseguire il \textit{flashing} il dispositivo con questi due metodi.
 
 \subsubsection{Flashing con lo script automatico (GNU/Linux)}
 All'interno della cartella del firmware è presente una cartella chiamata \texttt{Prebuilt}, all'interno della quale è presente il firmware precompilato e lo script \texttt{flash.sh}.
 
-\paragraph{Passo 1} Installare python e avrdude dal package manager della propria distribuzione. Supponendo di essere su Ubuntu, questo comando installa i due package necessari per il flashing:
+\paragraph{Passo 1} Installare python e avrdude dal \textit{package manager} della propria distribuzione. Supponendo di essere su Ubuntu, questo comando installa i due \textit{package} necessari per il \textit{flashing}:
 \begin{verbatim}
 	sudo apt install python3 avrdude
 \end{verbatim}
@@ -652,12 +652,12 @@ All'interno della cartella del firmware è presente una cartella chiamata \textt
 
 Nell'esempio in figura \ref{fig:flashing_01}, al dispositivo viene assegnato il nome \texttt{ttyACM0}.
 
-\paragraph{Passo 3} Eseguire il flashing del dispositivo con il seguente comando, sostituendo a \texttt{device} il nome della porta seriale determinato nel passo precedente:
+\paragraph{Passo 3} Eseguire il \textit{flashing} del dispositivo con il seguente comando, sostituendo a \texttt{device} il nome della porta seriale determinato nel passo precedente:
 \begin{verbatim}
 	sudo ./flash.sh /dev/device
 \end{verbatim}
 
-Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio ``Successs! You now have an OpenLDAT device'' come in figura \ref{fig:flashing_02}.\\
+Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio \textit{``Successs! You now have an OpenLDAT device''} come in figura \ref{fig:flashing_02}.\\
 Se si verificano degli errori durante la procedura, i dettagli verranno mostrati per consentire di capire il problema.
 
 Attenzione: è raro ma possibile che il nome della porta seriale assegnata al dispositivo cambi durante l'esecuzione dello script facendolo fallire. Se dovesse succedere, si può riprovare con un'altra porta USB o un altro PC, oppure utilizzando Arduino IDE.
@@ -681,17 +681,17 @@ All'interno della cartella del firmware è presente una cartella chiamata \textt
 
 \paragraph{Passo 1} Installare Arduino IDE utilizzando l'installatore sul sito web\footnote{\href{https://www.arduino.cc/en/software}{https://www.arduino.cc/en/software}}, lasciando i file nel loro percorso di default, e assicurandosi di installare anche i driver di Arduino.
 
-\paragraph{Passo 2} Collegare il dispositivo da programmare, entrare nella cartella \texttt{Prebuilt} e fare doppio click su flash.bat per visualizzare l'elenco di porte COM, come in figura figura \ref{fig:flashing_07}. Prendere nota della porta del dispositivo, nell'esempio è \texttt{COM6}.
+\paragraph{Passo 2} Collegare il dispositivo da programmare, entrare nella cartella \texttt{Prebuilt} e fare doppio click su \texttt{flash.bat} per visualizzare l'elenco di porte COM, come in figura figura \ref{fig:flashing_07}. Prendere nota della porta del dispositivo, nell'esempio è \texttt{COM6}.
 
 \paragraph{Passo 3} Aprire un terminale all'interno della cartella Prebuilt ed eseguire il seguente comando, sostituendo a \texttt{COM6} la porta del dispositivo da programmare determinata nel passo precedente:
 \begin{verbatim}
 	.\flash.bat COM6
 \end{verbatim}
 
-Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio ``Successs! You now have an OpenLDAT device'' come in figura \ref{fig:flashing_08}.\\
+Lo script richiederà alcuni secondi per essere eseguito, durante i quali produce un output dettagliato delle attività. Se la procedura viene completata correttamente, al termine viene visualizzato il messaggio \textit{``Successs! You now have an OpenLDAT device''} come in figura \ref{fig:flashing_08}.\\
 Se si verificano degli errori durante la procedura, i dettagli verranno mostrati per consentire di capire il problema.
 
-Attenzione: l'installazione automatica dei driver di Windows Update potrebbe interferire durante la procedura di flashing. Se dovesse succedere, rieseguire la procedura dal Passo 2.
+Attenzione: l'installazione automatica dei driver di Windows Update potrebbe interferire durante la procedura di \textit{flashing}. Se dovesse succedere, rieseguire la procedura dal Passo 2.
 
 \begin{figure}[H]
 	\centering
@@ -708,7 +708,7 @@ Attenzione: l'installazione automatica dei driver di Windows Update potrebbe int
 \end{figure}
 
 \subsubsection{Flashing con Arduino IDE}
-Il flashing con Arduino IDE è consigliato per chi vuole contribuire al progetto con modifiche al firmware.
+Il \textit{flashing} con Arduino IDE è consigliato per chi vuole contribuire al progetto con modifiche al firmware.
 
 \paragraph{Passo 1} Installare Arduino IDE. Se si sta utilizzando Windows, assicurarsi di installare anche i driver.
 
@@ -732,13 +732,13 @@ Una volta localizzato il file, aggiungere il seguente listato alla fine del file
 
 \paragraph{Passo 4} Aprire il gestore delle librerie di Arduino IDE e scaricare la libreria HID-Project di NicoHood (figura \ref{fig:flashing_06}). Qualora non fosse disponibile, è inclusa una copia della libreria nel file \texttt{Libraries.zip} nella cartella del firmware, che può essere estratta nella cartella libraries di Arduino.
 
-\paragraph{Passo 5} Caricare il progetto \texttt{OpenLDAT} presente nella cartella del firmware in Arduino IDE e premere il pulsante Upload (figura \ref{fig:flashing_05}). A questo punto il dispositivo ha il firmware ed è pronto all'uso.
+\paragraph{Passo 5} Caricare il progetto \texttt{OpenLDAT} presente nella cartella del firmware in Arduino IDE e premere il pulsante \textit{Upload} (figura \ref{fig:flashing_05}). A questo punto il dispositivo ha il firmware ed è pronto all'uso.
 
 Attenzione: su alcune distribuzioni GNU/Linux è necessario dare al proprio utente i permessi per accedere alle porte seriali o eseguire Arduino IDE con sudo per poter programmare il dispositivo.
 
-Attenzione: è raro ma possibile che il nome della porta seriale assegnata al dispositivo cambi durante il flashing facendolo fallire. Arduino IDE tenterà di rimediare questa cosa, ma se non riesce si può riprovare con un'altra porta USB o un altro PC.
+Attenzione: è raro ma possibile che il nome della porta seriale assegnata al dispositivo cambi durante il \textit{flashing} facendolo fallire. Arduino IDE tenterà di rimediare questa cosa, ma se non riesce si può riprovare con un'altra porta USB o un altro PC.
 
-Attenzione: il flashing con Arduino IDE introduce il problema della riproducibilità delle build. A seconda della versione del compilatore GCC e delle librerie Arduino, il firmware potrebbe essere eseguito a velocità leggermente diverse da quelle che si aspetta l'applicazione senza che questa abbia modo di saperlo. Sebbene questo non alteri significativamente le misurazioni eseguite dall'applicazione (c'è una differenza dell'1-2\%), è bene esserne a conoscenza.
+Attenzione: il \textit{flashing} con Arduino IDE introduce il problema della riproducibilità delle \textit{build}. A seconda della versione del compilatore GCC e delle librerie Arduino, il firmware potrebbe essere eseguito a velocità leggermente diverse da quelle che si aspetta l'applicazione senza che questa abbia modo di saperlo. Sebbene questo non alteri significativamente le misurazioni eseguite dall'applicazione (c'è una differenza dell'1-2\%), è bene esserne a conoscenza.
 
 \begin{figure}[H]
 	\centering
@@ -764,7 +764,7 @@ Attenzione: il flashing con Arduino IDE introduce il problema della riproducibil
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Dispositivo_files/flashing_05.png}
-	\caption{Pronto per il flashing}
+	\caption{Pronto per il \textit{flashing}}
 	\label{fig:flashing_05}
 \end{figure}
 

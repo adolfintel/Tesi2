@@ -11,19 +11,19 @@ La tabella \ref{tab:display_list} mostra l'elenco di tutti i dispositivi che son
 	\item \textbf{Input lag}:\begin{itemize}
 		\item Confronto tra diversi display
 		\item Confronto tra sistemi operativi, GPU e driver
-		\item Confronto tra tipi di VSync
+		\item Confronto tra tipi di \textit{VSync}
 		\item Confronto tra diverse applicazioni utilizzando il test manuale
 		\item Validazione dei risultati con telecamera ad alta velocità
 	\end{itemize}
 	\item \textbf{PWM e noise}: confronto tra diversi display e dimostrazione dei diversi tipi di rumore che possono essere presenti sul segnale
-	\item \textbf{Microstuttering}: confronto tra diversi display a refresh rate nativo e in overclock
-	\item \textbf{Tempi di risposta e overdrive dei pixel}:\begin{itemize}
-		\item Confronto dei tempi di risposta tra display diversi, con e senza overdrive
-		\item Confronto degli errori di transizione commessi dai display con e senza overdrive
+	\item \textbf{Microstuttering}: confronto tra diversi display a \textit{refresh rate} nativo e in \textit{overclock}
+	\item \textbf{Tempi di risposta e \textit{overdrive} dei pixel}:\begin{itemize}
+		\item Confronto dei tempi di risposta tra display diversi, con e senza \textit{overdrive}
+		\item Confronto degli errori di transizione commessi dai display con e senza \textit{overdrive}
 	\end{itemize}
 \end{itemize}
 
-In tutti i casi i display sono stati impostati alle impostazioni di fabbrica, e sono state disattivate tutte le migliorie all'immagine nelle impostazioni del display che potrebbero interferire con i test, in particolar modo contrasto dinamico e black frame insertion. Il segnale video utilizzato per i test è sempre stato full range RGB a 8 bit o 10 bit ove supportato.
+In tutti i casi i display sono stati impostati alle impostazioni di fabbrica, e sono state disattivate tutte le migliorie all'immagine nelle impostazioni del display che potrebbero interferire con i test, in particolar modo contrasto dinamico e \textit{black frame insertion}. Il segnale video utilizzato per i test è sempre stato \textit{full range RGB} a 8 bit o 10 bit ove supportato.
 
 Nelle sezioni successive, per ogni test, verranno introdotte le modalità di testing, delle tabelle e grafici riassuntivi dei valori ottenuti, e alcune riflessioni sui risultati ottenuti.
 
@@ -69,13 +69,13 @@ In questa sezione vengono utilizzati i test dell'applicazione OpenLDAT per deter
 Sono stati eseguiti i seguenti test:\begin{itemize}
 	\item Confronto tra diversi display
 	\item Confronto tra sistemi operativi, GPU e driver
-	\item Confronto tra modalità di VSync nel test automatico
+	\item Confronto tra modalità di \textit{VSync} nel test automatico
 	\item Confronto tra diverse applicazioni utilizzando il test manuale
 	\item Validazione dei risultati con telecamera ad alta velocità
 \end{itemize}
 
 \subsection{Confronto tra display}
-In questo test è stato misurato il ritardo dei display utilizzando il test automatico dell'applicazione OpenLDAT. Il test è stato eseguito con e senza VSync, utilizzando il backend grafico OpenGL a risoluzione nativa. Al fine di avere dei risultati il più confrontabili possibile, tutti i test sono stati eseguiti su Windows 10 con una GPU Nvidia, ad eccezione dei laptop per cui è stato possibile utilizzare solo la grafica integrata Intel. In tutti i casi, i display sono stati collegati tramite un'interfaccia digitale (HDMI o DP), ad eccezione del Philips 105MB e dell'Octigen M19W che hanno solo un'ingresso VGA.
+In questo test è stato misurato il ritardo dei display utilizzando il test automatico dell'applicazione OpenLDAT. Il test è stato eseguito con e senza \textit{VSync}, utilizzando il \textit{backend} grafico OpenGL a risoluzione nativa. Al fine di avere dei risultati il più confrontabili possibile, tutti i test sono stati eseguiti su Windows 10 con una GPU Nvidia, ad eccezione dei laptop per cui è stato possibile utilizzare solo la grafica integrata Intel. In tutti i casi, i display sono stati collegati tramite un'interfaccia digitale (HDMI o DP), ad eccezione del Philips 105MB e dell'Octigen M19W che hanno solo un'ingresso VGA.
 
 \begin{figure}[h!]
 	\centering
@@ -113,14 +113,14 @@ In questo test è stato misurato il ritardo dei display utilizzando il test auto
 \end{figure}
 
 Il grafico in figura \ref{fig:inputlag_displays} mostra i risultati che sono stati ottenuti sui display testati. Da questi dati possiamo notare alcune cose interessanti:\begin{itemize}
-	\item Come atteso, i display ad alto refresh rate sono in cima alla classifica. Questi display sono stati progettati appositamente per questo scopo, tipicamente sacrificando la qualità dell'immagine per avere più velocità
+	\item Come atteso, i display ad alto \textit{refresh rate} sono in cima alla classifica. Questi display sono stati progettati appositamente per questo scopo, tipicamente sacrificando la qualità dell'immagine per avere più velocità
 	\item Alcuni dei display testati introducono un ritardo inferiore al tempo di un fotogramma, il che indica che questi display iniziano a visualizzare l'immagine sul pannello prima di averla ricevuta interamente, riducendo notevolmente il ritardo. Il ``gradino'' presente in corrispondenza al BenQ GL2706PQ delinea chiaramente il passaggio tra display che fanno questa ``ottimizzazione'' e display che invece attendono di ricevere l'intero fotogramma. Durante i test è emerso che alcuni display permettono di attivare o disattivare questa funzione a seconda delle proprie necessità, e tipicamente la chiamano ``Direct Mode''
 	\item I TV sono in fondo alla classifica con un certo distacco. Questo indica, oltre al fatto che un TV non è ideale come monitor, che il processore all'interno sta eseguendo un qualche tipo di elaborazione dell'immagine che in tutti i casi testati aggiungeva ritardi e non era disattivabile
-	\item Il Sony VAIO SVF1532C5E ha un ritardo con VSync attivo molto inferiore alle aspettative. Questo outlier è probabilmente causato da qualche ottimizzazione specifica del driver
+	\item Il Sony VAIO SVF1532C5E ha un ritardo con \textit{VSync} attivo molto inferiore alle aspettative. Questo \textit{outlier} è probabilmente causato da qualche ottimizzazione specifica del driver
 \end{itemize}
 
 \subsection{Confronto tra sistemi operativi, GPU e driver}
-In questo test è stato testato un singolo display (AOC Q2770P) su sistemi operativi, GPU e driver diversi, con e senza VSync, per determinare se c'è una differenza apprezzabile. I test sono stati eseguiti su Windows 10 e su Manjaro Linux 21 (KDE, X.11), su GPU Nvidia GTX 1080, AMD Radeon RX550, Intel UHD Graphics 620. La differenza di prestazioni tra le GPU testate non è particolarmente rilevante per il test automatico, in quanto il rendering è estremamente semplice e qualsiasi GPU lo esegue a centinaia o addirittura migliaia di FPS.
+In questo test è stato testato un singolo display (AOC Q2770P) su sistemi operativi, GPU e driver diversi, con e senza \textit{VSync}, per determinare se c'è una differenza apprezzabile. I test sono stati eseguiti su Windows 10 e su Manjaro Linux 21 (KDE, X.11), su GPU Nvidia GTX 1080, AMD Radeon RX550, Intel UHD Graphics 620. La differenza di prestazioni tra le GPU testate non è particolarmente rilevante per il test automatico, in quanto il rendering è estremamente semplice e qualsiasi GPU lo esegue a centinaia o addirittura migliaia di FPS.
 
 \begin{figure}[h!]
 	\centering
@@ -146,9 +146,9 @@ In questo test è stato testato un singolo display (AOC Q2770P) su sistemi opera
 \end{figure}
 
 Il grafico in figura \ref{fig:inputlag_os} mostra i risultati del test. In generale i risultati sono più o meno simili tra loro, ma si possono notare dei comportamenti interessanti:\begin{itemize}
-	\item Il driver proprietario di Nvidia per GNU/Linux, che è generalmente considerato uno dei peggiori dalla community, ha in realtà mostrato il ritardo di input migliore tra tutte le configurazioni testate, in particolar modo con il VSync attivo
+	\item Il driver proprietario di Nvidia per GNU/Linux, che è generalmente considerato uno dei peggiori dalla community, ha in realtà mostrato il ritardo di input migliore tra tutte le configurazioni testate, in particolar modo con il \textit{VSync} attivo
 	\item In generale, la GPU Intel mostra un ritardo leggermente maggiore rispetto ad AMD e Nvidia
-	\item Il driver Nouveau mostra il ritardo peggiore con il VSync disattivato perché non supporta il power management sulla GPU testata, e quindi la scheda era bloccata nella sua modalità a risparmio energetico, renderizzando a un framerate notevolmente più basso
+	\item Il driver Nouveau mostra il ritardo peggiore con il \textit{VSync} disattivato perché non supporta il power management sulla GPU testata, e quindi la scheda era bloccata nella sua modalità a risparmio energetico, renderizzando a un \textit{framerate} notevolmente più basso
 	\item In generale, Windows sembra mostrare un ritardo leggermente più elevato
 \end{itemize}
 
@@ -167,14 +167,14 @@ Il grafico in figura \ref{fig:inputlag_os} mostra i risultati del test. In gener
 			\legend{VSync On, VSync Off, VSync Alt}
 		\end{axis}
 	\end{tikzpicture}
-	\caption{Confronto tra modalità di VSync su diversi sistemi operativi}
+	\caption{Confronto tra modalità di \textit{VSync} su diversi sistemi operativi}
 	\label{fig:inputlag_vsyncmodes}
 \end{figure}
 
-Il grafico in figura \ref{fig:inputlag_vsyncmodes} mostra un confronto tra le tre modalità di VSync del test automatico su Windows e GNU/Linux, entrambi testati con una GPU AMD. Si può osservare che Windows mostra un ritardo leggermente maggiore in tutte le modalità, nonostante sia generalmente ritenuto migliore da questo punto di vista. È possibile che questa discrepanza sia semplicamente dovuta ad OpenGL, che su Windows potrebbe essere per qualche motivo più lento, ma per determinarlo servirebbe un backend DirectX, che al momento non è implementato, ma potrebbe essere aggiunto in futuro.
+Il grafico in figura \ref{fig:inputlag_vsyncmodes} mostra un confronto tra le tre modalità di \textit{VSync} del test automatico su Windows e GNU/Linux, entrambi testati con una GPU AMD. Si può osservare che Windows mostra un ritardo leggermente maggiore in tutte le modalità, nonostante sia generalmente ritenuto migliore da questo punto di vista. È possibile che questa discrepanza sia semplicemente dovuta ad OpenGL, che su Windows potrebbe essere per qualche motivo più lento, ma per determinarlo servirebbe un \textit{backend} DirectX, che al momento non è implementato, ma potrebbe essere aggiunto in futuro.
 
 \subsection{Confronto tra applicazioni}
-In questo test è stato utilizzato il test manuale dell'applicazione OpenLDAT per determinare il ritardo su alcune applicazioni, per lo più giochi. Il test è stato eseguito su Windows 10 con una GPU Nvidia GTX 1080 e un display AOC Q2770P. Tutte le applicazioni sono state testate con la massima qualità grafica (ove applicabile) e il VSync disattivato per consentire all'applicazione di funzionare alla velocità massima possibile.
+In questo test è stato utilizzato il test manuale dell'applicazione OpenLDAT per determinare il ritardo su alcune applicazioni, per lo più giochi. Il test è stato eseguito su Windows 10 con una GPU Nvidia GTX 1080 e un display AOC Q2770P. Tutte le applicazioni sono state testate con la massima qualità grafica (ove applicabile) e il \textit{VSync} disattivato per consentire all'applicazione di funzionare alla velocità massima possibile.
 
 \begin{figure}[h!]
 	\centering
@@ -200,8 +200,8 @@ In questo test è stato utilizzato il test manuale dell'applicazione OpenLDAT pe
 
 Il grafico in figura \ref{fig:inputlag_games} mostra i risultati del test. Si possono notare alcuni comportamenti interessanti: \begin{itemize}
 	\item L'applicazione che ha mostrato il ritardo minore è stata Mass Effect Legendary Edition, che è stato inaspettato considerato che non è un gioco in cui il ritardo di input è rilevante
-	\item Il divario nel ritardo di input tra Crysis (2007) e il suo remaster del 2020 ha dell'incredibile. Nel 2007 il gioco era infatti stato elogiato, oltre che per la parte tecnica, per il ritardo di input basso che lo rendeva giocabile anche a framerate bassi, anche intorno ai 18-25 FPS, che è il modo in cui quasi tutti lo giocarono all'epoca. Il remaster sembra aver dato un taglio netto al passato, ed è sostanzialmente ingiocabile sotto i 45-50 FPS
-	\item Unreal Tournament 2004 sembra essere vittima di Windows 10 che lo costringe a funzionare in finestra con VSync nonostante venga richiesto il fullscreen esclusivo. Questo aumenta notevolmente il suo ritardo, che probabilmente sarebbe stato il minore tra tutti i giochi testati dato che il framerate superava i 700 FPS durante il test
+	\item Il divario nel ritardo di input tra Crysis (2007) e il suo \textit{remaster} del 2020 ha dell'incredibile. Nel 2007 il gioco era infatti stato elogiato, oltre che per la parte tecnica, per il ritardo di input basso che lo rendeva giocabile anche a \textit{framerate} bassi, anche intorno ai 18-25 FPS, che è il modo in cui quasi tutti lo giocarono all'epoca. Il \textit{remaster} sembra aver dato un taglio netto al passato, ed è sostanzialmente ingiocabile sotto i 45-50 FPS
+	\item Unreal Tournament 2004 sembra essere vittima di Windows 10 che lo costringe a funzionare in finestra con \textit{VSync} nonostante venga richiesto il fullscreen esclusivo. Questo aumenta notevolmente il suo ritardo, che probabilmente sarebbe stato il minore tra tutti i giochi testati dato che il \textit{framerate} superava i 700 FPS durante il test
 	\item Doom (1993) registra un ritardo più alto rispetto a quello reale. Una breve ricerca ha rivelato che la causa è il fatto che il codice del gioco internamente funziona a 35 FPS, anche se il movimento e il rendering possono andare più velocemente
 	\item Google Stadia, quando connesso a una connessione molto veloce (è stata utilizzata una connessione FTTH e un PC connesso via Ethernet), riesce a dare latenze tutto sommato accettabili, tuttavia ha mostrato la maggior variabilità tra tutte le applicazioni testate. Poiché è stato testato da terzi, non sono state svolte ulteriori indagini per determinare la causa di queste variazioni
 \end{itemize}
@@ -271,7 +271,7 @@ L'obiettivo di questo test è misurare la stabilità della retroilluminazione de
 
 La tabella \ref{tab:pwm_list} mostra l'elenco dei display testati. Durante il test sono stati riscontrati alcuni risultati interessanti:\begin{itemize}
 	\item I display che fanno uso di PWM hanno forme d'onda molto diverse, per esempio la figura \ref{fig:pwm_lge2360_philips32pfs4132} mostra un confronto tra due display con un segnale PWM totalmente diverso: quello a destra è sostanzialmente il segnale che ci si aspetterebbe di vedere, mentre quello a sinistra è totalmente diverso e assomiglia di più al caricarsi e scaricarsi di un condensatore
-	\item Per alcuni display il test rileva una frequenza, ma non è causata dalla retroilluminazione PWM, bensì è il refresh dei pixel che è visibile. La figura \ref{fig:pwm_samsungc34h890_op7pro} mostra come potrebbe presentarsi questo segnale. Generalmente questo segnale è a malapena rilevabile e non è un problema per i test, ma potrebbe indurre il test ad attivare le ottimizzazioni per la presenza di PWM e ridurre l'accuratezza dei risultati
+	\item Per alcuni display il test rileva una frequenza, ma non è causata dalla retroilluminazione PWM, bensì è il \textit{refresh} dei pixel che è visibile. La figura \ref{fig:pwm_samsungc34h890_op7pro} mostra come potrebbe presentarsi questo segnale. Generalmente questo segnale è a malapena rilevabile e non è un problema per i test, ma potrebbe indurre il test ad attivare le ottimizzazioni per la presenza di PWM e ridurre l'accuratezza dei risultati
 	\item Il display dello smartphone OnePlus 3T mostra entrambi i comportamenti, come visibile dalla figura \ref{fig:pwm_op3t}. La PWM è presente solo quando la luminosità non è al massimo
 \end{itemize}
 
@@ -319,7 +319,7 @@ La tabella \ref{tab:pwm_list} mostra l'elenco dei display testati. Durante il te
 \end{figure}
 
 \section{Microstuttering}
-L'obiettivo di questo test è determinare se i display testati mostrano microstuttering, sia alla frequenza nativa che in overclock (se lo supporta).
+L'obiettivo di questo test è determinare se i display testati mostrano \textit{microstuttering}, sia alla frequenza nativa che in \textit{overclock} (se lo supporta).
 
 \begin{table}[h!]
 	\centering
@@ -346,21 +346,21 @@ L'obiettivo di questo test è determinare se i display testati mostrano microstu
 		Sharp Aquos LC-40FG3242E & No & N/A \\ \hline
 		Thinkpad T480 2018 & No & N/A \\ \hline
 	\end{tabular}
-	\caption{\label{tab:microstuttering_list}Confronto della presenza di microstuttering tra i display testati. N/A indica che non è stato possibile eseguire l'overclock su questo dispositivo}
+	\caption{\label{tab:microstuttering_list}Confronto della presenza di \textit{microstuttering} tra i display testati. N/A indica che non è stato possibile eseguire l'\textit{overclock} su questo dispositivo}
 \end{table}
 
-La tabella \ref{tab:microstuttering_list} mostra i risultati dei test. Si può notare che (fortunatamente) nessuno dei display testati presenta microstuttering in condizioni di utilizzo normale, mentre l'overclock racconta una storia diversa: diversi display non accettano un segnale a frequenza più elevata, mentre l'AOC Q2770P e il BenQ GL2706PQ hanno mostrato un severo microstuttering a qualsiasi frequenza diversa dal loro refresh nativo (60Hz). Poiché questi due monitor sono tra quelli che nel test dell'input lag hanno mostrato di attendere di aver ricevuto un intero fotogramma prima di visualizzarlo, è possibile che questo sia causato dal software che esegue l'elaborazione all'interno del monitor e fa andare il pannello al refresh nativo indipendentemente dalla frequenza del segnale in ingresso.
+La tabella \ref{tab:microstuttering_list} mostra i risultati dei test. Si può notare che (fortunatamente) nessuno dei display testati presenta \textit{microstuttering} in condizioni di utilizzo normale, mentre l'\textit{overclock} racconta una storia diversa: diversi display non accettano un segnale a frequenza più elevata, mentre l'AOC Q2770P e il BenQ GL2706PQ hanno mostrato un severo \textit{microstuttering} a qualsiasi frequenza diversa dal loro \textit{refresh rate} nativo (60Hz). Poiché questi due monitor sono tra quelli che nel test dell'\textit{input lag} hanno mostrato di attendere di aver ricevuto un intero fotogramma prima di visualizzarlo, è possibile che questo sia causato dal software che esegue l'elaborazione all'interno del monitor e fa andare il pannello al \textit{refresh rate} nativo indipendentemente dalla frequenza del segnale in ingresso.
 
 \section{Tempi di risposta e overdrive dei pixel}
-In questa sezione vengono misurati i tempi di risposta dei pixel dei vari display, e vedere come questi sono influenzati dall'overdrive e dalla tecnologia utilizzata.
+In questa sezione vengono misurati i tempi di risposta dei pixel dei vari display, e vedere come questi sono influenzati dall'\textit{overdrive} e dalla tecnologia utilizzata.
 
 Sono stati eseguiti i seguenti test:\begin{itemize}
-	\item Confronto dei tempi di risposta tra display diversi, con e senza overdrive
-	\item Confronto degli errori di transizione commessi dai display con e senza overdrive
+	\item Confronto dei tempi di risposta tra display diversi, con e senza \textit{overdrive}
+	\item Confronto degli errori di transizione commessi dai display con e senza \textit{overdrive}
 \end{itemize}
 
 \subsection{Tempi di risposta}
-In questo test sono stati misurati i tempi di risposta dei pixel dei vari display con e senza overdrive. In tutti i casi è stato utilizzato come range di riferimento lo standard VESA 10-90\%.
+In questo test sono stati misurati i tempi di risposta dei pixel dei vari display con e senza \textit{overdrive}. In tutti i casi è stato utilizzato come range di riferimento lo standard VESA 10-90\%.
 
 \begin{figure}[h!]
 	\centering
@@ -397,13 +397,13 @@ In questo test sono stati misurati i tempi di risposta dei pixel dei vari displa
 	\label{fig:pixelresponse_times}
 \end{figure}
 
-Il grafico in figura \ref{fig:pixelresponse_times} mostra un confronto tra vari display. Per i display che permettono di regolare l'intensità dell'overdrive, questa è stata impostata al livello minimo necessario per far si che almeno uno dei tempi di risposta sia vicino al tempo di risposta dichiarato dal produttore nelle specifiche. Alcuni display non implementano l'overdrive, altri lo implementano ma non permettono di regolarne l'intensità o di disattivarlo.\\
+Il grafico in figura \ref{fig:pixelresponse_times} mostra un confronto tra vari display. Per i display che permettono di regolare l'intensità dell'\textit{overdrive}, questa è stata impostata al livello minimo necessario per far si che almeno uno dei tempi di risposta sia vicino al tempo di risposta dichiarato dal produttore nelle specifiche. Alcuni display non implementano l'\textit{overdrive}, altri lo implementano ma non permettono di regolarne l'intensità o di disattivarlo.\\
 Sul grafico, la lunghezza della barra indica la media geometrica dei tempi di risposta, mentre le linee indicano l'intervallo minimo e massimo dei tempi misurati. I dati ottenuti mostrano alcuni risultati interessanti:\begin{itemize}
-	\item Come prevedibile, i display ad alto refresh rate sono in cima alla classifica, ma anche alcuni display più lenti sono tra i primi
+	\item Come prevedibile, i display ad alto \textit{refresh rate} sono in cima alla classifica, ma anche alcuni display più lenti sono tra i primi
 	\item I display TN sembrano avere una maggiore variabilità nei tempi di transizione rispetto agli IPS
 	\item Alcuni display mostrano una risposta asimmetrica, come il BenQ GL2706PQ in tabella \ref{tab:pixelresponse_asymmetric}, in cui i tempi in discesa sono significativamente più bassi rispetto ai tempi in salita
-	\item Alcuni display sono significativamente più veloci a transizionare verso gli estremi rispetto ai valori intermedi, come l'AOC Q2770P in tabella \ref{tab:pixelresponse_q2770p}. Probabilmente questo è una qualche forma di overdrive che il pannello utilizza per transizionare più velocemente tra gli estremi
-	\item Il display Samsung C34H890 è l'unico display in cui l'overdrive non ha sostanzialmente effetti sui tempi di risposta. Nel grafico viene ridotto leggermente il range dei valori misurati poiché migliora il comportamento di alcune transizioni tra valori bassi, riducendo il tipico effetto ``smearing'' dei colori scuri sui pannelli VA
+	\item Alcuni display sono significativamente più veloci a transizionare verso gli estremi rispetto ai valori intermedi, come l'AOC Q2770P in tabella \ref{tab:pixelresponse_q2770p}. Probabilmente questo è una qualche forma di \textit{overdrive} che il pannello utilizza per transizionare più velocemente tra gli estremi
+	\item Il display Samsung C34H890 è l'unico display in cui l'\textit{overdrive} non ha sostanzialmente effetti sui tempi di risposta. Nel grafico viene ridotto leggermente il range dei valori misurati poiché migliora il comportamento di alcune transizioni tra valori bassi, riducendo il tipico effetto \textit{``smearing''} dei colori scuri sui pannelli VA
 \end{itemize}
 
 \begin{table}[h!]
@@ -423,7 +423,7 @@ Sul grafico, la lunghezza della barra indica la media geometrica dei tempi di ri
 \end{table}
 
 \subsection{Errore di transizione}
-In questo test è stato misurato l'errore massimo che il display raggiunge durante la transizione dei pixel, con e senza overdrive. I valori di errore sono stati misurati in percentuale assoluta. Sono stati esclusi dal test i display che hanno una retroilluminazione PWM, in quanto ridurrebbe l'accuratezza del test.
+In questo test è stato misurato l'errore massimo che il display raggiunge durante la transizione dei pixel, con e senza \textit{overdrive}. I valori di errore sono stati misurati in percentuale assoluta. Sono stati esclusi dal test i display che hanno una retroilluminazione PWM, in quanto ridurrebbe l'accuratezza del test.
 
 \begin{figure}[h!]
 	\centering
@@ -455,7 +455,7 @@ In questo test è stato misurato l'errore massimo che il display raggiunge duran
 	\label{fig:pixeloverdrive_nopwm}
 \end{figure}
 
-Il grafico in figura \ref{fig:pixeloverdrive_nopwm} mostra un confronto tra vari display. Per i display che permettono di regolare l'intensità dell'overdrive, questa è stata impostata al livello minimo necessario per far si che almeno uno dei tempi di risposta sia vicino al tempo di risposta dichiarato dal produttore nelle specifiche. Alcuni display non implementano l'overdrive, altri lo implementano ma non permettono di regolarne l'intensità o di disattivarlo.
+Il grafico in figura \ref{fig:pixeloverdrive_nopwm} mostra un confronto tra vari display. Per i display che permettono di regolare l'intensità dell'\textit{overdrive}, questa è stata impostata al livello minimo necessario per far si che almeno uno dei tempi di risposta sia vicino al tempo di risposta dichiarato dal produttore nelle specifiche. Alcuni display non implementano l'\textit{overdrive}, altri lo implementano ma non permettono di regolarne l'intensità o di disattivarlo.
 
 Nota: in seguito all'analisi manuale di alcuni dei segnali catturati in questo test, l'algoritmo è stato cambiato leggermente per essere più accurato e non sottostimare alcuni risultati. Lo pseudocodice nel capitolo precedente fa riferimento alla versione aggiornata.
 

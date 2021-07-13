@@ -13,7 +13,7 @@ La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le c
 		\hline
 		& \textbf{Nvidia LDAT} & \textbf{OpenLDAT}  \\ 
 		\hline
-		\textbf{Sensore} & Fotodiodo [?] & ALS PT-19 \\
+		\textbf{Sensore} & Fotodiodo [?] & ALS-PT19 \\
 		\hline
 		\textbf{Livelli di gain} & 1 & 4 \\
 		\hline
@@ -57,7 +57,7 @@ La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le c
 Durante lo sviluppo sono state proposte e testate alcune idee che però non sono presenti nella versione presentata in questa tesi. In questa sezione verranno elencate alcune di queste proposte che sarebbero interessanti per l'evoluzione futura del progetto.
 
 \subsection{Colorimetro}
-Il colorimetro TCS34725 che è stato usato per alcuni test nel capitolo sull'hardware inizialmente voleva essere inserito permanentemente nel dispositivo, per poter implementare test di luminosità, contrasto, range dinamico, curve di gamma, uniformità della retroilluminazione, temperatura del bianco, e accuratezza dei colori. Tutti questi test sono stati inizialmente implementati, ma in fase di testing è emerso che il gamut di questo colorimetro non è sufficientemente ampio per poter coprire anche solo lo spazio sRGB, per cui è stato rimosso dal dispositivo e dall'applicazione.
+Il colorimetro TCS34725 che è stato usato per alcuni test nel capitolo sull'hardware inizialmente voleva essere inserito permanentemente nel dispositivo, per poter implementare test di luminosità, contrasto, range dinamico, curve di gamma, uniformità della retroilluminazione, temperatura del bianco, e accuratezza dei colori. Tutti questi test sono stati inizialmente implementati, ma in fase di testing è emerso che il gamut di questo colorimetro non è sufficientemente ampio per poter coprire anche solo lo spazio colore sRGB, per cui è stato rimosso dal dispositivo e dall'applicazione.
 
 Future versioni del dispositivo OpenLDAT potrebbero utilizzare il colorimetro AMS AS73211 per i test che richiedono letture lente ma accurate; questo sensore è infatti più costoso ma risponde allo spettro dei tre componenti XYZ dello spazio colore CIE 1931, che è ideale per questa applicazione. Dato il costo del sensore e dell'elettronica necessaria per collegarlo a un microcontroller (circa 30€), probabilmente sarà un componente opzionale.
 
@@ -72,9 +72,9 @@ La causa di questo problema è una combinazione di tre fattori:\begin{itemize}
 
 Inoltre, per utilizzare il sensore ALS-PT19 per misurare il livello di luminosità in nit, sarebbe necessaria una calibrazione da eseguire su ogni dispositivo utilizzando un altro sensore.
 
-È stato implementato e successivamente rimosso anche un test riguardante il glare, ovvero l'alone che un oggetto bianco ha attorno su uno sfondo nero. Questo era di interesse perché il glare tende ad essere fastidioso su display dotati di local dimming, ma purtroppo il test catturava semplicemente la dimensione del foro presente nel case: non appena un pixel bianco si avvicinava all'apertura, il sensore lo rilevava immediatamente come glare. Una lente davanti al sensore potrebbe risolvere questo problema, o un'apertura più piccola, ma questa potrebbe peggiorare le prestazioni del sensore in altri test.
+È stato implementato e successivamente rimosso anche un test riguardante il \textit{glare}, ovvero l'alone che un oggetto bianco ha attorno su uno sfondo nero. Questo era di interesse perché il \textit{glare} tende ad essere fastidioso su display dotati di \textit{local dimming}, ma purtroppo il test catturava semplicemente la dimensione del foro presente nel case: non appena un pixel bianco si avvicinava all'apertura, il sensore lo rilevava immediatamente come \textit{glare}. Una lente davanti al sensore potrebbe risolvere questo problema, o un'apertura più piccola, ma questa potrebbe peggiorare le prestazioni del sensore in altri test.
 
-Future versioni del dispositivo potrebbero continuare ad usare il sensore ALS-PT19 ma usare un microcontroller con un ADC a risoluzione più alta. Questo consenterebbe anche di aumentare l'accuratezza dei test già implementati, di ridurre il numero di livelli di gain necessari per il sensore, e di estendere il suo range di livelli di luminosità.
+Future versioni del dispositivo potrebbero continuare ad usare il sensore ALS-PT19 ma usare un microcontroller con un ADC a risoluzione più alta. Questo consentirebbe anche di aumentare l'accuratezza dei test già implementati, di ridurre il numero di livelli di gain necessari per il sensore, e di estendere il suo range di livelli di luminosità.
 
 \subsection{Commercializzazione}
 Come spiegato nell'introduzione, poiché non esistono dispositivi simili sul mercato, potrebbe essere interessante commercializzare il dispositivo, consentendo a potenziali utenti che non hanno le capacità, la voglia, o gli strumenti necessari per realizzare il dispositivo di acquistarlo già pronto all'uso.
@@ -87,11 +87,11 @@ Per dare un aspetto più professionale al dispositivo, sarebbe interessante anch
 
 \subsection{Migliorie all'applicazione OpenLDAT}
 Durante lo sviluppo e il testing sono emerse alcuni possibili aree di espansione e miglioramento per l'applicazione OpenLDAT:\begin{itemize}
-	\item Per poter testare un maggior numero di dispositivi, l'applicazione andrebbe portata su più piattaforme, in particolar modo Android, così da poter testare degli smartphone. Questo richiederebbe la realizzazione di un nuovo backend grafico e una nuova GUI per dispositivi mobili
-	\item La GUI attualmente implementata potrebbe essere resa più user-friendly e mostrare più informazioni. Ad esempio, il test del ritardo di input potrebbe mostrare oltre ai tempi la distribuzione di probabilità
-	\item L'implementazione di ulteriori backend grafici consentirebbero di confrontare il ritardo di API grafiche come DirectX e Vulkan, oltre a toolkit grafici come GDI, GTK e Qt. L'implementazione di varie modalità di fullscreen potrebbe anch'essa essere interessante
-	\item Il supporto a HDR e WCG è migliorabile. Nonostante il codice dei test lo supporti, il backend grafico OpenGL è attualmente vittima di un bug della libreria LWJGL che fa si che non dichiari al sistema Windows il supporto HDR/WCG. Gli sviluppatori della libreria LWJGL garantiscono che questo problema verrà risolto nella prossima versione della libreria. Il backend Swing non è affetta dal problema
-	\item Il supporto ai display con DPI alti è migliorabile. Attualmente questa feature è implementata dall'applicaizone stessa, ma versioni più recenti di Java implementano esse stesse lo scaling in modo trasparente all'applicazione. Questa nuova modalità di scaling sarà probabilmente utilizzata nelle versioni successive dell'applicazione, se non introduce problemi
+	\item Per poter testare un maggior numero di dispositivi, l'applicazione andrebbe portata su più piattaforme, in particolar modo Android, così da poter testare degli smartphone. Questo richiederebbe la realizzazione di un nuovo \textit{backend} grafico e una nuova GUI per dispositivi mobili
+	\item La GUI attualmente implementata potrebbe essere resa più \textit{user-friendly} e mostrare più informazioni. Ad esempio, il test del ritardo di input potrebbe mostrare oltre ai tempi la distribuzione di probabilità
+	\item L'implementazione di ulteriori \textit{backend} grafici consentirebbero di confrontare il ritardo di API grafiche come DirectX e Vulkan, oltre a toolkit grafici come GDI, GTK e Qt. L'implementazione di varie modalità di fullscreen potrebbe anch'essa essere interessante
+	\item Il supporto a HDR e WCG è migliorabile. Nonostante il codice dei test lo supporti, il \textit{backend} grafico OpenGL è attualmente vittima di un bug della libreria LWJGL che fa si che non dichiari al sistema Windows il supporto HDR/WCG. Gli sviluppatori della libreria LWJGL garantiscono che questo problema verrà risolto nella prossima versione della libreria. Il \textit{backend} Swing non è affetto da questo problema
+	\item Il supporto ai display con DPI alti è migliorabile. Attualmente questa feature è implementata dall'applicaizone stessa, ma versioni più recenti di Java implementano esse stesse lo \textit{scaling} in modo trasparente all'applicazione. Questa nuova modalità di \textit{scaling} sarà probabilmente utilizzata nelle versioni successive dell'applicazione, se non introduce problemi
 	\item Creazione di un database pubblico di display testati dagli utenti, su cui l'applicazione può caricare nuove informazioni
 \end{itemize}
 
