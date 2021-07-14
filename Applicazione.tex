@@ -91,7 +91,7 @@ Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la cl
 		\item \texttt{boolean autoFire}: se impostato a \texttt{true}, i click vengono generati automaticamente, altrimenti vengono ricevuti tramite il pulsante esterno
 		\item \texttt{LightSensorButtonCallback callback}: il \textit{callback} da chiamare quando sono disponibili nuovi dati dal dispositivo. Questa classe verrà approfondita successivamente
 	\end{itemize}
-	Una volta avviato il campionamento il metodo non è bloccante, e ritorna il sample rate del segnale che sta acquisendo.\\
+	Una volta avviato il campionamento il metodo non è bloccante, e ritorna il \textit{sample rate} del segnale che sta acquisendo.\\
 	Se il dispositivo non ha un sensore di luminosità viene lanciata un'eccezione \texttt{MissingSensorException}, se si verificano errori di comunicazione, viene lanciata una \texttt{IOException}.\\
 	Se il metodo viene chiamato mentre è già in corso un'altra attività, questa viene terminata automaticamente e quella nuova viene eseguita
 	\item \texttt{public double getLightSensorButtonModeSampleRate(boolean noBuffer, boolean fastADC)}: ritorna la frequenza di campionamento che offrirebbe il dispositivo nel campionare il sensore di luminosità senza il pulsante, con le impostazioni richieste.\begin{itemize}
@@ -135,7 +135,7 @@ Questa classe implementa i \textit{callback} per il metodo \texttt{lightSensorMo
 \paragraph{Metodi pubblici:}\begin{itemize}
 	\item \texttt{public void onDataBufferReceived(int[] data){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{buffer} di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'\textit{array} \texttt{data} contiene i \textit{sample} ricevuti dal dispositivo sotto forma di interi tra 0 e 1023. La lunghezza dell'\textit{array} è sempre costante (32 \textit{sample}).\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
-	\item \texttt{public void onDataSampleReceived(int data){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{sample} dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). Il sample è rappresentato con un intero tra 0 e 1023.\\
+	\item \texttt{public void onDataSampleReceived(int data){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{sample} dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). Il \textit{sample} è rappresentato con un intero tra 0 e 1023.\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
 	\item \texttt{public void onError(Exception e)}: questo \textit{callback} viene chiamato se si verifica un errore, per esempio se il dispositivo viene disconnesso mentre si sta campionando. Se non si fa l'\textit{override} di questo metodo, il suo comportamento di default è stampare l'eccezione e lo \textit{stacktrace}
 \end{itemize}
@@ -146,9 +146,9 @@ La scelta di tenere metodi separati per la gestione di un intero \textit{buffer}
 Questa classe implementa i \textit{callback} per il metodo \texttt{lightSensorButtonMode} della classe \texttt{Device}. Il suo funzionamento è analogo a quello di \texttt{LightSensorMonitorCallback}, ma oltre anziché ricevere solo la luce, si riceve anche lo stato del pulsante. Non è obbligatorio fare l'\textit{override} di tutti i metodi per utilizzarla.
 
 \paragraph{Metodi pubblici:}\begin{itemize}
-	\item \texttt{public void onDataBufferReceived(int[] light, int[] click){}}: questo callback viene chiamato quando viene ricevuto un nuovo \textit{buffer} di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'\textit{array} \texttt{light} contiene i \textit{sample} del sensore di luminosità sotto forma di interi tra 0 e 1023, mentre l'\textit{array} \texttt{click} contiene i sample del pulsante sotto forma di interi tra 0 e 1. I due \textit{array} hanno la stessa lunghezza. La lunghezza dei due \textit{array} è sempre costante (21 \textit{sample}).\\
+	\item \texttt{public void onDataBufferReceived(int[] light, int[] click){}}: questo callback viene chiamato quando viene ricevuto un nuovo \textit{buffer} di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'\textit{array} \texttt{light} contiene i \textit{sample} del sensore di luminosità sotto forma di interi tra 0 e 1023, mentre l'\textit{array} \texttt{click} contiene i \textit{sample} del pulsante sotto forma di interi tra 0 e 1. I due \textit{array} hanno la stessa lunghezza. La lunghezza dei due \textit{array} è sempre costante (21 \textit{sample}).\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
-	\item \texttt{public void onDataSampleReceived(int light, int click){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo sample dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). L'intero \texttt{light} contiene il valore di luminosità come intero tra 0 e 1023, mentre l'intero \texttt{click} contiene lo stato del pulsante come intero tra 0 e 1.\\
+	\item \texttt{public void onDataSampleReceived(int light, int click){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{sample} dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). L'intero \texttt{light} contiene il valore di luminosità come intero tra 0 e 1023, mentre l'intero \texttt{click} contiene lo stato del pulsante come intero tra 0 e 1.\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
 	\item \texttt{public void onError(Exception e)}: questo \textit{callback} viene chiamato se si verifica un errore, per esempio se il dispositivo viene disconnesso mentre si sta campionando. Se non si fa l'\textit{override} di questo metodo, il suo comportamento di default è stampare l'eccezione e lo \textit{stacktrace}
 \end{itemize}
@@ -221,7 +221,7 @@ La classe è \textit{thread-safe}.
 Il \textit{package} \texttt{com.dosse.openldat.processing.filters} contiene alcuni filtri che sono usati per semplificare l'analisi dei dati raccolti. A tutti gli effetti, un filtro non è altro che un tipo speciale di \textit{buffer}, che però esegue un qualche tipo di elaborazione sui dati che gli vengono inseriti.
 
 \subsubsection{FFTFilter}
-Questa classe implementa un filtro che permette di inserire dati nel dominio del tempo (sample) e ottenere una rappresentazione degli stessi dati nel dominio di frequenza utilizzando una FFT (\textit{Fast Fourier Transform}). La trasformazione viene eseguita dalla libreria jTransforms, ma prima viene applicata ai dati una funzione di \textit{windowing} di Blackman-Harris, per generare dati più puliti. Per velocizzare l'esecuzione, l'FFT non viene eseguita ad ogni \textit{sample} aggiunto, ma solo nel momento in cui vengono richiesti i dati.
+Questa classe implementa un filtro che permette di inserire dati nel dominio del tempo (sample) e ottenere una rappresentazione degli stessi dati nel dominio di frequenza utilizzando una FFT (Fast Fourier Transform). La trasformazione viene eseguita dalla libreria jTransforms, ma prima viene applicata ai dati una funzione di \textit{windowing} di Blackman-Harris, per generare dati più puliti. Per velocizzare l'esecuzione, l'FFT non viene eseguita ad ogni \textit{sample} aggiunto, ma solo nel momento in cui vengono richiesti i dati.
 
 La classe è \textit{thread-safe}.
 
@@ -382,7 +382,7 @@ Entrambe le \textit{backend} implementano un'interfaccia generica \texttt{ITestS
 	\item \texttt{public long getFakeGPULoad()}: ritorna il falso carico attualmente simulato sulla GPU (default: 0)
 	\item \texttt{public void close()}: chuiude la schermata di test
 	\item \texttt{public void onEnterPressed()}: \textit{callback} che viene chiamato quando viene premuto il tasto Invio. I test fanno l'\textit{override} di questo metodo per aggiungere il proprio codice di risposta all'evento. Se non viene fatto l'\textit{override}, l'evento viene ignorato
-	\item \texttt{public void onCancel()}: \textit{callback} che viene chiamato se viene premuto il tasto Esc per annullare il test. I test fanno l'\textit{override} di questo metodo per aggiungere il proprio codice di risposta all'evento. Se non viene fatto l'\textit{override}, l'evento viene ignorato
+	\item \texttt{public void onCancel()}: \textit{callback} che viene chiamato se viene premuto il tasto \textit{Esc} per annullare il test. I test fanno l'\textit{override} di questo metodo per aggiungere il proprio codice di risposta all'evento. Se non viene fatto l'\textit{override}, l'evento viene ignorato
 	\item \texttt{public void onError(Exception e)}: \textit{callback} che viene chiamato se si verificano errori irreversibili, per esempio in seguito a un crash del driver video. I test fanno l'\textit{override} di questo metodo per aggiungere il proprio codice di risposta all'evento. Se non viene fatto l'\textit{override}, il comportamento di default è stampare l'eccezione con il relativo \textit{stacktrace} e terminare l'applicazione
 \end{itemize}
 
@@ -419,7 +419,7 @@ Ogni test ha il proprio costruttore personalizzato con le relative impostazioni,
 Vengono inoltre definite due classi di eccezioni speciali: \texttt{IgnorableException} (usata solo internamente per rappresentare eccezioni che non sono degli errori) e \texttt{TestException}, quest'ultima più interessante.
 
 \subsubsection{TestException}
-Questa classe è utilizzata per definire alcune condizioni che possono verificarsi durante un test e che ne comportano la terminazione anomala. Questo tipo di eccezione è tipicamente passato al callback \texttt{onError} del test, ma non è necessariamente l'unico tipo di eccezione che quel metodo deve poter gestire (ad esempio, potrebbe ricevere anche eccezioni del \textit{backend} grafico o del driver del dispositivo).
+Questa classe è utilizzata per definire alcune condizioni che possono verificarsi durante un test e che ne comportano la terminazione anomala. Questo tipo di eccezione è tipicamente passato al \textit{callback} \texttt{onError} del test, ma non è necessariamente l'unico tipo di eccezione che quel metodo deve poter gestire (ad esempio, potrebbe ricevere anche eccezioni del \textit{backend} grafico o del driver del dispositivo).
 
 \paragraph{Costruttori:}\begin{itemize}
 	\item \texttt{public TestException(int type)}: crea l'eccezione utilizzando uno dei tipi predefiniti nella classe stessa (\texttt{USER\_ABORT}, \texttt{ANALYSIS\_FAILED}, \texttt{INSUFFICIENT\_CONTRAST}, \texttt{INVALID\_SETTINGS}, \texttt{INCOMPATIBLE\_DEVICE})
@@ -438,11 +438,11 @@ La classe \texttt{PWMDetectionTest} implementa un test che rileva la presenza di
 Il seguente pseudocodice mostra il funzionamento del test.
 \lstinputlisting{Applicazione_files/PWMDetectionTest_pseudocode.txt}
 
-Al termine del test, viene chiamato il callback \texttt{onDone} con le seguenti informazioni:\begin{itemize}
+Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
 	\item \texttt{boolean noisy}: \texttt{true} se c'è qualche tipo di disturbo rilevante sul segnale, altrimenti \texttt{false}
 	\item \texttt{double frequency}: la frequenza della PWM rilevata in Hz, oppure 0 se non è stata rilevata alcuna frequenza
 	\item \texttt{int[] raw}: \textit{array} contenente i \textit{sample} catturati dal sensore nel dominio temporale come interi tra 0 e 1023
-	\item \texttt{double sampleRate}: il sample rate dell'\textit{array} \texttt{raw}, così da poter calcolare il \textit{timestamp} a cui corrisponde ogni sample
+	\item \texttt{double sampleRate}: il \textit{sample rate} dell'\textit{array} \texttt{raw}, così da poter calcolare il \textit{timestamp} a cui corrisponde ogni \textit{sample}
 \end{itemize}
 
 \subsection{Input lag (test automatico)}
@@ -515,7 +515,7 @@ Il test accetta un parametro in input, da passare al costruttore:\begin{itemize}
 Il seguente pseudocodice mostra il funzionamento del test.
 \lstinputlisting{Applicazione_files/StutteringDetectionTest_pseudocode.txt}
 
-Al termine del test, viene chiamato il callback \texttt{onDone} con le seguenti informazioni:\begin{itemize}
+Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
 	\item \texttt{boolean flickeringDetected}: \texttt{true} se il test ha rilevato rumori, come retroilluminazione PWM, che potrebbero ridurre l'accuratezza del test
 	\item \texttt{Double[] frameTimes}: \textit{array} contenente i tempi in millisecondi tra ogni coppia di transizioni nero-bianco successive
 	\item \texttt{double stutteringThreshold}: soglia di millisecondi sopra di cui il test considera un tempo \textit{microstuttering}
@@ -571,7 +571,7 @@ Display dotati di retroilluminazione PWM, \textit{black frame insertion}, o altr
 \end{figure}
 
 Il test ha alcuni parametri in input, da passare al costruttore:\begin{itemize}
-	\item \texttt{int step}: dimensione del passo tra un livello di luminosità e un altro, sul range 0-255. Si consigliano 16, 32 o 64. Valori più bassi rendono il test più lungo, ma testano più transizioni. (Nota: il valore è espresso nel range 0-255 solo per comodità, internamente vengono convertiti in \textit{float} nel range 0-1 indipendenti dal formato dei pixel)
+	\item \texttt{int step}: dimensione del passo tra un livello di luminosità e un altro, sul range 0-255. Si consigliano 16, 32 o 64. Valori più bassi rendono il test più lungo, ma testano più transizioni. (Nota: il valore è espresso nel range 0-255 solo per comodità, internamente vengono convertiti in float nel range 0-1 indipendenti dal formato dei pixel)
 	\item \texttt{float th1, float th2}: le soglie di inizio e fine transizione, nel range 0-1. Per lo standard VESA sono 0.1 e 0.9 rispettivamente
 \end{itemize}
 
@@ -594,7 +594,7 @@ La classe \texttt{PixelOverdriveTest} implementa il test che misura l'errore mas
 \end{figure}
 
 Non esiste uno standard per la misurazione dell'\textit{overdrive}, quindi in questo test vengono proposti due metodi:\begin{itemize}
-	\item \texttt{Assoluto}: considera l'errore sull'intero range di luminosità del display. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'overshoot è $\frac{48-32}{255}=6.25\%$ . Questo è il metodo consigliato
+	\item \texttt{Assoluto}: considera l'errore sull'intero range di luminosità del display. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è $\frac{48-32}{255}=6.25\%$ . Questo è il metodo consigliato
 	\item \texttt{Relativo}: considera l'errore relativo al range di luminosità che la transizione deve percorrere. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è  $\frac{48-32}{32-16}=50\%$. Questo metodo tende a sovrastimare molto i risultati su transizioni piccole, per cui è quindi generalmente sconsigliato
 \end{itemize}
 
@@ -616,7 +616,7 @@ Tra tutti i test implementati nell'applicazione, questo è quello che soffre di 
 	\label{fig:pixelOverdriveTest_example1}
 \end{figure}
 
-Il grafico in figura \ref{fig:pixelOverdriveTest_example2} mostra il segnale ricostruito dall'algoritmo osservando i picchi in presenza di retroilluminazione PWM. Il segnale ricostruito in questo caso ha comunque un picco in corrispondenza dell'overshoot, ma è più piccolo e potrebbe essere addirittura assente, per cui non può essere misurato accuratamente dall'applicazione. Le transizioni dal chiaro allo scuro sono più affette da questo problema rispetto a quelle dallo scuro al chiaro.
+Il grafico in figura \ref{fig:pixelOverdriveTest_example2} mostra il segnale ricostruito dall'algoritmo osservando i picchi in presenza di retroilluminazione PWM. Il segnale ricostruito in questo caso ha comunque un picco in corrispondenza dell'\textit{overshoot}, ma è più piccolo e potrebbe essere addirittura assente, per cui non può essere misurato accuratamente dall'applicazione. Le transizioni dal chiaro allo scuro sono più affette da questo problema rispetto a quelle dallo scuro al chiaro.
 
 \begin{figure}[H]
 	\centering
@@ -631,7 +631,7 @@ Il grafico in figura \ref{fig:pixelOverdriveTest_example2} mostra il segnale ric
 \end{figure}
 
 Il test ha alcuni parametri in input, da passare al costruttore:\begin{itemize}
-	\item \texttt{int step}: dimensione del passo tra un livello di luminosità e un altro, sul range 0-255. Si consigliano 16, 32 o 64. Valori più bassi rendono il test più lungo, ma testano più transizioni. (Nota: il valore è espresso nel range 0-255 solo per comodità, internamente vengono convertiti in \textit{float} nel range 0-1 indipendenti dal formato dei pixel)
+	\item \texttt{int step}: dimensione del passo tra un livello di luminosità e un altro, sul range 0-255. Si consigliano 16, 32 o 64. Valori più bassi rendono il test più lungo, ma testano più transizioni. (Nota: il valore è espresso nel range 0-255 solo per comodità, internamente vengono convertiti in float nel range 0-1 indipendenti dal formato dei pixel)
 	\item \texttt{boolean skipTo0And255}: velocizza il test saltando le transizioni verso 0 e 255, poiché normalmente la luminosità non può scendere sotto il livello di nero, nè sopra il livello di bianco
 	\item \texttt{int method}: permette di scegliere tra i due metodi di misurazione (\texttt{METHOD\_ABSOLUTE} o \texttt{METHOD\_RELATIVE})
 \end{itemize}
@@ -699,7 +699,7 @@ Oltre ai metodi dell'interfaccia standard \texttt{ITest}, questa classe implemen
 	\item \texttt{public double getStrongestFrequency(double from, double to)}: ritorna la frequenza in Hz più forte nel range specificato, oppure -1 se non ce ne sono o sono troppo deboli per essere rilevanti
 \end{itemize}
 
-Il test prosegue indefinitamente fino a quando non viene terminato manualmente dall'utente chiamando il metodo \texttt{onCancel}. Il callback \texttt{onDone} viene comunque chiamato alla terminazione ma non gli viene passato nessun dato.
+Il test prosegue indefinitamente fino a quando non viene terminato manualmente dall'utente chiamando il metodo \texttt{onCancel}. Il \textit{callback} \texttt{onDone} viene comunque chiamato alla terminazione ma non gli viene passato nessun dato.
 
 %RIMOSSO PER DUBBIA UTILITÀ, meglio metterlo nella documentazione
 %\subsection{Template per test automatici}
@@ -744,7 +744,7 @@ Il menu principale fornisce accesso alle seguenti funzioni:\begin{itemize}
 	\item \textbf{Welcome}: mostra una schermata di benvenuto con alcuni suggerimenti generali per l'utilizzo corretto dei test
 	\item \textbf{Input Lag (Automated test)}: esegue il test automatico del ritardo di input
 	\item \textbf{Input Lag (Manual test)}: esegue il test interattivo del ritardo di input
-	\item \textbf{Microstuttering detection}: esegue il test di rilevamento del microstuttering
+	\item \textbf{Microstuttering detection}: esegue il test di rilevamento del \textit{microstuttering}
 	\item \textbf{PWM/Strobing test}: esegue il test di rilevamento PWM e altri rumori
 	\item \textbf{Pixel Response Time}: esegue il test che misura il tempo di risposta dei pixel tra diverse sfumature di grigio
 	\item \textbf{Pixel Overdrive (Overshoot/Undershoot)}: esegue il test che misura l'errore di transizione causato dall'\textit{overdrive} dei pixel
@@ -981,7 +981,7 @@ La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 	\item Eseguire la build del progetto OpenLDAT da NetBeans IDE
 	\item Dalla cartella \texttt{dist} nel progetto appena compilato, copiare \texttt{OpenLDAT.jar} e la cartella \texttt{lib} nella cartella \texttt{openldat}
 	\item Scaricare il file zip di OpenJDK JRE x64 versione 11 o superiore dal relativo sito
-	\item All'interno dello zip scaricato estrarre i file del runtime (cartelle \texttt{bin}, \texttt{lib}, eccetera) nella cartella \texttt{jre}
+	\item All'interno dello zip scaricato estrarre i file del \textit{runtime} (cartelle \texttt{bin}, \texttt{lib}, eccetera) nella cartella \texttt{jre}
 	\item Tornare al livello superiore ed eseguire il seguente comando:\begin{verbatim}
 		appimagetool OpenLDAT.AppDir
 	\end{verbatim}
@@ -999,7 +999,7 @@ La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 	\item Dalla cartella \texttt{dist} nel progetto appena compilato, copiare \texttt{OpenLDAT.jar} e la cartella \texttt{lib} nella cartella \texttt{openldat}
 	\item Scaricare il file zip di OpenJDK JRE x64 versione 11 dal relativo sito\\
 	Attenzione: La versione 11 è l'unica supportata da questo sistema di \textit{packaging} al momento
-	\item All'interno dello zip scaricato estrarre i file del runtime (cartelle \texttt{bin}, \texttt{lib}, eccetera) nella cartella \texttt{jre/openjdk-11-jre}
+	\item All'interno dello zip scaricato estrarre i file del \textit{runtime} (cartelle \texttt{bin}, \texttt{lib}, eccetera) nella cartella \texttt{jre/openjdk-11-jre}
 	\item Eseguire lo script \texttt{makeapp}. Al termine verrà generata una cartella \texttt{OpenLDAT.app}
 	\item Utilizzare Disk Utility per creare un'immagine DMG compressa contenente \texttt{OpenLDAT.app} che può essere distribuita
 \end{itemize}

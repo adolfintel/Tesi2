@@ -275,7 +275,7 @@ Il firmware installato sul microcontroller ATmega 32U4 è stato sviluppato in C+
 
 Il progetto si trova nella cartella \texttt{Device/Firmware/OpenLDAT} del repository, ed è composto da 4 file:
 \begin{itemize}
-	\item \texttt{OpenLDAT.ino}: è il file principale del firmware, importa gli altri file del progetto, implementa la ricezione dei comandi dall'applicazione e il listing delle capability
+	\item \texttt{OpenLDAT.ino}: è il file principale del firmware, importa gli altri file del progetto, implementa la ricezione dei comandi dall'applicazione e il listing delle \textit{capability}
 	\item \texttt{BuildConfig.h}: permette di attivare/disattivare alcune funzioni del firmware e dichiara alcune variabili globali, come il numero di versione
 	\item \texttt{OscilloscopeDebug.h}: implementa delle macro che sono utilizzate all'interno del codice quando viene compilato con il debug con oscilloscopio attivo. Queste macro consentono di collegare un oscilloscopio al pin 10 della board del microcontroller e ottenere informazioni sui tempi di campionamento senza rallentare il funzionamento del dispositivo. Il funzionamento verrà discusso meglio in seguito
 	\item \texttt{LightSensor.h}: contiene tutto il codice di configurazione e campionamento del sensore di luminosità, del pulsante esterno, e dei click automatici
@@ -308,7 +308,7 @@ L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi
 	\label{fig:lsusb}
 \end{figure}
 
-L'elenco delle capability è inviato come testo ASCII. Il seguente listato mostra un possibile output del comando \texttt{ID}.
+L'elenco delle \textit{capability} è inviato come testo ASCII. Il seguente listato mostra un possibile output del comando \texttt{ID}.
 \lstinputlisting{Dispositivo_files/id_example.txt}
 L'elenco è un insieme di stringhe ASCII, separate da un carattere \textit{newline} (\texttt{\textbackslash n}), e terminate da una riga vuota (doppio \textit{newline}). La prima riga contiene il nome completo del dispositivo, mentre le righe successive sono un elenco di \textit{capability} in formato \texttt{Nome: Valore}.
 
@@ -317,7 +317,7 @@ Le \textit{capability} attualmente implementate sono le seguenti:
 	\item \texttt{FW}: stringa contenente la versione del firmware del dispositivo, obbligatoria
 	\item \texttt{LightSensor}: booleano che indica se è presente il sensore di luminosità. Se è presente, devono essere presenti anche le proprietà \texttt{LBuffer} e \texttt{SBuffer}, due interi il cui significato verrà spiegato nella sezione sul campionamento
 	\item \texttt{OscilloscopeDebug}: booleano che indica se è possibile collegare un oscilloscopio al pin 10 per ottenere metriche sul \textit{timing} del dispositivo
-	\item \texttt{SerialDebug}: booleano che indica se il firmware è pensato per comunicare manualmente tramite il serial plotter di Arduino IDE oppure se è pensato per comunicare con l'applicazione. Rallenta notevolmente l'esecuzione del firmware
+	\item \texttt{SerialDebug}: booleano che indica se il firmware è pensato per comunicare manualmente tramite il \textit{serial plotter} di Arduino IDE oppure se è pensato per comunicare con l'applicazione. Rallenta notevolmente l'esecuzione del firmware
 	\item \texttt{Prototype}: booleano che indica se il dispositivo è un prototipo o una versione finale. Per i prototipi sono disponibili delle funzionalità aggiuntive nell'applicazione
 	\item \texttt{MinAppVer}: intero che indica la versione del driver minima richiesta da questo dispositivo, obbligatorio
 	\item \texttt{SerialNo}: stringa contenente il numero di serie del dispositivo (letto dalla EEPROM), oppure \texttt{DIY} se è stato assemblato a mano
@@ -417,14 +417,14 @@ Normalmente, l'esecuzione di una \texttt{analogRead} richiede circa 112us, il ch
 Nel firmware del dispositivo, quando il flag \texttt{FASTADC} è impostato a 1, il clock viene portato a 500kHz, ottenendo così un tempo di circa 30us per \texttt{analogRead} (dai 112us originali), per una frequenza massima teorica di campionamento di circa 33.2kHz, che scende a circa 30kHz una volta aggiunto il tempo di elaborazione. L'impedenza del sensore è abbastanza bassa da non creare problemi a questa velocità di campionamento, indipendentemente dal livello di gain selezionato. La rumorosità del segnale catturato non sembra essere alterata in questa modalità nella versione finale del dispositivo assemblato su PCB, ma era misurabile a circa 1-2 bit nei primi prototipi assemblati su schede millefori, poiché captavano molte più interferenze dall'esterno.
 
 \subsection{Debugging e misurazione delle tempistiche}
-Per permettere un debugging più semplice del firmware utilizzando solo Arduino IDE, è stato aggiunto il flag di compilazione \texttt{SERIAL\_DEBUG}. Quando questo flag è abilitato, il firmware non genera output nel formato binario per l'applicazione, ma in formato testuale, compatibile con il serial monitor e il serial plotter di Arduino IDE. Questo rallenta notevolmente il campionamento, per cui qualsiasi misurazione fatta in questa modalità è da considerarsi invalida, e l'applicazione rifiuta il collegamento se questa modalità è attiva.\\
+Per permettere un debugging più semplice del firmware utilizzando solo Arduino IDE, è stato aggiunto il flag di compilazione \texttt{SERIAL\_DEBUG}. Quando questo flag è abilitato, il firmware non genera output nel formato binario per l'applicazione, ma in formato testuale, compatibile con il \textit{serial monitor} e il \textit{serial plotter} di Arduino IDE. Questo rallenta notevolmente il campionamento, per cui qualsiasi misurazione fatta in questa modalità è da considerarsi invalida, e l'applicazione rifiuta il collegamento se questa modalità è attiva.\\
 In questa modalità, inoltre, il firmware accetta comandi sia nel formato binario dell'applicazione che in testo esadecimale (solo comandi da 2 byte). Per inviare un comando esadecimale, basta anteporre un carattere \texttt{x} minuscolo all'inizio del comando, ad esempio il comando \texttt{x4400} chiede al dispositivo di identificarsi (\texttt{44} è il comando \texttt{ID}, \texttt{00} è un byte di flag vuoto), e il comando \texttt{x4C2E} avvia il campionamento con i flag \texttt{MONITOR}, \texttt{FASTADC} e \texttt{NOBUFFER} impostati ad 1 e livello di gain medio.\\
-La figura \ref{fig:serialdebug} mostra un esempio di output sul serial plotter.
+La figura \ref{fig:serialdebug} mostra un esempio di output sul \textit{serial plotter}.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth]{Dispositivo_files/serialdebug.png}
-	\caption{Esempio di output su serial monitor. (Nota: in questo esempio il sensore non era collegato, quindi il grafico mostra interferenze provenienti dall'esterno)}
+	\caption{Esempio di output su \textit{serial monitor}. (Nota: in questo esempio il sensore non era collegato, quindi il grafico mostra interferenze provenienti dall'esterno)}
 	\label{fig:serialdebug}
 \end{figure}
 
@@ -436,7 +436,7 @@ Per rendere facilmente utilizzabile questa funzione nel firmware, sono state rea
 	\item \texttt{OSCILLOSCOPE\_DEBUG\_PULSE()}: inverte il valore del pin 10 manipolando il registro \texttt{PINB}
 	\item \texttt{OSCILLOSCOPE\_DEBUG\_END()}: reimposta in pin 10 ad alta impedenza e cancella lo stato \texttt{HIGH} o \texttt{LOW}
 \end{itemize}
-Nella versione finale del firmware, queste macro sono usate per generare una pulsazione per ogni \textit{sample} (con flag \texttt{NOBUFFER} impostato a 1) o per ogni \textit{buffer} (senza flag \texttt{NOBUFFER}). In modalità con buffering, per ottenere il \textit{sample rate}, la frequenza del segnale generato va moltiplicata per la dimensione del \textit{buffer} (32 se il flag \texttt{MONITOR} è impostato a 1, altrimenti 21).
+Nella versione finale del firmware, queste macro sono usate per generare una pulsazione per ogni \textit{sample} (con flag \texttt{NOBUFFER} impostato a 1) o per ogni \textit{buffer} (senza flag \texttt{NOBUFFER}). In modalità con \textit{buffering}, per ottenere il \textit{sample rate}, la frequenza del segnale generato va moltiplicata per la dimensione del \textit{buffer} (32 se il flag \texttt{MONITOR} è impostato a 1, altrimenti 21).
 
 La figura \ref{fig:oscilloscopedebug} mostra un esempio del segnale generato da questa modalità di debugging. Il dispositivo stava operando con \texttt{NOBUFFER=1}, \texttt{MONITOR=1}, \texttt{FASTADC=1}, per un \textit{sample rate} di 21000Hz. Piccole variazioni della frequenza di questo segnale sono perfettamente normali, e possono avvenire in seguito a \textit{interrupt} (click automatici o esterni) o semplicemente per variazioni sul segnale di clock; non influiscono in maniera rilevante sulle misurazioni fatte dall'applicazione.
 
