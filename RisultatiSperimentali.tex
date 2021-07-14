@@ -114,7 +114,7 @@ In questo test è stato misurato il ritardo dei display utilizzando il test auto
 
 Il grafico in figura \ref{fig:inputlag_displays} mostra i risultati che sono stati ottenuti sui display testati. Da questi dati possiamo notare alcune cose interessanti:\begin{itemize}
 	\item Come atteso, i display ad alto \textit{refresh rate} sono in cima alla classifica. Questi display sono stati progettati appositamente per questo scopo, tipicamente sacrificando la qualità dell'immagine per avere più velocità
-	\item Alcuni dei display testati introducono un ritardo inferiore al tempo di un fotogramma, il che indica che questi display iniziano a visualizzare l'immagine sul pannello prima di averla ricevuta interamente, riducendo notevolmente il ritardo. Il ``gradino'' presente in corrispondenza al BenQ GL2706PQ delinea chiaramente il passaggio tra display che fanno questa ``ottimizzazione'' e display che invece attendono di ricevere l'intero fotogramma. Durante i test è emerso che alcuni display permettono di attivare o disattivare questa funzione a seconda delle proprie necessità, e tipicamente la chiamano ``Direct Mode''
+	\item Alcuni dei display testati introducono un ritardo inferiore al tempo di un fotogramma, il che indica che questi display iniziano a visualizzare l'immagine sul pannello prima di averla ricevuta interamente, riducendo notevolmente il ritardo. Il ``gradino'' presente in corrispondenza al BenQ GL2706PQ delinea chiaramente il passaggio tra display che fanno questa ``ottimizzazione'' e display che invece attendono di ricevere l'intero fotogramma. Durante i test è emerso che alcuni display permettono di attivare o disattivare questa funzione a seconda delle proprie necessità, e tipicamente la chiamano \textit{``Direct Mode''}
 	\item I TV sono in fondo alla classifica con un certo distacco. Questo indica, oltre al fatto che un TV non è ideale come monitor, che il processore all'interno sta eseguendo un qualche tipo di elaborazione dell'immagine che in tutti i casi testati aggiungeva ritardi e non era disattivabile
 	\item Il Sony VAIO SVF1532C5E ha un ritardo con \textit{VSync} attivo molto inferiore alle aspettative. Questo \textit{outlier} è probabilmente causato da qualche ottimizzazione specifica del driver
 \end{itemize}
@@ -146,7 +146,7 @@ In questo test è stato testato un singolo display (AOC Q2770P) su sistemi opera
 \end{figure}
 
 Il grafico in figura \ref{fig:inputlag_os} mostra i risultati del test. In generale i risultati sono più o meno simili tra loro, ma si possono notare dei comportamenti interessanti:\begin{itemize}
-	\item Il driver proprietario di Nvidia per GNU/Linux, che è generalmente considerato uno dei peggiori dalla community, ha in realtà mostrato il ritardo di input migliore tra tutte le configurazioni testate, in particolar modo con il \textit{VSync} attivo
+	\item Il driver proprietario di Nvidia per GNU/Linux, che è generalmente considerato uno dei peggiori dalla community\cite{nvidia_linux}, ha in realtà mostrato il ritardo di input migliore tra tutte le configurazioni testate, in particolar modo con il \textit{VSync} attivo
 	\item In generale, la GPU Intel mostra un ritardo leggermente maggiore rispetto ad AMD e Nvidia
 	\item Il driver Nouveau mostra il ritardo peggiore con il \textit{VSync} disattivato perché non supporta il power management sulla GPU testata, e quindi la scheda era bloccata nella sua modalità a risparmio energetico, renderizzando a un \textit{framerate} notevolmente più basso
 	\item In generale, Windows sembra mostrare un ritardo leggermente più elevato
