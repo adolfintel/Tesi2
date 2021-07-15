@@ -42,12 +42,12 @@ La comunicazione col dispositivo avviene tramite l'interfaccia seriale USB espos
 Il processo di \textit{discovery} dei dispositivi è svolto dalla classe \texttt{DeviceFinder}, la quale contiene dei metodi statici per trovare i dispositivi.
 
 \paragraph{Metodi statici:}\begin{itemize}
-	\item \texttt{public static SerialPort[] findDevices()}: trova tutti i dispositivi OpenLDAT attualmente connessi e li ritorna come un \textit{array} di \texttt{SerialPort} (una classe della libreria jSerialComm). Non viene fatto alcun controllo sullo stato del dispositivo stesso, nè del fatto che sia supportato o meno
+	\item \texttt{public static SerialPort[] findDevices()}: trova tutti i dispositivi OpenLDAT attualmente connessi e li ritorna come un array di \texttt{SerialPort} (una classe della libreria jSerialComm). Non viene fatto alcun controllo sullo stato del dispositivo stesso, nè del fatto che sia supportato o meno
 	\item \texttt{public static Device getDevice()}: un metodo più comodo per ottenere il primo device OpenLDAT connesso al PC supportato dall'applicazione, o \texttt{null} se non ce ne sono. Questo metodo è utile solo per comodità in fase di testing, l'applicazione non lo utilizza. Il metodo ritorna un'istanza di \texttt{Device}, che è la classe che implementa effettivamente la comunicazione con il dispositivo
 \end{itemize}
 
 \subsection{Device}
-Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la classe \texttt{Device} passandole la porta seriale scelta. Il costruttore di questa classe esegue tutti i controlli necessari per identificare il dispositivo, verificare che sia supportato, e ottiene l'elenco delle \textit{capability}. In seguito, la classe mette a disposizione dei metodi per utilizzare il dispositivo. La classe utilizza un \textit{buffer} in ricezione di 128kB per evitare di bloccare il dispositivo mentre qualcosa viene processato.
+Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la classe \texttt{Device} passandole la porta seriale scelta. Il costruttore di questa classe esegue tutti i controlli necessari per identificare il dispositivo, verificare che sia supportato, e ottiene l'elenco delle \textit{capability}. In seguito, la classe mette a disposizione dei metodi per utilizzare il dispositivo. La classe utilizza un buffer in ricezione di 128kB per evitare di bloccare il dispositivo mentre qualcosa viene processato.
 
 \paragraph{Costruttori:}\begin{itemize}
 	\item \texttt{public Device(SerialPort com)}: crea l'istanza di \texttt{Device} utilizzando la porta seriale specificata. Durante l'inizializzazione, viene verificato il modello del dispositivo e viene richiesto l'elenco delle \textit{capability} per inizializzare tutte le variabili interne alla classe. Se il dispositivo non è riconosciuto, non è compatibile, richiede una versione più recente del driver, o l'elenco delle \textit{capability} non è valido, l'inizializzazione fallisce.\\
@@ -133,20 +133,20 @@ Questa classe estende \texttt{Exception} ed è usata per gli errori in cui si ce
 Questa classe implementa i \textit{callback} per il metodo \texttt{lightSensorMonitorMode} della classe \texttt{Device}. Non è obbligatorio fare l'\textit{override} di tutti i metodi per utilizzarla.
 
 \paragraph{Metodi pubblici:}\begin{itemize}
-	\item \texttt{public void onDataBufferReceived(int[] data){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{buffer} di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'\textit{array} \texttt{data} contiene i \textit{sample} ricevuti dal dispositivo sotto forma di interi tra 0 e 1023. La lunghezza dell'\textit{array} è sempre costante (32 \textit{sample}).\\
+	\item \texttt{public void onDataBufferReceived(int[] data){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo buffer di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'array \texttt{data} contiene i \textit{sample} ricevuti dal dispositivo sotto forma di interi tra 0 e 1023. La lunghezza dell'array è sempre costante (32 \textit{sample}).\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
 	\item \texttt{public void onDataSampleReceived(int data){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{sample} dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). Il \textit{sample} è rappresentato con un intero tra 0 e 1023.\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
 	\item \texttt{public void onError(Exception e)}: questo \textit{callback} viene chiamato se si verifica un errore, per esempio se il dispositivo viene disconnesso mentre si sta campionando. Se non si fa l'\textit{override} di questo metodo, il suo comportamento di default è stampare l'eccezione e lo \textit{stacktrace}
 \end{itemize}
 
-La scelta di tenere metodi separati per la gestione di un intero \textit{buffer} e per la gestione dei singoli \textit{sample} è stata fatta perché spesso è possibile applicare qualche tipo di ottimizzazione per ridurre il carico sulla CPU se si lavora su interi \textit{buffer} anziché singoli \textit{sample}.
+La scelta di tenere metodi separati per la gestione di un intero buffer e per la gestione dei singoli \textit{sample} è stata fatta perché spesso è possibile applicare qualche tipo di ottimizzazione per ridurre il carico sulla CPU se si lavora su interi buffer anziché singoli \textit{sample}.
 
 \subsubsection{LightSensorButtonCallback}
 Questa classe implementa i \textit{callback} per il metodo \texttt{lightSensorButtonMode} della classe \texttt{Device}. Il suo funzionamento è analogo a quello di \texttt{LightSensorMonitorCallback}, ma oltre anziché ricevere solo la luce, si riceve anche lo stato del pulsante. Non è obbligatorio fare l'\textit{override} di tutti i metodi per utilizzarla.
 
 \paragraph{Metodi pubblici:}\begin{itemize}
-	\item \texttt{public void onDataBufferReceived(int[] light, int[] click){}}: questo callback viene chiamato quando viene ricevuto un nuovo \textit{buffer} di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'\textit{array} \texttt{light} contiene i \textit{sample} del sensore di luminosità sotto forma di interi tra 0 e 1023, mentre l'\textit{array} \texttt{click} contiene i \textit{sample} del pulsante sotto forma di interi tra 0 e 1. I due \textit{array} hanno la stessa lunghezza. La lunghezza dei due \textit{array} è sempre costante (21 \textit{sample}).\\
+	\item \texttt{public void onDataBufferReceived(int[] light, int[] click){}}: questo callback viene chiamato quando viene ricevuto un nuovo buffer di dati (ossia \texttt{noBuffer} è impostato a \texttt{false}). L'array \texttt{light} contiene i \textit{sample} del sensore di luminosità sotto forma di interi tra 0 e 1023, mentre l'array \texttt{click} contiene i \textit{sample} del pulsante sotto forma di interi tra 0 e 1. I due array hanno la stessa lunghezza. La lunghezza dei due array è sempre costante (21 \textit{sample}).\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
 	\item \texttt{public void onDataSampleReceived(int light, int click){}}: questo \textit{callback} viene chiamato quando viene ricevuto un nuovo \textit{sample} dal dispositivo (ossia \texttt{noBuffer} è impostato a \texttt{true}). L'intero \texttt{light} contiene il valore di luminosità come intero tra 0 e 1023, mentre l'intero \texttt{click} contiene lo stato del pulsante come intero tra 0 e 1.\\
 	Attenzione: questo \textit{callback} deve terminare il prima possibile per evitare di rallentare la lettura dal dispositivo
@@ -158,67 +158,67 @@ Nel seguente listato viene mostrato come è possibile utilizzare le classi appen
 \lstinputlisting[language=Java]{Applicazione_files/DeviceExample.java}
 
 \section{Elaborazione di base}
-I dati catturati dal sensore, dopo che sono stati ricevuti, devono essere memorizzati per poter estrarre informazioni utili. Per fare questo, il \textit{package} \texttt{com.dosse.openldat.processing} fornisce dei \textit{buffer} e alcuni filtri per rendere più facile l'analisi che in seguito sarà svolta dal codice dei test.
+I dati catturati dal sensore, dopo che sono stati ricevuti, devono essere memorizzati per poter estrarre informazioni utili. Per fare questo, il \textit{package} \texttt{com.dosse.openldat.processing} fornisce dei buffer e alcuni filtri per rendere più facile l'analisi che in seguito sarà svolta dal codice dei test.
 
 \subsection{Buffer}
-L'obiettivo dei \textit{buffer} in questa applicazione è quello di memorizzare gli ultimi $N$ \textit{sample} ricevuti, così da poterli analizzare in seguito, senza limiti di tempo.\\
-Nel \textit{package} \texttt{com.dosse.openldat.processing.buffers} vengono forniti due tipi di \textit{buffer} e l'interfaccia generica per i \textit{buffer}, che ora saranno discussi in dettaglio.
+L'obiettivo dei buffer in questa applicazione è quello di memorizzare gli ultimi $N$ \textit{sample} ricevuti, così da poterli analizzare in seguito, senza limiti di tempo.\\
+Nel \textit{package} \texttt{com.dosse.openldat.processing.buffers} vengono forniti due tipi di buffer e l'interfaccia generica per i buffer, che ora saranno discussi in dettaglio.
 
-Nota: poiché tutti i dati ricevuti dal dispositivo sono numeri interi, i \textit{buffer} sono pensati per memorizzare solo quelli, non fanno uso di \textit{generics}.
+Nota: poiché tutti i dati ricevuti dal dispositivo sono numeri interi, i buffer sono pensati per memorizzare solo quelli, non fanno uso di \textit{generics}.
 
 \subsubsection{IBuffer}
-L'interfaccia \texttt{IBuffer} definisce i metodi che tutti i \textit{buffer} devono implementare.
+L'interfaccia \texttt{IBuffer} definisce i metodi che tutti i buffer devono implementare.
 
 \paragraph{Metodi da implementare:}\begin{itemize}
-	\item \texttt{public void add(int val)}: aggiunge un singolo intero al \textit{buffer}
-	\item \texttt{public void add(int[] data)}: aggiunge un \textit{array} di interi al \textit{buffer}
-	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del \textit{buffer} in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
-	\item \texttt{public int[] getDataUnsafe()}: ritorna il contenuto attuale del \textit{buffer} in maniera insicura (non rispetta l'incapsulamento e non è \textit{thread-safe})
-	\item \texttt{public int getSize()}: ritorna la dimensione del \textit{buffer}, ossia quanti interi può contenere il \textit{buffer} prima di sovrascrivere dei dati
-	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il \textit{buffer} è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
+	\item \texttt{public void add(int val)}: aggiunge un singolo intero al buffer
+	\item \texttt{public void add(int[] data)}: aggiunge un array di interi al buffer
+	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
+	\item \texttt{public int[] getDataUnsafe()}: ritorna il contenuto attuale del buffer in maniera insicura (non rispetta l'incapsulamento e non è \textit{thread-safe})
+	\item \texttt{public int getSize()}: ritorna la dimensione del buffer, ossia quanti interi può contenere il buffer prima di sovrascrivere dei dati
+	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il buffer è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
 \end{itemize}
 
 \subsubsection{CircularBuffer}
-Questa classe implementa una variante di un \textit{buffer} circolare che permette di memorizzare gli ultimi $N$ \textit{sample} aggiunti al \textit{buffer}, con operazioni di aggiunta e lettura del \textit{buffer} molto veloci.\\
-Nonostante il nome, non è un \textit{buffer} circolare in senso stretto, poiché il puntatore di scrittura e di lettura coincidono, ma questo è ciò di cui abbiamo bisogno per realizzare l'applicazione e velocizza notevolmente il codice.\\
+Questa classe implementa una variante di un buffer circolare che permette di memorizzare gli ultimi $N$ \textit{sample} aggiunti al buffer, con operazioni di aggiunta e lettura del buffer molto veloci.\\
+Nonostante il nome, non è un buffer circolare in senso stretto, poiché il puntatore di scrittura e di lettura coincidono, ma questo è ciò di cui abbiamo bisogno per realizzare l'applicazione e velocizza notevolmente il codice.\\
 Tutte le operazioni di questa classe utilizzano i metodi di copia di memoria del sistema anziché dei cicli, migliorando notevolmente le prestazioni.
 
 La classe è \textit{thread-safe}.
 
 \paragraph{Costruttori:}\begin{itemize}
-	\item \texttt{public CircularBuffer(int size)}: inizializza un \textit{buffer} circolare di dimensione \texttt{size}
+	\item \texttt{public CircularBuffer(int size)}: inizializza un buffer circolare di dimensione \texttt{size}
 \end{itemize}
 
 \paragraph{Metodi pubblici:}\begin{itemize}
-	\item \texttt{public void add(int val)}: aggiunge un singolo intero al \textit{buffer}. Se è pieno, viene sovrascritto il valore più vecchio
-	\item \texttt{public void add(int[] data)}: aggiunge un \textit{array} di interi al \textit{buffer}. Se è pieno, vengono sovrascritti i valori più vecchi
-	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del \textit{buffer} in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
-	\item \texttt{public int[] getDataUnsafe()}: non supportato su un \textit{buffer} circolare, esegue semplicemente \texttt{getData}
-	\item \texttt{public int[] getInternalBuffer()}: ritorna l'\textit{array} usato internamente per memorizzare i dati. I dati potrebbero non essere in ordine
-	\item \texttt{public int getSize()}: ritorna la dimensione del \textit{buffer}, ossia quanti interi può contenere il \textit{buffer} prima di sovrascrivere dei dati
-	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il \textit{buffer} è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
+	\item \texttt{public void add(int val)}: aggiunge un singolo intero al buffer. Se è pieno, viene sovrascritto il valore più vecchio
+	\item \texttt{public void add(int[] data)}: aggiunge un array di interi al buffer. Se è pieno, vengono sovrascritti i valori più vecchi
+	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
+	\item \texttt{public int[] getDataUnsafe()}: non supportato su un buffer circolare, esegue semplicemente \texttt{getData}
+	\item \texttt{public int[] getInternalBuffer()}: ritorna l'array usato internamente per memorizzare i dati. I dati potrebbero non essere in ordine
+	\item \texttt{public int getSize()}: ritorna la dimensione del buffer, ossia quanti interi può contenere il buffer prima di sovrascrivere dei dati
+	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il buffer è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
 \end{itemize}
 
 \subsubsection{ArrayBuffer}
-Questa è implementa un \textit{buffer} costante (non è possibile aggiungere nulla). Si tratta di una classe di utilità, utilizzata quando serve avere un \textit{array} sotto forma di \textit{buffer}.
+Questa è implementa un buffer costante (non è possibile aggiungere nulla). Si tratta di una classe di utilità, utilizzata quando serve avere un array sotto forma di buffer.
 
 La classe è \textit{thread-safe}.
 
 \paragraph{Costruttori:}\begin{itemize}
-	\item \texttt{public ArrayBuffer(int[] data)}: inizializza il \textit{buffer} con l'\textit{array} di dati fornito. Nota: i dati non vengono copiati, ma solo il riferimento, per cui è possibile alterare il contenuto di questo \textit{buffer} esternamente. Questo è voluto ed è utilizzato nella GUI
+	\item \texttt{public ArrayBuffer(int[] data)}: inizializza il buffer con l'array di dati fornito. Nota: i dati non vengono copiati, ma solo il riferimento, per cui è possibile alterare il contenuto di questo buffer esternamente. Questo è voluto ed è utilizzato nella GUI
 \end{itemize}
 
 \paragraph{Metodi pubblici:}\begin{itemize}
 	\item \texttt{public void add(int val)}: non supportato, lancia una \texttt{UnsupportedOperationException}
 	\item \texttt{public void add(int[] data)}: non supportato, lancia una \texttt{UnsupportedOperationException}
-	\item \texttt{public int[] getData()}: ritorna una copia dell'\textit{array} \texttt{data} con cui è stato inizializzato il \textit{buffer}
-	\item \texttt{public int[] getDataUnsafe()}: ritorna l'\textit{array} \texttt{data} con cui è stato inizializzato il \textit{buffer} (riferimento)
-	\item \texttt{public int getSize()}: ritorna la dimensione del \textit{buffer}, ossia la dimensione dell'\textit{array} \texttt{data} con cui è stato inizializzato
+	\item \texttt{public int[] getData()}: ritorna una copia dell'array \texttt{data} con cui è stato inizializzato il buffer
+	\item \texttt{public int[] getDataUnsafe()}: ritorna l'array \texttt{data} con cui è stato inizializzato il buffer (riferimento)
+	\item \texttt{public int getSize()}: ritorna la dimensione del buffer, ossia la dimensione dell'array \texttt{data} con cui è stato inizializzato
 	\item \texttt{public boolean isFilled()}: ritorna sempre \texttt{true}
 \end{itemize}
 
 \subsection{Filtri}
-Il \textit{package} \texttt{com.dosse.openldat.processing.filters} contiene alcuni filtri che sono usati per semplificare l'analisi dei dati raccolti. A tutti gli effetti, un filtro non è altro che un tipo speciale di \textit{buffer}, che però esegue un qualche tipo di elaborazione sui dati che gli vengono inseriti.
+Il \textit{package} \texttt{com.dosse.openldat.processing.filters} contiene alcuni filtri che sono usati per semplificare l'analisi dei dati raccolti. A tutti gli effetti, un filtro non è altro che un tipo speciale di buffer, che però esegue un qualche tipo di elaborazione sui dati che gli vengono inseriti.
 
 \subsubsection{FFTFilter}
 Questa classe implementa un filtro che permette di inserire dati nel dominio del tempo (sample) e ottenere una rappresentazione degli stessi dati nel dominio di frequenza utilizzando una FFT (Fast Fourier Transform). La trasformazione viene eseguita dalla libreria jTransforms, ma prima viene applicata ai dati una funzione di \textit{windowing} di Blackman-Harris, per generare dati più puliti. Per velocizzare l'esecuzione, l'FFT non viene eseguita ad ogni \textit{sample} aggiunto, ma solo nel momento in cui vengono richiesti i dati.
@@ -226,18 +226,18 @@ Questa classe implementa un filtro che permette di inserire dati nel dominio del
 La classe è \textit{thread-safe}.
 
 \paragraph{Costruttori:}\begin{itemize}
-	\item \texttt{public FFTFilter(int size)}: inizializza il filtro su un \textit{buffer} circolare di dimensione \texttt{size}, che deve essere una potenza di 2 (requisito dell'FFT)
+	\item \texttt{public FFTFilter(int size)}: inizializza il filtro su un buffer circolare di dimensione \texttt{size}, che deve essere una potenza di 2 (requisito dell'FFT)
 \end{itemize}
 
 \paragraph{Metodi pubblici:} \begin{itemize}
-	\item \texttt{public void add(int val)}: aggiunge un singolo intero al \textit{buffer}. Se è pieno, viene sovrascritto il valore più vecchio
-	\item \texttt{public void add(int[] data)}: aggiunge un \textit{array} di interi al \textit{buffer}. Se è pieno, vengono sovrascritti i valori più vecchi
-	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del \textit{buffer}, ma nel dominio della frequenza. Ogni valore nell'\textit{array} ritornato è un \textit{bin} dell'FFT e il suo valore indica la potenza del segnale in quel \textit{bin}. Per conoscere la frequenza a cui corrisponde l'\textit{i}-esimo \textit{bin}, è sufficiente usare la seguente formula: $\frac{i}{size}*(\frac{sampleRate}{2})$
-	\item \texttt{public int[] getDataUnsafe()}: non supportato su un \textit{buffer} circolare, esegue semplicemente \texttt{getData}
-	\item \texttt{public int[] getOriginalData()}: ritorna i dati inseriti nel \textit{buffer}, nel dominio temporale
-	\item \texttt{public int[] getInternalBuffer()}: ritorna l'\textit{array} usato internamente per memorizzare i dati nel dominio temporale. I dati potrebbero non essere in ordine
-	\item \texttt{public int getSize()}: ritorna la dimensione del \textit{buffer}, ossia quanti interi può contenere il \textit{buffer} prima di sovrascrivere dei dati
-	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il \textit{buffer} è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle nel \textit{buffer}
+	\item \texttt{public void add(int val)}: aggiunge un singolo intero al buffer. Se è pieno, viene sovrascritto il valore più vecchio
+	\item \texttt{public void add(int[] data)}: aggiunge un array di interi al buffer. Se è pieno, vengono sovrascritti i valori più vecchi
+	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer, ma nel dominio della frequenza. Ogni valore nell'array ritornato è un \textit{bin} dell'FFT e il suo valore indica la potenza del segnale in quel \textit{bin}. Per conoscere la frequenza a cui corrisponde l'\textit{i}-esimo \textit{bin}, è sufficiente usare la seguente formula: $\frac{i}{size}*(\frac{sampleRate}{2})$
+	\item \texttt{public int[] getDataUnsafe()}: non supportato su un buffer circolare, esegue semplicemente \texttt{getData}
+	\item \texttt{public int[] getOriginalData()}: ritorna i dati inseriti nel buffer, nel dominio temporale
+	\item \texttt{public int[] getInternalBuffer()}: ritorna l'array usato internamente per memorizzare i dati nel dominio temporale. I dati potrebbero non essere in ordine
+	\item \texttt{public int getSize()}: ritorna la dimensione del buffer, ossia quanti interi può contenere il buffer prima di sovrascrivere dei dati
+	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il buffer è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle nel buffer
 \end{itemize}
 
 \subsubsection{RunningAverageSmoothingFilter}
@@ -248,17 +248,17 @@ Il filtro funziona in questo modo: internamente viene mantenuto il valore di out
 La classe è \textit{thread-safe}.
 
 \paragraph{Costruttori:} \begin{itemize}
-	\item \texttt{public RunningAverageSmoothingFilter(int size, double smoothing)}: inizializza il filtro su un \textit{buffer} circolare di dimensione \texttt{size} e con il valore di \texttt{smoothing}
+	\item \texttt{public RunningAverageSmoothingFilter(int size, double smoothing)}: inizializza il filtro su un buffer circolare di dimensione \texttt{size} e con il valore di \texttt{smoothing}
 \end{itemize}
 
 \paragraph{Metodi pubblici:} \begin{itemize}
-	\item \texttt{public void add(int val)}: aggiunge un singolo intero al \textit{buffer}. Se è pieno, viene sovrascritto il valore più vecchio. Quando viene aggiunto il primo \textit{sample}, il valore di $currentValue$ viene inizializzato con quel valore
-	\item \texttt{public void add(int[] data)}: aggiunge un \textit{array} di interi al \textit{buffer}. Se è pieno, vengono sovrascritti i valori più vecchi. Quando viene aggiunto il primo \textit{sample}, il valore di $currentValue$ viene inizializzato con quel valore
-	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del \textit{buffer} in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
-	\item \texttt{public int[] getDataUnsafe()}: non supportato su un \textit{buffer} circolare, esegue semplicemente \texttt{getData}
-	\item \texttt{public int[] getInternalBuffer()}: ritorna l'\textit{array} usato internamente per memorizzare i dati. I dati potrebbero non essere in ordine
-	\item \texttt{public int getSize()}: ritorna la dimensione del \textit{buffer}, ossia quanti interi può contenere il \textit{buffer} prima di sovrascrivere dei dati
-	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il \textit{buffer} è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
+	\item \texttt{public void add(int val)}: aggiunge un singolo intero al buffer. Se è pieno, viene sovrascritto il valore più vecchio. Quando viene aggiunto il primo \textit{sample}, il valore di $currentValue$ viene inizializzato con quel valore
+	\item \texttt{public void add(int[] data)}: aggiunge un array di interi al buffer. Se è pieno, vengono sovrascritti i valori più vecchi. Quando viene aggiunto il primo \textit{sample}, il valore di $currentValue$ viene inizializzato con quel valore
+	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
+	\item \texttt{public int[] getDataUnsafe()}: non supportato su un buffer circolare, esegue semplicemente \texttt{getData}
+	\item \texttt{public int[] getInternalBuffer()}: ritorna l'array usato internamente per memorizzare i dati. I dati potrebbero non essere in ordine
+	\item \texttt{public int getSize()}: ritorna la dimensione del buffer, ossia quanti interi può contenere il buffer prima di sovrascrivere dei dati
+	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il buffer è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
 \end{itemize}
 
 \subsubsection{PeakHoldFilter}
@@ -267,21 +267,21 @@ Questa classe implementa un filtro che mantiene i picchi del segnale dato in ing
 La classe è \textit{thread-safe}.
 
 \paragraph{Costruttori:}\begin{itemize}
-	\item \texttt{public PeakHoldFilter(int size, int peakWindowSize)}: inizializza il filtro con una dimensione del \textit{buffer} di \texttt{size} e una dimensione della finestra in cui ricercare il massimo di \texttt{peakWindowSize}
+	\item \texttt{public PeakHoldFilter(int size, int peakWindowSize)}: inizializza il filtro con una dimensione del buffer di \texttt{size} e una dimensione della finestra in cui ricercare il massimo di \texttt{peakWindowSize}
 \end{itemize}
 
 \paragraph{Metodi pubblici:}\begin{itemize}
-	\item \texttt{public void add(int val)}: aggiunge un singolo intero al \textit{buffer}. Se è pieno, viene sovrascritto il valore più vecchio
-	\item \texttt{public void add(int[] data)}: aggiunge un \textit{array} di interi al \textit{buffer}. Se è pieno, vengono sovrascritti i valori più vecchi
-	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del \textit{buffer} in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
-	\item \texttt{public int[] getDataUnsafe()}: non supportato su un \textit{buffer} circolare, esegue semplicemente \texttt{getData}
-	\item \texttt{public int[] getInternalBuffer()}: ritorna l'\textit{array} usato internamente per memorizzare i dati. I dati potrebbero non essere in ordine
-	\item \texttt{public int getSize()}: ritorna la dimensione del \textit{buffer}, ossia quanti interi può contenere il \textit{buffer} prima di sovrascrivere dei dati
-	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il \textit{buffer} è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
+	\item \texttt{public void add(int val)}: aggiunge un singolo intero al buffer. Se è pieno, viene sovrascritto il valore più vecchio
+	\item \texttt{public void add(int[] data)}: aggiunge un array di interi al buffer. Se è pieno, vengono sovrascritti i valori più vecchi
+	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer in maniera sicura (rispettando l'incapsulamento e in modo \textit{thread-safe})
+	\item \texttt{public int[] getDataUnsafe()}: non supportato su un buffer circolare, esegue semplicemente \texttt{getData}
+	\item \texttt{public int[] getInternalBuffer()}: ritorna l'array usato internamente per memorizzare i dati. I dati potrebbero non essere in ordine
+	\item \texttt{public int getSize()}: ritorna la dimensione del buffer, ossia quanti interi può contenere il buffer prima di sovrascrivere dei dati
+	\item \texttt{public boolean isFilled()}: ritorna \texttt{true} se il buffer è pieno, ossia se sono già stati aggiunti abbastanza dati per evitare che ci siano celle vuote chiamando \texttt{getData}
 \end{itemize}
 
 \paragraph{Metodi statici:}\begin{itemize}
-	\item \texttt{public static int findBestWindowSize(int[] noisyData, int min, int max, int stepSize, int noiseThreshold)}: determina il valore minimo di \texttt{peakWindowSize} da utilizzare per far si che applicando il filtro sull'\textit{array} \texttt{noisyData}, la differenza tra il valore minimo e massimo dopo il filtraggio sia inferiore a \texttt{noiseThreshold}. \texttt{min} e \texttt{max} permettono di restringere l'intervallo di ricerca del valore di \texttt{peakWindowSize} in quell'intervallo, a passi di \texttt{stepSize}. Ritorna -1 se i dati in input non sono validi
+	\item \texttt{public static int findBestWindowSize(int[] noisyData, int min, int max, int stepSize, int noiseThreshold)}: determina il valore minimo di \texttt{peakWindowSize} da utilizzare per far si che applicando il filtro sull'array \texttt{noisyData}, la differenza tra il valore minimo e massimo dopo il filtraggio sia inferiore a \texttt{noiseThreshold}. \texttt{min} e \texttt{max} permettono di restringere l'intervallo di ricerca del valore di \texttt{peakWindowSize} in quell'intervallo, a passi di \texttt{stepSize}. Ritorna -1 se i dati in input non sono validi
 \end{itemize}
 
 \subsection{Esempio di utilizzo}
@@ -441,8 +441,8 @@ Il seguente pseudocodice mostra il funzionamento del test.
 Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
 	\item \texttt{boolean noisy}: \texttt{true} se c'è qualche tipo di disturbo rilevante sul segnale, altrimenti \texttt{false}
 	\item \texttt{double frequency}: la frequenza della PWM rilevata in Hz, oppure 0 se non è stata rilevata alcuna frequenza
-	\item \texttt{int[] raw}: \textit{array} contenente i \textit{sample} catturati dal sensore nel dominio temporale come interi tra 0 e 1023
-	\item \texttt{double sampleRate}: il \textit{sample rate} dell'\textit{array} \texttt{raw}, così da poter calcolare il \textit{timestamp} a cui corrisponde ogni \textit{sample}
+	\item \texttt{int[] raw}: array contenente i \textit{sample} catturati dal sensore nel dominio temporale come interi tra 0 e 1023
+	\item \texttt{double sampleRate}: il \textit{sample rate} dell'array \texttt{raw}, così da poter calcolare il \textit{timestamp} a cui corrisponde ogni \textit{sample}
 \end{itemize}
 
 \subsection{Input lag (test automatico)}
@@ -480,7 +480,7 @@ Il seguente pseudocodice mostra il funzionamento del test.
 \lstinputlisting{Applicazione_files/InputLagTest_pseudocode.txt}
 
 Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
-	\item \texttt{Double[] times}: \textit{array} contenente le latenze in millisecondi misurate tra ogni coppia di click-transizione
+	\item \texttt{Double[] times}: array contenente le latenze in millisecondi misurate tra ogni coppia di click-transizione
 	\item \texttt{double percentileL}: il 33-esimo percentile delle latenze misurate
 	\item \texttt{double percentile50}: il 50-esimo percentile delle latenze misurate. Questo è il dato a cui siamo più interessati
 	\item \texttt{double percentileL}: il 66-esimo percentile delle latenze misurate
@@ -517,7 +517,7 @@ Il seguente pseudocodice mostra il funzionamento del test.
 
 Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
 	\item \texttt{boolean flickeringDetected}: \texttt{true} se il test ha rilevato rumori, come retroilluminazione PWM, che potrebbero ridurre l'accuratezza del test
-	\item \texttt{Double[] frameTimes}: \textit{array} contenente i tempi in millisecondi tra ogni coppia di transizioni nero-bianco successive
+	\item \texttt{Double[] frameTimes}: array contenente i tempi in millisecondi tra ogni coppia di transizioni nero-bianco successive
 	\item \texttt{double stutteringThreshold}: soglia di millisecondi sopra di cui il test considera un tempo \textit{microstuttering}
 	\item \texttt{int stutters}: numero di \textit{stutter} rilevati durante il test
 \end{itemize}
@@ -579,9 +579,9 @@ Il seguente pseudocodice mostra il funzionamento del test.
 \lstinputlisting{Applicazione_files/PixelResponseTimeTest_pseudocode.txt}
 
 Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
-	\item \texttt{int[] steps}: \textit{array} contenente i livelli di luminosità usati nel test come interi nel range 0-255
+	\item \texttt{int[] steps}: array contenente i livelli di luminosità usati nel test come interi nel range 0-255
 	\item \texttt{boolean flickeringDetected}: true se il test ha rilevato rumori, come retroilluminazione PWM, che potrebbero ridurre l'accuratezza del test
-	\item Molti elementi \texttt{double tFrom>To}: i tempi di risposta in millisecondi misurati nella transizione da \texttt{From} a \texttt{To}, dove \texttt{From} e \texttt{To} sono elementi dell'\textit{array} \texttt{steps}. Sono omessi gli elementi in cui \texttt{From=To}, il cui valore è da considerarsi 0
+	\item Molti elementi \texttt{double tFrom>To}: i tempi di risposta in millisecondi misurati nella transizione da \texttt{From} a \texttt{To}, dove \texttt{From} e \texttt{To} sono elementi dell'array \texttt{steps}. Sono omessi gli elementi in cui \texttt{From=To}, il cui valore è da considerarsi 0
 \end{itemize}
 
 \subsection{Overdrive dei pixel}
@@ -640,9 +640,9 @@ Il seguente pseudocodice mostra il funzionamento del test.
 \lstinputlisting{Applicazione_files/PixelOverdriveTest_pseudocode.txt}
 
 Al termine del test, viene chiamato il \textit{callback} \texttt{onDone} con le seguenti informazioni:\begin{itemize}
-	\item \texttt{int[] steps}: \textit{array} contenente i livelli di luminosità usati nel test come interi nel range 0-255
+	\item \texttt{int[] steps}: array contenente i livelli di luminosità usati nel test come interi nel range 0-255
 	\item \texttt{boolean flickeringDetected}: true se il test ha rilevato rumori, come retroilluminazione PWM, che potrebbero ridurre l'accuratezza del test
-	\item Molti elementi \texttt{double eFrom>To}: la percentuale di \textit{overshoot}/\textit{undershoot} misurata nella transizione da \texttt{From} a \texttt{To}, dove \texttt{From} e \texttt{To} sono elementi dell'\textit{array} \texttt{steps}. Sono omessi gli elementi in cui \texttt{From=To}, il cui valore è da considerarsi 0
+	\item Molti elementi \texttt{double eFrom>To}: la percentuale di \textit{overshoot}/\textit{undershoot} misurata nella transizione da \texttt{From} a \texttt{To}, dove \texttt{From} e \texttt{To} sono elementi dell'array \texttt{steps}. Sono omessi gli elementi in cui \texttt{From=To}, il cui valore è da considerarsi 0
 \end{itemize}
 
 \subsection{Input lag (test interattivo)}
@@ -695,7 +695,7 @@ Oltre ai metodi dell'interfaccia standard \texttt{ITest}, questa classe implemen
 	\item \texttt{public void setVolume(int volume)}: imposta il volume dell'output come un numero tra 0 e 1
 	\item \texttt{public float getVolume()}: ritorna il volume corrente. Il valore di default è 1
 	\item \texttt{public double getSampleRate()}: ritorna il \textit{sample rate} in Hz
-	\item \texttt{public IBuffer getChartBuffer()}: ritorna un'istanza di \texttt{CircularBuffer} contenente l'ultimo mezzo secondo di audio, così che sia possibile visualizzarlo nell'interfaccia grafica. Il contenuto del \textit{buffer} ritornato è sempre aggiornato, non è necessario riottenerlo ogni volta che serve
+	\item \texttt{public IBuffer getChartBuffer()}: ritorna un'istanza di \texttt{CircularBuffer} contenente l'ultimo mezzo secondo di audio, così che sia possibile visualizzarlo nell'interfaccia grafica. Il contenuto del buffer ritornato è sempre aggiornato, non è necessario riottenerlo ogni volta che serve
 	\item \texttt{public double getStrongestFrequency(double from, double to)}: ritorna la frequenza in Hz più forte nel range specificato, oppure -1 se non ce ne sono o sono troppo deboli per essere rilevanti
 \end{itemize}
 
