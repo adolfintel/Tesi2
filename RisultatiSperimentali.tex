@@ -1,4 +1,4 @@
-\setlength{\parskip}{1em}
+\setlength{\parskip}{10pt}
 \setlength{\parindent}{0pt}
 \chapter{Risultati sperimentali}
 \label{chap:expdata}
@@ -30,7 +30,6 @@ Nelle sezioni successive, per ogni test, verranno introdotte le modalità di tes
 \begin{landscape}
 \begin{table}[h!]
 	\centering
-	\resizebox{\columnwidth}{!}{
 		\begin{tabular}{|c|c|c|c|c|c|c|} 
 			\hline
 			\textbf{Dispositivo} & \textbf{Tipo} & \textbf{Anno} & \textbf{Refresh} & \textbf{Tecnologia} & \textbf{Retroilluminazione} & \textbf{Testato da}  \\ 
@@ -58,7 +57,6 @@ Nelle sezioni successive, per ogni test, verranno introdotte le modalità di tes
 			Sharp Aquos LC-40FG3242E & TV & 2020 & 60Hz & TN & Edge LED & Autore \\ \hline
 			Thinkpad T480 & Laptop & 2018 & 60Hz & IPS & Edge LED & Autore \\ \hline
 		\end{tabular}
-	}
 	\caption{\label{tab:display_list}Lista completa dei dispositivi testati}
 \end{table}
 \end{landscape}
@@ -102,7 +100,7 @@ In questo test è stato misurato il ritardo dei display utilizzando il test auto
 		Samsung P2770HD (60Hz TV),41.1,111.9
 	}\dataset
 	\begin{tikzpicture}
-		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=4cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Ritardo (ms), width=\textwidth-2cm, height=18cm, xmin=0, ymin=-1, ymax=18] %ymax messo a mano con il numero di display per migliore formattazione
+		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=3.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Ritardo (ms), width=\textwidth-3cm, height=18cm, xmin=0, ymin=-1, ymax=18] %ymax messo a mano con il numero di display per migliore formattazione
 			\addplot table[x=vsync] {\dataset};
 			\addplot table[x=novsync] {\dataset};
 			\legend{VSync On, VSync Off}
@@ -386,7 +384,7 @@ In questo test sono stati misurati i tempi di risposta dei pixel dei vari displa
 		MacBook Pro 13" 2017 (IPS),19.49,8.74,12.60,NaN,NaN,NaN,-10
 	}\dataset
 	\begin{tikzpicture}
-		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=4cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Tempo di risposta (ms), width=\textwidth-2cm, height=17cm, xmin=0, ymin=-1, ymax=18] %ymax messo a mano con il numero di display per migliore formattazione
+		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=3.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Tempo di risposta (ms), width=\textwidth-3cm, height=17cm, xmin=0, ymin=-1, ymax=18] %ymax messo a mano con il numero di display per migliore formattazione
 			\addplot plot[forget plot] table[x=fix] {\dataset};
 			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
 			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
@@ -444,7 +442,7 @@ In questo test è stato misurato l'errore massimo che il display raggiunge duran
 		MacBook Pro 13" 2017 (IPS),0.22,0.22,0.59,NaN,NaN,NaN,-10
 	}\dataset
 	\begin{tikzpicture}
-		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=4cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Errore di transizione (\%), width=\textwidth-2cm, height=13cm, xmin=0, ymin=-1, ymax=13] %ymax messo a mano con il numero di display per migliore formattazione]
+		\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=3.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,-1.1cm)},anchor=north}, xlabel=Errore di transizione (\%), width=\textwidth-3cm, height=13cm, xmin=0, ymin=-1, ymax=13] %ymax messo a mano con il numero di display per migliore formattazione]
 			\addplot plot[forget plot] table[x=fix] {\dataset};
 			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
 			\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};

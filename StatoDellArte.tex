@@ -1,4 +1,4 @@
-\setlength{\parskip}{1em}
+\setlength{\parskip}{10pt}
 \setlength{\parindent}{0pt}
 \chapter{Stato dell'arte}
 \label{chap:statoarte}
@@ -12,7 +12,7 @@ Il dispositivo Nvidia LDAT si presenta come una piccola scatola di plastica stam
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/nvldat_front.jpg}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/nvldat_front.jpg}
 	\caption{Parte frontale del dispositivo Nvidia LDAT (da GamersNexus)}
 	\label{fig:nvldat_front}
 \end{figure}
@@ -21,7 +21,7 @@ Non è noto nulla riguardo all'hardware presente all'interno, ma dall'immagine i
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/nvldat_back.jpg}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/nvldat_back.jpg}
 	\caption{Parte posteriore del dispositivo Nvidia LDAT (da GamersNexus)}
 	\label{fig:nvldat_back}
 \end{figure}
@@ -32,7 +32,7 @@ La figura \ref{fig:nvldat_software} mostra uno screenshot del software Nvidia LD
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/nvldat_software.jpg}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/nvldat_software.jpg}
 	\caption{Screenshot del software Nvidia LDAT (da igorslab.de)}
 	\label{fig:nvldat_software}
 \end{figure}
@@ -41,7 +41,7 @@ Il dispositivo è stato aggiornato intorno a Maggio 2021, con un case di plastic
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/nvldat_v2.jpg}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/nvldat_v2.jpg}
 	\caption{Nuova versione di Nvidia LDAT (da techpowerup.com)}
 	\label{fig:nvldat_v2}
 \end{figure}
@@ -53,7 +53,7 @@ Il requisito di un mouse esplicitamente supportato da Nvidia è necessaria al so
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/nvreflex_example.jpg}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/nvreflex_example.jpg}
 	\caption{Nvidia Reflex Latency Analyzer (da nvidia.com)}
 	\label{fig:nvreflex_example}
 \end{figure}
@@ -67,10 +67,10 @@ Lo scopo principale di questa applicazione è quella di misurare l'accuratezza d
 
 La figura \ref{fig:displaycal_report_example} mostra un esempio di \textit{report} generato da DisplayCAL riguardante l'accuratezza dei colori. Il test consiste nel visualizzare una serie di colori e calcolare la differenza tra il colore visualizzato e quello inteso utilizzando qualche tecnica come Delta-E 1976, tenendo conto dello spazio colore in cui deve essere visualizzato.
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/displaycal_report_example.jpg}
-	\caption{Esempio di \textit{report} sull'accuratezza dei colori}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/displaycal_report_example.jpg}
+	\caption{Esempio di \textit{report} sull'accuratezza dei colori di DisplayCAL}
 	\label{fig:displaycal_report_example}
 \end{figure}
 
@@ -81,15 +81,13 @@ Il sito di recensioni RTINGS\footnote{\href{https://rtings.com/}{https://rtings.
 
 Purtroppo non sono note informazioni sul dispositivo stesso, ma è visibile in alcune fotografie presenti nelle recensioni, come quella in figura \ref{fig:rtings_device}. Sembra essere un sistema composto da un'MCU e da un sensore di luminosità. Non è noto come i dati raccolti dal sensore vengano analizzati (manualmente o da un programma apposito).
 
-\begin{figure}[h]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=\textwidth]{StatoDellArte_files/rtings_device.jpg}
+	\includegraphics[width=0.8\textwidth]{StatoDellArte_files/rtings_device.jpg}
 	\caption{Il dispositivo di RTINGS}
 	\label{fig:rtings_device}
 \end{figure}
 
-Altri test nelle recensioni presenti sul sito vengono invece svolti utilizzando un colorimetro e DisplayCAL: luminosità, contrasto, curve di gamma, gamut, temperatura del bianco, e altro.
-
-Alcuni test infine sono eseguiti manualmente con una telecamera, come quello sugli angoli di visione.
+Altri test nelle recensioni presenti sul sito vengono invece svolti utilizzando un colorimetro e DisplayCAL: luminosità, contrasto, curve di gamma, gamut, temperatura del bianco, e altro. Alcuni test infine sono eseguiti manualmente con una telecamera, come quello sugli angoli di visione.
 
 Questo conclude il capitolo sullo stato dell'arte. I capitoli successivi si concentrano sul progetto OpenLDAT.

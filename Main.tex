@@ -4,12 +4,17 @@
 \documentclass[12pt,a4paper]{report}
 
 \usepackage[english,italian]{babel}
-\usepackage[hyphens]{url}
+%\usepackage[a-1b]{pdfx}
+\usepackage[htt]{hyphenat}
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
-\pgfplotsset{compat=newest}
+\pgfplotsset{
+	compat=newest,
+	every tick label/.append style={font=\scriptsize},
+	every node near coord/.append style={font=\scriptsize}
+}
 \usepgfplotslibrary{ternary}
 %\usepgfplotslibrary{external}
 %\tikzexternalize
@@ -30,20 +35,17 @@
 	stringstyle=\color{orange},
 	tabsize=2
 }
-\usepackage{hyperref}
-\usepackage{refcheck} % questo poi lo puoi commentare alla fine
+\usepackage[font={small}]{caption}
+\usepackage[hidelinks=true]{hyperref}
 \usepackage{graphicx}
 \usepackage{csvsimple}
 \usepackage{pdflscape}
-\usepackage[a4paper,top=3cm,bottom=3cm,outer=4.5cm,verbose,headheight=1cm,heightrounded]{geometry}
+\usepackage[a4paper,top=3cm,bottom=3cm,outer=3cm,verbose,headheight=1cm,heightrounded]{geometry}
 \setlength{\marginparwidth}{4cm} %per farci stare todonotes, nel final si può rimuovere
 \usepackage{todonotes}
-%\usepackage[disable]{todonotes}%poi nel finale
 \usepackage[toc,numberedsection=nameref,nopostdot=true,automake]{glossaries-extra}
 \makeglossaries
 \input{Glossario.tex}
-
-%\usepackage[a-1b]{pdfx}
 
 \begin{document}
 
@@ -78,7 +80,7 @@
 \begin{center}
 {\large{\bf Anno Accademico 2020/2021}}
 \end{center}
-\todo{dosse:aggiungere nuova biblio}
+\todo{dosse:capire perchè texttt non spezza le parole correttamente}
 \end{titlepage}
 
 \listoftodos

@@ -1,4 +1,4 @@
-\setlength{\parskip}{1em}
+\setlength{\parskip}{10pt}
 \setlength{\parindent}{0pt}
 \chapter{L'applicazione OpenLDAT}
 \label{chap:app}
@@ -290,12 +290,12 @@ Il seguente listato mostra un esempio di come è possibile acquisire un segnale 
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
-		\begin{axis}[name=Segnale, xmin=0,xmax=8192,ymin=0,ymax=1023,width=.8\textwidth,xlabel=Sample,ylabel=Valore]
+		\begin{axis}[name=Segnale, xmin=0,xmax=8192,ymin=0,ymax=1023,width=.7\textwidth,xlabel=Sample,ylabel=Valore]
 			\addplot[black] file{Applicazione_files/filters_example_original.txt};
 		\end{axis}
 	\end{tikzpicture}
 	\begin{tikzpicture}
-		\begin{axis}[name=Spettro, xmin=0,xmax=4000,ymin=0,ymax=150000,width=.8\textwidth,xlabel=Frequenza (Hz),ylabel=Potenza]
+		\begin{axis}[name=Spettro, xmin=0,xmax=4000,ymin=0,ymax=150000,width=.7\textwidth,xlabel=Frequenza (Hz),ylabel=Potenza]
 			\addplot[black] file{Applicazione_files/filters_example_fft.txt};
 		\end{axis}
 	\end{tikzpicture}
@@ -305,7 +305,7 @@ Il seguente listato mostra un esempio di come è possibile acquisire un segnale 
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
-		\begin{axis}[name=Segnale, xmin=0,xmax=8192,ymin=0,ymax=1023,width=.8\textwidth,xlabel=Sample,ylabel=Valore]
+		\begin{axis}[name=Segnale, xmin=0,xmax=8192,ymin=0,ymax=1023,width=.7\textwidth,xlabel=Sample,ylabel=Valore]
 			\addplot[gray] file{Applicazione_files/filters_example_original.txt};
 			\addplot[red] file{Applicazione_files/filters_example_smooth.txt};
 		\end{axis}
@@ -316,7 +316,7 @@ Il seguente listato mostra un esempio di come è possibile acquisire un segnale 
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
-		\begin{axis}[name=Segnale, xmin=0,xmax=8192,ymin=0,ymax=1023,width=.8\textwidth,xlabel=Sample,ylabel=Valore]
+		\begin{axis}[name=Segnale, xmin=0,xmax=8192,ymin=0,ymax=1023,width=.7\textwidth,xlabel=Sample,ylabel=Valore]
 			\addplot[gray] file{Applicazione_files/filters_example_original.txt};
 			\addplot[red] file{Applicazione_files/filters_example_peakHold.txt};
 		\end{axis}
@@ -907,7 +907,7 @@ Queste impostazioni sono rese disponibili a tutte le classi dell'applicazione so
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Applicazione_files/gui_settings.png}
+	\includegraphics[width=.8\textwidth]{Applicazione_files/gui_settings.png}
 	\caption{Impostazioni dell'applicazione}
 	\label{fig:gui_settings}
 \end{figure}

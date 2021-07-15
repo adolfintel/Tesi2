@@ -1,4 +1,4 @@
-\setlength{\parskip}{1em}
+\setlength{\parskip}{10pt}
 \setlength{\parindent}{0pt}
 \chapter{Il dispositivo OpenLDAT}
 \label{chap:device}
@@ -56,8 +56,8 @@ Il sensore ha un tempo di risposta di circa 0.1ms in salita e 0.2ms in discesa \
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.7\textwidth]{Dispositivo_files/sensor_scope_rise.png}
-	\includegraphics[width=0.7\textwidth]{Dispositivo_files/sensor_scope_fall.png}
+	\includegraphics[width=0.75\textwidth]{Dispositivo_files/sensor_scope_rise.png}
+	\includegraphics[width=0.75\textwidth]{Dispositivo_files/sensor_scope_fall.png}
 	\caption{Salita e discesa del sensore ALS-PT19 catturata con un oscilloscopio}
 	\label{fig:sensor_scope_risefall}
 \end{figure}
@@ -303,7 +303,7 @@ L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/lsusb.png}
+	\includegraphics[width=0.8\textwidth]{Dispositivo_files/lsusb.png}
 	\caption{Elenco di dispositivi USB, tra cui un OpenLDAT}
 	\label{fig:lsusb}
 \end{figure}
@@ -341,7 +341,7 @@ Il comando \texttt{LIGHTSENSOR} viene inviato dall'applicazione al dispositivo q
 Combinando i flag \texttt{NOBUFFER}, \texttt{FASTADC} e \texttt{MONITOR} in diversi modi, si possono ottenere 8 possibili velocità di campionamento, mostrate in tabella \ref{tab:openldat_samplerates}.
 \begin{table}[h!]
 	\centering
-	\resizebox{\columnwidth}{!}{\begin{tabular}{|c|c|c|c|c|} 
+	\begin{tabular}{|c|c|c|c|c|} 
 		\hline
 		\texttt{NOBUFFER} & \texttt{FASTADC} & \texttt{MONITOR} & \textbf{Sample rate effettivo} & \textbf{Campionamento}   \\ 
 		\hline
@@ -361,7 +361,7 @@ Combinando i flag \texttt{NOBUFFER}, \texttt{FASTADC} e \texttt{MONITOR} in dive
 		\hline
 		0 & 1 & 1 & 29524.4Hz (924.2buf/s) & 95.01\%         \\
 		\hline
-	\end{tabular}}
+	\end{tabular}
 	\caption{\label{tab:openldat_samplerates}Velocità di campionamento}
 \end{table}
 
@@ -423,7 +423,7 @@ La figura \ref{fig:serialdebug} mostra un esempio di output sul \textit{serial p
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/serialdebug.png}
+	\includegraphics[width=0.8\textwidth]{Dispositivo_files/serialdebug.png}
 	\caption{Esempio di output su \textit{serial monitor}. (Nota: in questo esempio il sensore non era collegato, quindi il grafico mostra interferenze provenienti dall'esterno)}
 	\label{fig:serialdebug}
 \end{figure}
@@ -442,7 +442,7 @@ La figura \ref{fig:oscilloscopedebug} mostra un esempio del segnale generato da 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/scope.png}
+	\includegraphics[width=0.8\textwidth]{Dispositivo_files/scope.png}
 	\caption{Esempio di segnale generato da \texttt{OSCILLOSCOPE\_DEBUG}}
 	\label{fig:oscilloscopedebug}
 \end{figure}
@@ -603,7 +603,7 @@ L'assemblaggio è ora completo e il dispositivo è pronto per ricevere il firmwa
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\textwidth]{Dispositivo_files/assembly_13.jpg}
-	\caption{Carta adesiva vellutata per proteggere il display da graffi accidentali}
+	\caption{Carta adesiva vellutata per proteggere il display testato da graffi accidentali}
 	\label{fig:assembly_13}
 \end{figure}
 
@@ -742,7 +742,7 @@ Attenzione: il \textit{flashing} con Arduino IDE introduce il problema della rip
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/flashing_03.png}
+	\includegraphics[width=0.8\textwidth]{Dispositivo_files/flashing_03.png}
 	\caption{Selezione del dispositivo (potrebbe avere un nome diverso da Arduino Leonardo, dipende dal bootloader caricato in fabbrica)}
 	\label{fig:flashing_03}
 \end{figure}
@@ -756,14 +756,14 @@ Attenzione: il \textit{flashing} con Arduino IDE introduce il problema della rip
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/flashing_06.png}
+	\includegraphics[width=0.8\textwidth]{Dispositivo_files/flashing_06.png}
 	\caption{Download della libreria HID-Project}
 	\label{fig:flashing_06}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/flashing_05.png}
+	\includegraphics[width=0.8\textwidth]{Dispositivo_files/flashing_05.png}
 	\caption{Pronto per il \textit{flashing}}
 	\label{fig:flashing_05}
 \end{figure}
