@@ -404,7 +404,7 @@ Quando il flag \texttt{MONITOR} è impostato a 0, il dispositivo ascolta i click
 L'esecuzione delle ISR non rallenta significativamente il campionamento, in quanto richiedono pochi microsecondi per essere eseguite.\\
 Per massimizzare la velocità di esecuzione, queste due ISR sono in realtà implementate nel firmware come quattro ISR: due semplici (con e senza simulazione del click), e due con \textit{debouncing} (con e senza simulazione del click). La scelta dell'ISR da usare avviene durante il \textit{parsing} del comando.
 
-L'invio dei click del mouse avviene tramite la libreria HID-Project di NicoHood\footnote{\href{https://www.arduino.cc/reference/en/libraries/hid-project/}{https://www.arduino.cc/reference/en/libraries/hid-project/}}, scaricabile tramite il gestore di librerie di Arduino IDE.
+L'invio dei click del mouse avviene tramite la libreria HID-Project di NicoHood\footnote{\url{https://www.arduino.cc/reference/en/libraries/hid-project/}}, scaricabile tramite il gestore di librerie di Arduino IDE.
 
 Attenzione: l'arrivo di un \textit{interrupt} causa inevitabilmente un'interruzione del campionamento, ma poiché la durata delle ISR è così breve, ed è un ordine di grandezza più piccola dei valori che vogliamo misurare, l'applicazione può ignorare questi ``buchi'' nel campionamento senza perdere precisione.
 
@@ -679,7 +679,7 @@ Attenzione: è raro ma possibile che il nome della porta seriale assegnata al di
 \subsubsection{Flashing con lo script automatico (Windows)}
 All'interno della cartella del firmware è presente una cartella chiamata \texttt{Prebuilt}, all'interno della quale è presente il firmware precompilato e lo script \texttt{flash.bat} per Windows.
 
-\paragraph{Passo 1} Installare Arduino IDE utilizzando l'installatore sul sito web\footnote{\href{https://www.arduino.cc/en/software}{https://www.arduino.cc/en/software}}, lasciando i file nel loro percorso di default, e assicurandosi di installare anche i driver di Arduino.
+\paragraph{Passo 1} Installare Arduino IDE utilizzando l'installatore sul sito web\footnote{\url{https://www.arduino.cc/en/software}}, lasciando i file nel loro percorso di default, e assicurandosi di installare anche i driver di Arduino.
 
 \paragraph{Passo 2} Collegare il dispositivo da programmare, entrare nella cartella \texttt{Prebuilt} e fare doppio click su \texttt{flash.bat} per visualizzare l'elenco di porte COM, come in figura figura \ref{fig:flashing_07}. Prendere nota della porta del dispositivo, nell'esempio è \texttt{COM6}.
 

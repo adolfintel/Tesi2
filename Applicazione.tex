@@ -25,9 +25,9 @@ L'applicazione è strutturata in quattro parti principali più alcune classi di 
 
 Oltre a Java SE, per lo sviluppo dell'applicazione sono state utilizzate anche le seguenti librerie:
 \begin{itemize}
-	\item \textbf{jSerialComm} \footnote{\href{https://github.com/Fazecast/jSerialComm}{https://github.com/Fazecast/jSerialComm}}: una libreria che consente ad applicazioni Java di interfacciarsi con dispositivi seriali
-	\item \textbf{LWJGL} \footnote{\href{https://www.lwjgl.org/}{https://www.lwjgl.org/}}: una libreria per lo sviluppo di applicazioni OpenGL in Java, utilizzata anche da giochi commerciali come Minecraft
-	\item \textbf{JTransforms} \footnote{\href{https://github.com/wendykierp/JTransforms}{https://github.com/wendykierp/JTransforms}}: utilizzata per realizzare il filtro FFT
+	\item \textbf{jSerialComm} \footnote{\url{https://github.com/Fazecast/jSerialComm}}: una libreria che consente ad applicazioni Java di interfacciarsi con dispositivi seriali
+	\item \textbf{LWJGL} \footnote{\url{https://www.lwjgl.org/}}: una libreria per lo sviluppo di applicazioni OpenGL in Java, utilizzata anche da giochi commerciali come Minecraft
+	\item \textbf{JTransforms} \footnote{\url{https://github.com/wendykierp/JTransforms}}: utilizzata per realizzare il filtro FFT
 \end{itemize}
 
 Tutti i file relativi all'applicazione e al \textit{packaging} per le varie piattaforme sono presenti nella cartella \texttt{App} all'interno del repository. Il progetto \texttt{OpenLDAT} al suo interno può essere caricato in NetBeans IDE.
@@ -961,7 +961,7 @@ Essendo il codice multipiattaforma, è possibile utilizzarlo anche su altre piat
 Tutti i file e le istruzioni necessarie per il \textit{packaging} sulle piattaforme target sono presenti nella cartella \texttt{Packaging stuff} all'interno della cartella dell'applicazione.
 
 \subsection{Windows}
-Il pacchetto di installazione per Windows è stato realizzato utilizzando Inno Setup\footnote{\href{https://jrsoftware.org/isinfo.php}{https://jrsoftware.org/isinfo.php}}. All'interno del \textit{package} sono presenti l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE\footnote{\href{https://adoptopenjdk.net/releases.html}{https://adoptopenjdk.net/releases.html}}), e un launcher eseguibile per Windows realizzato con Launch4J\footnote{\href{https://launch4j.sourceforge.net/}{https://launch4j.sourceforge.net/}}.
+Il pacchetto di installazione per Windows è stato realizzato utilizzando Inno Setup\footnote{\url{https://jrsoftware.org/isinfo.php}}. All'interno del \textit{package} sono presenti l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE\footnote{\url{https://adoptopenjdk.net/releases.html}}), e un launcher eseguibile per Windows realizzato con Launch4J\footnote{\url{https://launch4j.sourceforge.net/}}.
 
 La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 	\item Fare una copia della cartella \texttt{Windows-InnoSetup}
@@ -974,7 +974,7 @@ La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 \end{itemize}
 
 \subsection{GNU/Linux}
-Il pacchetto per GNU/Linux è distribuito nel formato AppImage\footnote{\href{https://appimage.org/}{https://appimage.org/}}, che non richiede installazione. All'interno del \textit{package} sono presenti l'applicazione OpenLDAT con le relative librerie e il \textit{runtime} Java (OpenJDK 11 JRE).
+Il pacchetto per GNU/Linux è distribuito nel formato AppImage\footnote{\url{https://appimage.org/}}, che non richiede installazione. All'interno del \textit{package} sono presenti l'applicazione OpenLDAT con le relative librerie e il \textit{runtime} Java (OpenJDK 11 JRE).
 
 La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 	\item Fare una copia della cartella \texttt{Linux-AppImage} ed entrare nella cartella \texttt{OpenLDAT.AppDir}
@@ -989,7 +989,7 @@ La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 \end{itemize}
 
 \subsection{MacOS}
-Il pacchetto per MacOS è distribuito sotto forma di immagine DMG contenente un'applicazione nel formato standard .app, la quale contiene al suo interno l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE), e un wrapper per consentire l'avvio di applicazioni Java su MacOS\footnote{\href{https://github.com/tofi86/universalJavaApplicationStub}{https://github.com/tofi86/universalJavaApplicationStub}}.
+Il pacchetto per MacOS è distribuito sotto forma di immagine DMG contenente un'applicazione nel formato standard .app, la quale contiene al suo interno l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE), e un wrapper per consentire l'avvio di applicazioni Java su MacOS\footnote{\url{https://github.com/tofi86/universalJavaApplicationStub}}.
 
 Nota: il testing su questa piattaforma è stato estremamente limitato e non è stato eseguito dall'autore di questa tesi.
 

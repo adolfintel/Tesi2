@@ -48,7 +48,7 @@ Il dispositivo è stato aggiornato intorno a Maggio 2021, con un case di plastic
 
 Nvidia purtroppo ha scelto di non commercializzare nessuna versione di questo dispositivo, ma lo ha solo distribuito ad alcuni giornalisti di tecnologia come parte di un \textit{``reviewers kit''}, ma ha creato Nvidia Reflex Latency Analyzer, una sorta di versione \textit{built-in} in alcuni monitor e mouse compatibili che è in grado di misurare la latenza senza bisogno di dispositivi esterni.
 
-Nvidia Reflex Latency Analyzer\footnote{\href{https://www.nvidia.com/en-us/geforce/news/reflex-latency-analyzer-360hz-g-sync-monitors/}{https://www.nvidia.com/en-us/geforce/news/reflex-latency-analyzer-360hz-g-sync-monitors/}} consente ai display con certificazione G-Sync Ultimate (ossia con un processore Nvidia dedicato al loro interno) di eseguire il lavoro che normalmente svolgerebbe il sensore di luminosità, monitorando una piccola area dell'immagine per rilevare variazioni di luminosità. Un mouse compatibile deve essere collegato al display stesso, e il software sarà in grado di misurare il ritardo dell'intero sistema.\\
+Nvidia Reflex Latency Analyzer\footnote{\url{https://www.nvidia.com/en-us/geforce/news/reflex-latency-analyzer-360hz-g-sync-monitors/}} consente ai display con certificazione G-Sync Ultimate (ossia con un processore Nvidia dedicato al loro interno) di eseguire il lavoro che normalmente svolgerebbe il sensore di luminosità, monitorando una piccola area dell'immagine per rilevare variazioni di luminosità. Un mouse compatibile deve essere collegato al display stesso, e il software sarà in grado di misurare il ritardo dell'intero sistema.\\
 Il requisito di un mouse esplicitamente supportato da Nvidia è necessaria al software per poter conoscere quanto del ritardo è causato dal mouse stesso e quanto dal resto del sistema. Il tempo di latenza calcolato da questo sistema è sostanzialmente lo stesso che verrebbe misurato con un dispositivo esterno come Nvidia LDAT, a meno di pochi millisecondi dovuti al tempo di risposta dei pixel del display. La figura \ref{fig:nvreflex_example} mostra un overlay con la latenza posizionato da Nvidia Geforce Experience sopra un'applicazione.
 
 \begin{figure}[h!]
@@ -61,7 +61,7 @@ Il requisito di un mouse esplicitamente supportato da Nvidia è necessaria al so
 Nel momento in cui viene scritto questo paragrafo (aggiornato a Giugno 2021), Nvidia Reflex Latency Analyzer è sostanzialmente inesistente sul mercato poiché supporta pochi modelli di display e mouse, e sono molto costosi per quello che offrono. Il requisito di utilizzare Nvidia Geforce Experience per utilizzarlo, un'applicazione proprietaria che richiede un login e con una pessima reputazione, non ha sicuramente contribuito alla sua diffusione.
 
 \section{DisplayCAL}
-DisplayCAL\footnote{\href{https://displaycal.net/}{https://displaycal.net/}} è un software libero di calibrazione e profilazione di display basato su ArgyllCMS\footnote{\href{https://www.argyllcms.com/}{https://www.argyllcms.com/}}.
+DisplayCAL\footnote{\url{https://displaycal.net/}} è un software libero di calibrazione e profilazione di display basato su ArgyllCMS\footnote{\url{https://www.argyllcms.com/}}.
 
 Lo scopo principale di questa applicazione è quella di misurare l'accuratezza dei colori del display utilizzando un colorimetro o uno spettrofotometro tra quelli supportati da ArgyllCMS e generare un profilo di colore ICC che può essere utilizzato nel sistema operativo per fornire dei colori più accurati. Oltre alla calibrazione, può generare anche dei \textit{report} che mostrano il gamut del display, le curve di gamma, e molto altro, secondo molti standard.
 
@@ -77,7 +77,7 @@ La figura \ref{fig:displaycal_report_example} mostra un esempio di \textit{repor
 Siccome questo software si concentra sulla qualità dell'immagine e soprattutto dei colori, il suo obiettivo è diverso rispetto a quello di Nvidia LDAT e di OpenLDAT, e non implementa alcun test riguardante le tempistiche del display e del sistema (Marzo 2021). I dispositivi supportati da DisplayCAL inoltre sono molto più sofisticati e piuttosto costosi, con i modelli più economici (dei colorimetri a tre canali) che partono da circa 100€.
 
 \section{Dispositivo di RTINGS}
-Il sito di recensioni RTINGS\footnote{\href{https://rtings.com/}{https://rtings.com/}} ha sviluppato un proprio dispositivo per eseguire diversi tipi di misurazioni sui display: tempi di latenza, tempi di risposta dei pixel, errore di transizione causato dall'\textit{overdrive}, e altro.
+Il sito di recensioni RTINGS\footnote{\url{https://rtings.com/}} ha sviluppato un proprio dispositivo per eseguire diversi tipi di misurazioni sui display: tempi di latenza, tempi di risposta dei pixel, errore di transizione causato dall'\textit{overdrive}, e altro.
 
 Purtroppo non sono note informazioni sul dispositivo stesso, ma è visibile in alcune fotografie presenti nelle recensioni, come quella in figura \ref{fig:rtings_device}. Sembra essere un sistema composto da un'MCU e da un sensore di luminosità. Non è noto come i dati raccolti dal sensore vengano analizzati (manualmente o da un programma apposito).
 
