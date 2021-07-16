@@ -1,12 +1,11 @@
 % !TeX spellcheck = it_IT
-%compilare con xelatex!
 
 \documentclass[12pt,a4paper]{report}
 
 \usepackage[english,italian]{babel}
 %\usepackage[a-1b]{pdfx}
 \usepackage[hidelinks=true]{hyperref}
-\usepackage[htt]{hyphenat}
+%\usepackage[htt]{hyphenat}
 \usepackage{siunitx}
 \usepackage{tikz}
 \usepackage{pgfplots}
@@ -42,6 +41,8 @@
 \usepackage[a4paper,top=3cm,bottom=3cm,outer=3cm,verbose,headheight=1cm,heightrounded]{geometry}
 \setlength{\marginparwidth}{4cm} %per farci stare todonotes, nel final si può rimuovere
 \usepackage{todonotes}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do-}
 \usepackage[toc,numberedsection=nameref,nopostdot=true,automake]{glossaries-extra}
 \makeglossaries
 \input{Glossario.tex}
@@ -79,13 +80,12 @@
 \begin{center}
 {\large{\bf Anno Accademico 2020/2021}}
 \end{center}
-\todo{dosse:capire perchè texttt non spezza le parole correttamente}
 \end{titlepage}
 
 \listoftodos
 \tableofcontents
 
-
+\sloppy
 \newpage
 \input{Introduzione.tex}
 \newpage

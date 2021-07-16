@@ -232,7 +232,7 @@ La classe è \textit{thread-safe}.
 \paragraph{Metodi pubblici:} \begin{itemize}
 	\item \texttt{public void add(int val)}: aggiunge un singolo intero al buffer. Se è pieno, viene sovrascritto il valore più vecchio
 	\item \texttt{public void add(int[] data)}: aggiunge un array di interi al buffer. Se è pieno, vengono sovrascritti i valori più vecchi
-	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer, ma nel dominio della frequenza. Ogni valore nell'array ritornato è un \textit{bin} dell'FFT e il suo valore indica la potenza del segnale in quel \textit{bin}. Per conoscere la frequenza a cui corrisponde l'\textit{i}-esimo \textit{bin}, è sufficiente usare la seguente formula: $\frac{i}{size}*(\frac{sampleRate}{2})$
+	\item \texttt{public int[] getData()}: ritorna il contenuto attuale del buffer, ma nel dominio della frequenza. Ogni valore nell'array ritornato è un \textit{bin} dell'FFT e il suo valore indica la potenza del segnale in quel \textit{bin}. Per conoscere la frequenza a cui corrisponde l'\textit{i}-esimo \textit{bin}, è sufficiente usare la seguente formula: ${\frac{i}{size}*(\frac{sampleRate}{2})}$
 	\item \texttt{public int[] getDataUnsafe()}: non supportato su un buffer circolare, esegue semplicemente \texttt{getData}
 	\item \texttt{public int[] getOriginalData()}: ritorna i dati inseriti nel buffer, nel dominio temporale
 	\item \texttt{public int[] getInternalBuffer()}: ritorna l'array usato internamente per memorizzare i dati nel dominio temporale. I dati potrebbero non essere in ordine
@@ -243,7 +243,7 @@ La classe è \textit{thread-safe}.
 \subsubsection{RunningAverageSmoothingFilter}
 Questa classe implementa un filtro che ``smussa'' i dati utilizzando una sorta di media mobile.
 
-Il filtro funziona in questo modo: internamente viene mantenuto il valore di output corrente che chiamiamo $currentValue$, inizializzato a 0; ogni volta che viene aggiunto un nuovo \textit{sample} $new$, si aggiorna in questo modo: $currentValue=smoothing*currentValue+(1-smoothing)*new$, dove $smoothing$ è un valore tra 0 e 1 e indica la resistenza che il filtro oppone a cambiare il valore (0 è istantaneo, 1 non cambia mai). Valori tipici per $smoothing$ sono molto vicini a 1.
+Il filtro funziona in questo modo: internamente viene mantenuto il valore di output corrente che chiamiamo $currentValue$, inizializzato a 0; ogni volta che viene aggiunto un nuovo \textit{sample} $new$, si aggiorna in questo modo: ${currentValue=smoothing*currentValue+(1-smoothing)*new}$, dove $smoothing$ è un valore tra 0 e 1 e indica la resistenza che il filtro oppone a cambiare il valore (0 è istantaneo, 1 non cambia mai). Valori tipici per $smoothing$ sono molto vicini a 1.
 
 La classe è \textit{thread-safe}.
 
@@ -369,7 +369,7 @@ Entrambe le \textit{backend} implementano un'interfaccia generica \texttt{ITestS
 	\item \texttt{public int getScreenH()}: ritorna l'altezza dello schermo in pixel
 	\item \texttt{public int getRefreshRate()}: ritorna il \textit{refresh rate} dello schermo in Hz
 	\item \texttt{public boolean setColor(float r, float g, float b)}: imposta il colore dello sfondo con tre valori RGB tra 0 e 1. Ritorna \texttt{true} se il colore nuovo è diverso da quello corrente, altrimenti \texttt{false}
-	\item \texttt{public void setTarget(float x, float y, float size, boolean black)}: mostra il target e la scritta \textit{``Move sensor on target and press Enter''} alle coordinate specificate. Le coordinate \texttt{x},\texttt{y} si riferiscono al centro del target e vanno tra 0 e 1, dove 0,0 è l'angolo in alto a sinistra e 1,1 è l'angolo in basso a destra. Impostando \texttt{black} a true, il target e il testo saranno di colore nero, altrimenti saranno bianchi. La dimensione del target è definita come $size*min(W,H)$. Un valore tipico per \texttt{size} è 0.15. Il target è sempre quadrato
+	\item \texttt{public void setTarget(float x, float y, float size, boolean black)}: mostra il target e la scritta \textit{``Move sensor on target and press Enter''} alle coordinate specificate. Le coordinate \texttt{x},\texttt{y} si riferiscono al centro del target e vanno tra 0 e 1, dove 0,0 è l'angolo in alto a sinistra e 1,1 è l'angolo in basso a destra. Impostando \texttt{black} a true, il target e il testo saranno di colore nero, altrimenti saranno bianchi. La dimensione del target è definita come ${size*min(W,H)}$. Un valore tipico per \texttt{size} è 0.15. Il target è sempre quadrato
 	\item \texttt{public void setTargetAbsolute(float x, float y, float size, boolean black)}: analogo a \texttt{setTarget} ma le coordinate sono assolute anziché nel range 0-1
 	\item \texttt{public void hideTarget()}: nasconde il target e la scritta precedentemente attivati con \texttt{setTarget} o \texttt{setTargetAbsolute}
 	\item \texttt{public void setFlashOnClick(boolean flashOnClick)}: se impostato a \texttt{true}, quando l'applicazione riceve un click genera un flash bianco di 100ms
@@ -492,7 +492,7 @@ Su molti display è possibile osservare che il risultato ha un pattern a dente d
 \subsection{Rilevamento del microstuttering}
 La classe \texttt{StutteringDetectionTest} implementa il test di rilevazione del \textit{microstuttering}. Per \textit{microstuttering} si intende la presenza di fotogrammi persi o duplicati, che causano dei visibili scatti nelle immagini in movimento.
 
-Il test visualizza fotogrammi alternati bianchi e neri per alcuni secondi mentre cattura il segnale ottenuto con il sensore di luminosità, il segnale viene poi analizzato per rilevare le transizioni dal nero al bianco e trovare deviazioni nei tempi di queste transizioni. Normalmente, tra ogni coppia di transizioni successive dal nero-bianco passano circa $2*\frac{1000}{RefreshRate}$ millisecondi, ma se un fotogramma (bianco o nero) viene duplicato o perso, si noterà un picco in uno di questi tempi, e questo consente di rilevare il \textit{microstuttering}.\\
+Il test visualizza fotogrammi alternati bianchi e neri per alcuni secondi mentre cattura il segnale ottenuto con il sensore di luminosità, il segnale viene poi analizzato per rilevare le transizioni dal nero al bianco e trovare deviazioni nei tempi di queste transizioni. Normalmente, tra ogni coppia di transizioni successive dal nero-bianco passano circa ${2*\frac{1000}{RefreshRate}}$ millisecondi, ma se un fotogramma (bianco o nero) viene duplicato o perso, si noterà un picco in uno di questi tempi, e questo consente di rilevare il \textit{microstuttering}.\\
 Il grafico in figura \ref{fig:stutteringDetectionTest_example} mostra come potrebbe presentarsi un segnale catturato durante il test: il fotogramma nero che dovrebbe essere presente tra 0.1 e 0.15s è stato perso, e con esso una transizione, e questo viene rilevato dall'algoritmo alla transizione successiva.
 
 In presenza di rumore, in particolar modo retroilluminazione PWM, viene utilizzato il filtro \texttt{RunningAverageSmoothingFilter} per ridurlo notevolmente così che non causi problemi all'analisi.
@@ -594,8 +594,8 @@ La classe \texttt{PixelOverdriveTest} implementa il test che misura l'errore mas
 \end{figure}
 
 Non esiste uno standard per la misurazione dell'\textit{overdrive}, quindi in questo test vengono proposti due metodi:\begin{itemize}
-	\item \texttt{Assoluto}: considera l'errore sull'intero range di luminosità del display. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è $\frac{48-32}{255}=6.25\%$ . Questo è il metodo consigliato
-	\item \texttt{Relativo}: considera l'errore relativo al range di luminosità che la transizione deve percorrere. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è  $\frac{48-32}{32-16}=50\%$. Questo metodo tende a sovrastimare molto i risultati su transizioni piccole, per cui è quindi generalmente sconsigliato
+	\item \texttt{Assoluto}: considera l'errore sull'intero range di luminosità del display. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è ${\frac{48-32}{255}=6.25\%}$ . Questo è il metodo consigliato
+	\item \texttt{Relativo}: considera l'errore relativo al range di luminosità che la transizione deve percorrere. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è  ${\frac{48-32}{32-16}=50\%}$. Questo metodo tende a sovrastimare molto i risultati su transizioni piccole, per cui è quindi generalmente sconsigliato
 \end{itemize}
 
 Tra tutti i test implementati nell'applicazione, questo è quello che soffre di più della presenza di rumore, soprattutto retroilluminazione PWM, poiché il test deve misurare delle caratteristiche nel segnale che potrebbero avere una frequenza molto alta. La figura \ref{fig:pixelOverdriveTest_example1} mostra come il segnale potrebbe presentarsi, prima in modo pulito, e poi in presenza di PWM. Si può osservare fin da subito che se la frequenza della retroilluminazione PWM è troppo bassa, è completamente impossibile ricostruire il segnale originale, per cui in presenza di retroilluminazione PWM il test tende a sottostimare significativamente l'errore.
