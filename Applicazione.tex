@@ -221,7 +221,7 @@ La classe è \textit{thread-safe}.
 Il \textit{package} \texttt{com.dosse.openldat.processing.filters} contiene alcuni filtri che sono usati per semplificare l'analisi dei dati raccolti. A tutti gli effetti, un filtro non è altro che un tipo speciale di buffer, che però esegue un qualche tipo di elaborazione sui dati che gli vengono inseriti.
 
 \subsubsection{FFTFilter}
-Questa classe implementa un filtro che permette di inserire dati nel dominio del tempo (sample) e ottenere una rappresentazione degli stessi dati nel dominio di frequenza utilizzando una FFT (Fast Fourier Transform). La trasformazione viene eseguita dalla libreria jTransforms, ma prima viene applicata ai dati una funzione di \textit{windowing} di Blackman-Harris, per generare dati più puliti. Per velocizzare l'esecuzione, l'FFT non viene eseguita ad ogni \textit{sample} aggiunto, ma solo nel momento in cui vengono richiesti i dati.
+Questa classe implementa un filtro che permette di inserire dati nel dominio del tempo (sample) e ottenere una rappresentazione degli stessi dati nel dominio di frequenza utilizzando una FFT (\textit{Fast Fourier Transform}). La trasformazione viene eseguita dalla libreria jTransforms, ma prima viene applicata ai dati una funzione di \textit{windowing} di Blackman-Harris, per generare dati più puliti. Per velocizzare l'esecuzione, l'FFT non viene eseguita ad ogni \textit{sample} aggiunto, ma solo nel momento in cui vengono richiesti i dati.
 
 La classe è \textit{thread-safe}.
 

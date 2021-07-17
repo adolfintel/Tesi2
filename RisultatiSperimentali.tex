@@ -5,7 +5,7 @@
 
 Questo capitolo è dedicato ai risultati che sono stati ottenuti testando il dispositivo e l'applicazione su diversi tipi di display e configurazioni hardware e software.
 
-Al fine di raccogliere un campione di dimensione sufficienti, oltre ai display che erano a disposizione dell'autore di questa tesi, sono stati realizzati due prototipi che sono stati prestati a varie persone al fine di poter aggiungere i risultati dei loro display. Idealmente sarebbe stato preferibile testare tutti i display personalmente e sulla stessa macchina, ma le condizioni causate dalla pandemia durante i primi mesi del 2021 non lo consentivano, per cui alcuni test sono stati svolti da terzi con istruzioni in videoconferenza, ma comunque su macchine volutamente simili.
+Al fine di raccogliere un campione di dimensione sufficienti, oltre ai display che erano a disposizione dell'autore di questa tesi, sono stati realizzati due prototipi che sono stati prestati a varie persone al fine di poter aggiungere i risultati dei loro display. Idealmente sarebbe stato preferibile testare tutti i display personalmente e sulla stessa macchina, ma le condizioni causate dalla pandemia durante i primi mesi del 2021 non lo consentivano, per cui alcuni test sono stati svolti da terzi con istruzioni in videoconferenza, ma comunque su macchine volutamente simili. Idealmente tutti i test andrebbero ripetuti in un ambiente controllato, per avere dati più confrontabili.
 
 La tabella \ref{tab:display_list} mostra l'elenco di tutti i dispositivi che sono stati testati e le loro caratteristiche salienti. Non tutti i dispositivi appariranno in tutti i test. Sono stati eseguiti i seguenti test:\begin{itemize}
 	\item \textbf{Input lag}:\begin{itemize}
@@ -43,7 +43,7 @@ Nelle sezioni successive, per ogni test, verranno introdotte le modalità di tes
 			BenQ XL2420T & Monitor & 2012 & 120Hz & TN & Edge LED & Terzi \\ \hline
 			Huawei MateBook D & Laptop & 2019 & 60Hz & IPS & Edge LED & Terzi \\ \hline
 			iPhone 6S & Smartphone & 2015 & 60Hz & IPS & Edge LED & Terzi \\ \hline
-			LG 27GL850-B & Monitor & 2018 & 144Hz VRR & IPS HDR & Edge LED & Autore \\ \hline
+			LG 27GL850-B & Monitor & 2018 & 144Hz VRR & IPS HDR & Edge LED & Terzi \\ \hline
 			LG E2360 & Monitor & 2012 & 60Hz & TN & Edge LED & Terzi \\ \hline
 			MacBook Pro 13" & Laptop & 2017 & 60Hz & IPS & Edge LED & Terzi \\ \hline
 			Octigen M19W & Monitor & 2008 & 60Hz & TN & CCFL & Autore \\ \hline
@@ -112,7 +112,7 @@ In questo test è stato misurato il ritardo dei display utilizzando il test auto
 
 Il grafico in figura \ref{fig:inputlag_displays} mostra i risultati che sono stati ottenuti sui display testati. Da questi dati possiamo notare alcune cose interessanti:\begin{itemize}
 	\item Come atteso, i display ad alto \textit{refresh rate} sono in cima alla classifica. Questi display sono stati progettati appositamente per questo scopo, tipicamente sacrificando la qualità dell'immagine per avere più velocità
-	\item Alcuni dei display testati introducono un ritardo inferiore al tempo di un fotogramma, il che indica che questi display iniziano a visualizzare l'immagine sul pannello prima di averla ricevuta interamente, riducendo notevolmente il ritardo. Il ``gradino'' presente in corrispondenza al BenQ GL2706PQ delinea chiaramente il passaggio tra display che fanno questa ``ottimizzazione'' e display che invece attendono di ricevere l'intero fotogramma. Durante i test è emerso che alcuni display permettono di attivare o disattivare questa funzione a seconda delle proprie necessità, e tipicamente la chiamano \textit{``Direct Mode''}
+	\item Alcuni dei display testati introducono un ritardo inferiore al tempo di un fotogramma, il che indica che questi display iniziano a visualizzare l'immagine sul pannello prima di averla ricevuta interamente, riducendo notevolmente il ritardo. Il ``gradino'' presente in corrispondenza al BenQ GL2706PQ delinea chiaramente il passaggio tra display che fanno questa ``ottimizzazione'' e display che invece attendono di ricevere l'intero fotogramma. Durante i test è emerso che alcuni display permettono di attivare o disattivare questa funzione a seconda delle proprie necessità, e tipicamente la chiamano \textit{Direct Mode}
 	\item I TV sono in fondo alla classifica con un certo distacco. Questo indica, oltre al fatto che un TV non è ideale come monitor, che il processore all'interno sta eseguendo un qualche tipo di elaborazione dell'immagine che in tutti i casi testati aggiungeva ritardi e non era disattivabile
 	\item Il Sony VAIO SVF1532C5E ha un ritardo con \textit{VSync} attivo molto inferiore alle aspettative. Questo \textit{outlier} è probabilmente causato da qualche ottimizzazione specifica del driver
 \end{itemize}
@@ -347,7 +347,7 @@ L'obiettivo di questo test è determinare se i display testati mostrano \textit{
 	\caption{\label{tab:microstuttering_list}Confronto della presenza di \textit{microstuttering} tra i display testati. N/A indica che non è stato possibile eseguire l'\textit{overclock} su questo dispositivo}
 \end{table}
 
-La tabella \ref{tab:microstuttering_list} mostra i risultati dei test. Si può notare che (fortunatamente) nessuno dei display testati presenta \textit{microstuttering} in condizioni di utilizzo normale, mentre l'\textit{overclock} racconta una storia diversa: diversi display non accettano un segnale a frequenza più elevata, mentre l'AOC Q2770P e il BenQ GL2706PQ hanno mostrato un severo \textit{microstuttering} a qualsiasi frequenza diversa dal loro \textit{refresh rate} nativo (60Hz). Poiché questi due monitor sono tra quelli che nel test dell'\textit{input lag} hanno mostrato di attendere di aver ricevuto un intero fotogramma prima di visualizzarlo, è possibile che questo sia causato dal software che esegue l'elaborazione all'interno del monitor e fa andare il pannello al \textit{refresh rate} nativo indipendentemente dalla frequenza del segnale in ingresso.
+La tabella \ref{tab:microstuttering_list} mostra i risultati dei test. Si può notare che nessuno dei display testati presenta \textit{microstuttering} in condizioni di utilizzo normale, mentre l'\textit{overclock} racconta una storia diversa: diversi display non accettano un segnale a frequenza più elevata, mentre l'AOC Q2770P e il BenQ GL2706PQ hanno mostrato un severo \textit{microstuttering} a qualsiasi frequenza diversa dal loro \textit{refresh rate} nativo (60Hz). Poiché questi due monitor sono tra quelli che nel test dell'\textit{input lag} hanno mostrato di attendere di aver ricevuto un intero fotogramma prima di visualizzarlo, è possibile che questo sia causato dal software che esegue l'elaborazione all'interno del monitor e fa andare il pannello al \textit{refresh rate} nativo indipendentemente dalla frequenza del segnale in ingresso.
 
 \section{Tempi di risposta e overdrive dei pixel}
 In questa sezione vengono misurati i tempi di risposta dei pixel dei vari display, e vedere come questi sono influenzati dall'\textit{overdrive} e dalla tecnologia utilizzata.
@@ -401,7 +401,7 @@ Sul grafico, la lunghezza della barra indica la media geometrica dei tempi di ri
 	\item I display TN sembrano avere una maggiore variabilità nei tempi di transizione rispetto agli IPS
 	\item Alcuni display mostrano una risposta asimmetrica, come il BenQ GL2706PQ in tabella \ref{tab:pixelresponse_asymmetric}, in cui i tempi in discesa sono significativamente più bassi rispetto ai tempi in salita
 	\item Alcuni display sono significativamente più veloci a transizionare verso gli estremi rispetto ai valori intermedi, come l'AOC Q2770P in tabella \ref{tab:pixelresponse_q2770p}. Probabilmente questo è una qualche forma di \textit{overdrive} che il pannello utilizza per transizionare più velocemente tra gli estremi
-	\item Il display Samsung C34H890 è l'unico display in cui l'\textit{overdrive} non ha sostanzialmente effetti sui tempi di risposta. Nel grafico viene ridotto leggermente il range dei valori misurati poiché migliora il comportamento di alcune transizioni tra valori bassi, riducendo il tipico effetto \textit{``smearing''} dei colori scuri sui pannelli VA
+	\item Il display Samsung C34H890 è l'unico display in cui l'\textit{overdrive} non ha sostanzialmente effetti sui tempi di risposta. Nel grafico viene ridotto leggermente il range dei valori misurati poiché migliora il comportamento di alcune transizioni tra valori bassi, riducendo il tipico effetto \textit{smearing} dei colori scuri sui pannelli VA
 \end{itemize}
 
 \begin{table}[h!]
