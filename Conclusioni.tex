@@ -3,7 +3,7 @@
 
 Nei capitoli precedenti sono stati illustrati il funzionamento del dispositivo e dell'applicazione OpenLDAT e i test che sono stati condotti su un campione di display per testarne l'utilità e il corretto funzionamento sul più ampio range possibile di scenari. Il progetto ha mostrato delle buone prestazioni, raggiungendo gli obiettivi che erano stati prefissati e mostrando anche alcuni risultati che potrebbero essere oggetto di studi più approfonditi, tuttavia durante lo sviluppo e il testing sono stati incontrati alcuni problemi, idee e possibili aree di miglioramento per future iterazioni del dispositivo e dell'applicazione OpenLDAT che sono oggetto di questo capitolo.
 
-La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le caratteristiche di Nvidia LDAT rispetto a quelle fornite dal progetto OpenLDAT. Poiché non sono note ufficialmente le caratteristiche di Nvidia LDAT, alcuni valori sono frutto di osservazioni sul dispositivo e sull'applicazione e potrebbero essere errati, questi valori sono marcati con \textit{*}.
+La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le caratteristiche di Nvidia LDAT rispetto a quelle fornite dal progetto OpenLDAT. Poiché non sono note ufficialmente le caratteristiche di Nvidia LDAT, alcuni valori sono frutto di osservazioni sul dispositivo e sull'applicazione e potrebbero essere errati, questi valori sono marcati con *.
 
 \begin{table}[h!]
 	\centering
@@ -11,13 +11,13 @@ La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le c
 		\hline
 		& \textbf{Nvidia LDAT} & \textbf{OpenLDAT}  \\ 
 		\hline
-		\textbf{Sensore} & Fotodiodo\textit{*} & ALS-PT19 \\
+		\textbf{Sensore} & Fotodiodo* & ALS-PT19 \\
 		\hline
 		\textbf{Livelli di gain} & 1 & 4 \\
 		\hline
-		\textbf{Risoluzione} & 10 bit\textit{*} & 10 bit \\
+		\textbf{Risoluzione} & 10 bit* & 10 bit \\
 		\hline
-		\textbf{Sample rate} & \textasciitilde 1000Hz\textit{*} & Fino a \textasciitilde 30kHz \\
+		\textbf{Sample rate} & \textasciitilde 1000Hz* & Fino a \textasciitilde 30kHz \\
 		\hline
 		\textbf{LED per validazione} & Si & Si \\
 		\hline
@@ -48,7 +48,7 @@ La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le c
 		\textbf{Costo} & N/A & \textasciitilde 15€ \\
 		\hline
 	\end{tabular}
-	\caption{\label{tab:openldat_nvidialdat_comparison}Confronto tra le caratteristiche di Nvidia LDAT contro OpenLDAT}
+	\caption{\label{tab:openldat_nvidialdat_comparison}Confronto tra le caratteristiche di Nvidia LDAT contro OpenLDAT. I valori marcati con * potrebbero essere inaccurati per mancanza di informazioni}
 \end{table}
 
 \section{Possibili evoluzioni future}
@@ -102,4 +102,4 @@ Tutti i file e la documentazione relativi al progetto OpenLDAT possono essere tr
 
 Il progetto OpenLDAT (hardware, firmware e software) è distribuito su licenza libera GNU GPLv3.
 
-Questo conclude questa tesi. Un ringraziamento speciale va a tutte le persone che mi hanno assistito durante lo sviluppo e il testing del dispositivo e dell'applicazione fornendo dati misurati sui loro display e PC, e in particolar modo a Emanuele Magon, che ha contribuito anche al porting su MacOS dell'applicazione.
+Questo conclude questa tesi. Un ringraziamento speciale va a tutte le persone che mi hanno assistito durante lo sviluppo e il testing del dispositivo e dell'applicazione fornendo dati misurati sui loro display e PC, e in particolar modo a Emanuele Magon\footnote{\url{https://github.com/e-magon}}, che ha contribuito anche al porting su MacOS dell'applicazione.
