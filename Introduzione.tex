@@ -1,5 +1,3 @@
-\setlength{\parskip}{10pt}
-\setlength{\parindent}{0pt}
 \chapter{Introduzione}
 \label{chap:intro}
 
@@ -8,7 +6,7 @@ Il problema non è nulla di nuovo, ed esiste dagli albori della computer grafica
 \begin{quotation}
 	``I can send an IP packet to Europe faster than I can send a pixel to the screen.  How f’d up is that?''
 \end{quotation}
-Dal 2012 ad oggi molte cose sono cambiate: da una parte la diffusione di tecnologie come display ad alto \textit{refresh rate}, VESA Adaptive Sync (e la controparte proprietaria Nvidia G-Sync), e le ottimizzazioni nei driver per applicazioni a latenza critica hanno migliorato la situazione, ma dall'altra l'aumento vertiginoso della complessità delle pipeline grafiche dei videogiochi, l'utilizzo di tecniche di \textit{antialiasing} temporale, il \textit{checkerboard rendering}, il \textit{triplo buffering}, lo \textit{smoothing} del movimento del mouse, e il \textit{compositing} del desktop hanno peggiorato notevolmente la situazione, al punto che molti considerano qualsiasi \textit{framerate} sotto i 60 FPS ingiocabile per via del ritardo di input percepibile.
+Dal 2012 ad oggi molte cose sono cambiate: da una parte la diffusione di tecnologie come display ad alto \textit{refresh rate}, VESA Adaptive Sync (e la controparte proprietaria Nvidia G-Sync) e le ottimizzazioni nei driver per applicazioni a latenza critica hanno migliorato la situazione, ma dall'altra l'aumento vertiginoso della complessità delle pipeline grafiche dei videogiochi, l'utilizzo di tecniche di \textit{antialiasing} temporale, il \textit{checkerboard rendering}, il \textit{triplo buffering}, lo \textit{smoothing} del movimento del mouse e il \textit{compositing} del desktop hanno peggiorato la situazione, al punto che molti considerano qualsiasi \textit{framerate} sotto i 60 FPS ingiocabile per via del ritardo di input percepibile.
 
 Si può intuire fin da subito che i fattori coinvolti nel problema sono molteplici, e partono dal microcontroller all'interno del mouse per arrivare fino ai pixel dello schermo, sebbene i due principali sono ovviamente l'applicazione e il display.
 
@@ -23,15 +21,15 @@ Gli obiettivi di questa tesi sono:
 Questa tesi è strutturata in questo modo:
 \begin{itemize}
 	\item \textbf{\autoref{chap:intro}}: Introduce tutti i concetti basilari, la terminologia e gli obiettivi del progetto OpenLDAT
-	\item \textbf{\autoref{chap:statoarte}}: Presenta una panoramica sullo stato dell'arte, introducendo progetti simili o correlati, e in che modo differiscono da OpenLDAT
-	\item \textbf{\autoref{chap:device}}: Si concentra sul dispositivo OpenLDAT fisico, spiegando il funzionamento dell'hardware e del firmware, i componenti utilizzati, e come realizzarlo in autonomia
-	\item \textbf{\autoref{chap:app}}: Si concentra sul software OpenLDAT per PC, illustrandone le caratteristiche, gli algoritmi realizzati, le tecnologie utilizzate, e i dettagli implementativi
+	\item \textbf{\autoref{chap:statoarte}}: Presenta una panoramica sullo stato dell'arte, introducendo progetti simili o correlati e in che modo differiscono da OpenLDAT
+	\item \textbf{\autoref{chap:device}}: Si concentra sul dispositivo OpenLDAT fisico, spiegando il funzionamento dell'hardware e del firmware, i componenti utilizzati e come realizzarlo in autonomia
+	\item \textbf{\autoref{chap:app}}: Si concentra sul software OpenLDAT per PC, illustrandone le caratteristiche, gli algoritmi realizzati, le tecnologie utilizzate e i dettagli implementativi
 	\item \textbf{\autoref{chap:expdata}}: Presenta e analizza i risultati sperimentali ottenuti in diverse condizioni con il dispositivo e il software OpenLDAT
 	\item \textbf{\autoref{chap:outro}}: Riassume il lavoro svolto e propone possibili evoluzioni per il progetto
 \end{itemize} 
 
 \section{Capire il ritardo di input}
-Per capire perché il ritardo di input esiste, è necessario conoscere tutti i fattori coinvolti, dalla pressione del tasto fino al cambio di colore dei pixel sullo schermo, e come il sistema e le applicazioni reagiscono all'input. Questa sezione prende come riferimento la pressione di un tasto su un mouse USB cablato, che è lo scenario più comune e d'interesse, ma considerazioni analoghe si applicano anche a controller dedicati, tastiere, eccetera.
+Per capire perché il ritardo di input esiste, è necessario conoscere tutti i fattori coinvolti, dalla pressione del tasto fino al cambio di colore dei pixel sullo schermo e come il sistema e le applicazioni reagiscono all'input. Questa sezione prende come riferimento la pressione di un tasto su un mouse USB cablato, che è lo scenario più comune e d'interesse, ma considerazioni analoghe si applicano anche a controller dedicati, tastiere, eccetera.
 
 La figura \ref{fig:nvidia_latencypipeline} presa dalla documentazione di Nvidia Reflex mostra, seppur esagerando leggermente alcuni tempi poiché è materiale di marketing, tutti i contributori alla latenza del sistema. In questa sezione saranno discussi individualmente.
 
@@ -121,7 +119,7 @@ Davanti alla retroilluminazione, nei display LCD TFT, è presente una struttura 
 Dopo aver attraversato il cristallo liquido, la luce viene colorata da uno strato di filtri colorati detto maschera (\textit{mask}) che contiene la matrice RGB che compone i pixel dello schermo.
 
 Per controllare l'applicazione di tensione al cristallo liquido, delle linee di controllo verticale e orizzontale sono posizionate a matrice tra i pixel e permettono di controllare un TFT (\textit{Thin Film Transistor}) presente in ogni \textit{subpixel}. Questi piccolissimi transistor sono utilizzati per applicare la tensione al cristallo liquido\cite{lcdevolution}.\\
-I \textit{subpixel} non sono indirizzabili individualmente (sarebbero necessarie troppe connessioni), il loro stato viene tipicamente aggiornato una linea per volta, ed è compito della matrice mantenere questo stato fino al \textit{refresh} successivo usando un condensatore assieme al transistor per mantenere l'informazione mentre le altre linee vengono aggiornate. Questa tecnica prende il nome di \textit{active matrix}\cite{lcdevolution} (matrice attiva), e tutti i display TFT moderni usano questo tipo di matrice.
+I \textit{subpixel} non sono indirizzabili individualmente (sarebbero necessarie troppe connessioni), il loro stato viene tipicamente aggiornato una linea per volta, ed è compito della matrice mantenere questo stato fino al \textit{refresh} successivo usando un condensatore assieme al transistor per mantenere l'informazione mentre le altre linee vengono aggiornate. Questa tecnica prende il nome di \textit{active matrix}\cite{lcdevolution} (matrice attiva), e tutti i display LCD moderni usano questo tipo di matrice.
 
 Alcuni display, soprattutto quelli più economici, non utilizzano tutta l'informazione presente nell'immagine in arrivo dalla scheda video per controllare i \textit{subpixel} (ad esempio, su 8 bit per canale potrebbero usarne solo 6), così da avere una circuiteria più semplice e meno costosa, e compensano facendo uso di tecniche di \textit{dithering} spaziale e/o temporale.
 
@@ -132,7 +130,7 @@ Alcuni display, soprattutto quelli più economici, non utilizzano tutta l'inform
 	\label{fig:lcdtft}
 \end{figure}
 
-Per quanto riguarda i display OLED, le cose sono un po' più semplici: si tratta sostanzialmente di una matrice di piccolissimi LED organici controllati da una matrice attiva\cite{amoled1}. Ogni LED è composto da due elettrodi, uno dei quali è trasparente, e nel mezzo è presente un polimero organico che emette luce quando viene applicata una tensione. Non richiedono retroilluminazione poiché i LED emettono luce propria anziché filtrarla, il che permette di creare display trasparenti con una buona visibilità, display flessibili\cite{flexibleoleds}, e display estremamente sottili (ragione per cui sono comuni sugli smartphone). Il contrasto è eccezionale e i tempi di risposta sono buoni, tuttavia si usurano molto più velocemente rispetto ai display LCD TFT, anche se inutilizzati, l'usura non è uniforme nè nello spazio nè nei colori, soffrono di \textit{burn-in} (ossia immagini statiche come loghi visualizzate a lungo restano impresse permanentemente sul display), e il polimero organico è estremamente vulnerabile ai liquidi e all'umidità.
+Per quanto riguarda i display OLED, le cose sono un po' più semplici: si tratta sostanzialmente di una matrice di piccolissimi LED organici controllati da una matrice attiva\cite{amoled1}. Ogni LED è composto da due elettrodi, uno dei quali è trasparente, e nel mezzo è presente un polimero organico che emette luce quando viene applicata una tensione. Non richiedono retroilluminazione poiché i LED emettono luce propria anziché filtrarla, il che permette di creare display trasparenti con una buona visibilità, display flessibili\cite{flexibleoleds} e display estremamente sottili (ragione per cui sono comuni sugli smartphone). Il contrasto è eccezionale e i tempi di risposta sono buoni, tuttavia si usurano molto più velocemente rispetto ai display LCD TFT, anche se inutilizzati, l'usura non è uniforme nè nello spazio nè nei colori, soffrono di \textit{burn-in} (ossia immagini statiche come loghi visualizzate a lungo restano impresse permanentemente sul display) e il polimero organico è estremamente vulnerabile ai liquidi e all'umidità.
 
 \begin{figure}[h]
 	\centering
@@ -169,7 +167,7 @@ Questa prima versione del progetto non è mai stata rilasciata per via di alcune
 	\item Il test funzionava solo in presenza dei flash sullo schermo, quindi non era possibile testare le diverse latenze di diverse applicazioni con questo metodo
 \end{itemize}
 
-A Novembre 2019, il lancio di Google Stadia ha attirato l'attenzione dei giornalisti del settore, i quali hanno cercato di eseguire un esperimento simile\cite{gamersnexus_stadia} \cite{gamersnexus_stadia2}, utilizzando un mouse modificato per accendere un LED quando viene premuto un tasto, e una telecamera ad alta velocità per misurare (con una risoluzione di qualche millisecondo) il tempo trascorso tra l'accensione del LED e l'inizio dell'azione sul display. L'utilizzo di metodi così ``crudi'' e manuali, anche da parte della stampa più tecnica e professionista evidenzia l'assenza di dispositivi per una facile analisi delle metriche di latenza dei display. Circa 2 anni dopo il lancio di Stadia, Google ha effettivamente raggiunto alcuni dei numeri promessi nella presentazione di Marzo 2019, ma al lancio l'opinione generale è stata pessima.
+A Novembre 2019, il lancio di Google Stadia ha attirato l'attenzione dei giornalisti del settore, i quali hanno cercato di eseguire un esperimento simile\cite{gamersnexus_stadia} \cite{gamersnexus_stadia2}, utilizzando un mouse modificato per accendere un LED quando viene premuto un tasto e una telecamera ad alta velocità per misurare (con una risoluzione di qualche millisecondo) il tempo trascorso tra l'accensione del LED e l'inizio dell'azione sul display. L'utilizzo di metodi così ``crudi'' e manuali, anche da parte della stampa più tecnica e professionista evidenzia l'assenza di dispositivi per una facile analisi delle metriche di latenza dei display. Circa 2 anni dopo il lancio di Stadia, Google ha effettivamente raggiunto alcuni dei numeri promessi nella presentazione di Marzo 2019, ma al lancio l'opinione generale è stata pessima.
 
 A Settembre 2020, Nvidia ha inviato un prototipo di un dispositivo chiamato Nvidia LDAT (\textit{Latency Display Analysis Tool}) a diversi giornalisti del settore\cite{gamersnexus_nvidialdat}, un dispositivo quasi del tutto analogo a quello descritto in precedenza, ma con un sensore e un software migliori. Vedere questo progetto in azione ha fornito lo stimolo a far ripartire il progetto, che è poi stato realizzato nei mesi successivi. Sfortunatamente Nvidia ha deciso di non commercializzare il dispositivo, per cui si conosce poco dei dettagli sul funzionamento, ma verrà comunque discusso nel capitolo successivo sullo stato dell'arte.
 
@@ -180,10 +178,10 @@ Nel periodo tra Marzo 2021 e Giugno 2021 è stata scritta questa tesi, sono stat
 \subsection{Obiettivi del progetto}
 Il progetto OpenLDAT si pone i seguenti obiettivi principali:
 \begin{itemize}
-	\item Fornire agli utenti un dispositivo per poter misurare, sia automaticamente che interattivamente, la latenza totale del proprio sistema, nel modo più accurato possibile, e permettendo il confronto tra sistemi e scenari diversi
+	\item Fornire agli utenti un dispositivo per poter misurare, sia automaticamente che interattivamente, la latenza totale del proprio sistema, nel modo più accurato possibile e permettendo il confronto tra sistemi e scenari diversi
 	\item Rendere il dispositivo utilizzabile sul maggior numero possibile di display, anche in presenza forti disturbi come una retroilluminazione PWM
 	\item Utilizzare il sensore nel dispositivo per fornire ulteriori metriche che non riguardano esclusivamente la latenza, ma anche la qualità del display, come una stima dei tempi di risposta reali dei pixel in diversi scenari
-	\item Rendere il dispositivo facilmente costruibile, utilizzando componenti \textit{off-the-shelf}, facilmente reperibili, dai costi contenuti, e un software che non richieda calibrazioni
+	\item Rendere il dispositivo facilmente costruibile, utilizzando componenti \textit{off-the-shelf}, facilmente reperibili, dai costi contenuti e un software che non richieda calibrazioni
 	\item Distribuire tutte le schematiche del dispositivo e il software su licenza libera, per consentire agli utenti di capirne il funzionamento e potenzialmente anche di apportare migliorie
 \end{itemize}
 

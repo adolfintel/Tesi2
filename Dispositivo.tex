@@ -1,9 +1,7 @@
-\setlength{\parskip}{10pt}
-\setlength{\parindent}{0pt}
 \chapter{Il dispositivo OpenLDAT}
 \label{chap:device}
 
-In questo capitolo viene introdotto il dispositivo fisico OpenLDAT, descrivendone i requisiti, le caratteristiche, il funzionamento dell'hardware e del firmware, e i passi necessari per realizzarlo a partire da un elenco di componenti.
+In questo capitolo viene introdotto il dispositivo fisico OpenLDAT, descrivendone i requisiti, le caratteristiche, il funzionamento dell'hardware e del firmware e i passi necessari per realizzarlo a partire da un elenco di componenti.
 
 Il dispositivo OpenLDAT ha sostanzialmente quattro compiti:
 \begin{itemize}
@@ -30,7 +28,7 @@ La scelta di questa MCU non è casuale, per il progetto ci interessano le seguen
 	\item Timer configurabili per generare segnali di varia natura, anche di frequenza molto bassa
 	\item Controller USB programmabile, così da poter simulare vari tipi di dispositivo (nel caso di OpenLDAT, una porta seriale e un mouse)
 	\item Comunicazione via seriale asincrona rispetto all'esecuzione del firmware (entro certi limiti)
-	\item Pin GPIO con supporto ad \textit{interrupt}, \textit{pull-up}, e logica \textit{tri-state}
+	\item Pin GPIO con supporto ad \textit{interrupt}, \textit{pull-up} e logica \textit{tri-state}
 	\item Alta disponibilità di cloni poco costosi
 	\item Ampiamente documentato, sia dal produttore che dalla community, poiché è completamente compatibile con l'Arduino Leonardo
 	\item Dimensioni ridotte, che consentono di creare un dispositivo di dimensioni ragionevoli e che riceve meno interferenze dall'esterno
@@ -44,7 +42,7 @@ Altre caratteristiche generali del microcontroller 32U4 sono:
 	\item 1kB di EEPROM
 \end{itemize}
 
-Il secondo componente chiave è il sensore di luminosità Everlight ALS-PT19. Si tratta di un fototransistor dai tempi di risposta molto bassi, con una buona linearità, e un costo molto contenuto. Poiché questo componente è SMD ed è estremamente piccolo, è stato scelto di usare il \textit{breakout} Adafruit ALS-PT19 mostrato in figura \ref{fig:adafruit_pt19}, che monta il sensore e una resistenza da 10k\si{\ohm} su un piccolo PCB, così da poterlo montare facilmente e avere un valore misurabile in tensione anziché in corrente. Variando il valore della resistenza tra il fototransistor e la massa, si regola la sensibilità del sensore (più è alta la resistenza e più è sensibile alla luce).
+Il secondo componente chiave è il sensore di luminosità Everlight ALS-PT19. Si tratta di un fototransistor dai tempi di risposta molto bassi, con una buona linearità e un costo molto contenuto. Poiché questo componente è SMD ed è estremamente piccolo, è stato scelto di usare il \textit{breakout} Adafruit ALS-PT19 mostrato in figura \ref{fig:adafruit_pt19}, che monta il sensore e una resistenza da 10k\si{\ohm} su un piccolo PCB, così da poterlo montare facilmente e avere un valore misurabile in tensione anziché in corrente. Variando il valore della resistenza tra il fototransistor e la massa, si regola la sensibilità del sensore (più è alta la resistenza e più è sensibile alla luce).
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\textwidth]{Dispositivo_files/als-pt19.jpg}
@@ -65,8 +63,8 @@ Il sensore ha un tempo di risposta di circa 0.1ms in salita e 0.2ms in discesa \
 La risposta spettrale del sensore non è particolarmente rilevante per questa applicazione, ma la documentazione mostra una risposta simile a quella dell'occhio umano, con un picco intorno alla lunghezza d'onda del verde \cite{als_pt19_datasheet}, tuttavia è anche sensibile alla luce ultravioletta.
 
 La linearità è importante per questa applicazione. La documentazione del sensore mostra una buona linearità, ma avverte questa è affetta dalla temperatura ambiente e dal voltaggio che viene applicato \cite{als_pt19_datasheet}.\\
-Per verificare che la linearità sia sufficiente per lo scopo, è stato realizzato un prototipo dotato del sensore stesso più un sensore AMS TCS34725. Pur non essendo neanche paragonabile ad un colorimetro professionale, questo sensore è calibrato di fabbrica, e la misurazione della luminosità è molto lenta ma più accurata rispetto all'ALS-PT19 \cite{tcs34725_datasheet}.\\
-Il grafico in figura \ref{fig:pt19_linearity} mostra sull'asse X la luminosità misurata dal TCS34725, e sull'asse Y quella misurata dall'ALS-PT19 (linea nera). Idealmente dovrebbe essere una linea retta priva di curve (linea rossa).
+Per verificare che la linearità sia sufficiente per lo scopo, è stato realizzato un prototipo dotato del sensore stesso più un sensore AMS TCS34725. Pur non essendo neanche paragonabile ad un colorimetro professionale, questo sensore è calibrato di fabbrica e la misurazione della luminosità è molto lenta ma più accurata rispetto all'ALS-PT19 \cite{tcs34725_datasheet}.\\
+Il grafico in figura \ref{fig:pt19_linearity} mostra sull'asse X la luminosità misurata dal TCS34725 e sull'asse Y quella misurata dall'ALS-PT19 (linea nera). Idealmente dovrebbe essere una linea retta priva di curve (linea rossa).
 
 \begin{figure}[h!]
 	\centering
@@ -124,7 +122,7 @@ La figura \ref{fig:circuit} mostra lo schema elettrico del circuito che è stato
 	\label{fig:circuit}
 \end{figure}
 
-La regolazione del gain del sensore avviene mediante le resistenze R3 (330k\si{\ohm}), R4 (22k\si{\ohm}), e R5 (47k\si{\ohm}), posizionate in parallelo in serie alla resistenza da 10k\si{\ohm} già presente sul PCB dell'ALS-PT19. R3 è permanentemente connessa a massa, mentre R4 e R5 possono essere attivate e disattivate controllando lo stato dei pin D14 e D15 rispettivamente. Un pin GPIO in stato \texttt{LOW} equivale ad un collegamento a massa di resistenza trascurabile, mentre un pin in stato \texttt{Z} equivale ad un pin disconnesso (la documentazione del microcontroller indica un'impedenza di 100M\si{\ohm} in questo stato). Svolgendo i calcoli si possono stimare i quattro possibli valori di resistenza davanti al sensore, mostrati in tabella \ref{tab:pt19_gains}. Questi valori sono ovviamente delle stime, e non tengono conto delle tolleranze di produzione delle resistenze e del microcontroller.
+La regolazione del gain del sensore avviene mediante le resistenze R3 (330k\si{\ohm}), R4 (22k\si{\ohm}) e R5 (47k\si{\ohm}), posizionate in parallelo in serie alla resistenza da 10k\si{\ohm} già presente sul PCB dell'ALS-PT19. R3 è permanentemente connessa a massa, mentre R4 e R5 possono essere attivate e disattivate controllando lo stato dei pin D14 e D15 rispettivamente. Un pin GPIO in stato \texttt{LOW} equivale ad un collegamento a massa di resistenza trascurabile, mentre un pin in stato \texttt{Z} equivale ad un pin disconnesso (la documentazione del microcontroller indica un'impedenza di 100M\si{\ohm} in questo stato). Svolgendo i calcoli si possono stimare i quattro possibli valori di resistenza davanti al sensore, mostrati in tabella \ref{tab:pt19_gains}. Questi valori sono ovviamente delle stime e non tengono conto delle tolleranze di produzione delle resistenze e del microcontroller.
 \begin{table}
 	\centering
 	\begin{tabular}{|c|c|c|} 
@@ -143,7 +141,7 @@ La regolazione del gain del sensore avviene mediante le resistenze R3 (330k\si{\
 	\caption{\label{tab:pt19_gains}Livelli di gain implementati}
 \end{table}
 
-Conoscendo il tipo di luce che genera la retroilluminazione del display (si assume LED con temperatura del bianco neutra), la resistenza usata per il gain, e la precisione dell'ADC, è possibile stimare molto grossolanamente quali sono i livelli di luminosità massima raccomandabili per ogni livello di gain, mostrati in tabella \ref{tab:pt19_nits}. Generalmente i due livelli di gain più elevati sono sufficienti per la maggior parte dei display, mentre quelli più bassi sono utili solo su display HDR.
+Conoscendo il tipo di luce che genera la retroilluminazione del display (si assume LED con temperatura del bianco neutra), la resistenza usata per il gain e la precisione dell'ADC, è possibile stimare molto grossolanamente quali sono i livelli di luminosità massima raccomandabili per ogni livello di gain, mostrati in tabella \ref{tab:pt19_nits}. Generalmente i due livelli di gain più elevati sono sufficienti per la maggior parte dei display, mentre quelli più bassi sono utili solo su display HDR.
 \begin{table}
 	\centering
 	\begin{tabular}{|c|c|} 
@@ -263,7 +261,7 @@ Una volta assemblato, il circuito può essere nascosto all'interno del mouse, la
 Attenzione: un circuito errato potrebbe danneggiare permanentemente il dispositivo OpenLDAT e/o il mouse.
 
 \section{Firmware}
-Il firmware installato sul microcontroller ATmega 32U4 è stato sviluppato in C++ usando Arduino IDE, e ha i seguenti compiti:
+Il firmware installato sul microcontroller ATmega 32U4 è stato sviluppato in C++ usando Arduino IDE e ha i seguenti compiti:
 \begin{itemize}
 	\item Permettere all'applicazione di identificare i dispositivi OpenLDAT connessi e le loro \textit{capability}
 	\item Ricevere comandi dall'applicazione e inviare l'output via seriale
@@ -273,12 +271,12 @@ Il firmware installato sul microcontroller ATmega 32U4 è stato sviluppato in C+
 	\item Essere facilmente estensibile, per permettere l'aggiunta di altri sensori in versioni future del dispositivo
 \end{itemize}
 
-Il progetto si trova nella cartella \texttt{Device/Firmware/OpenLDAT} del repository, ed è composto da 4 file:
+Il progetto si trova nella cartella \texttt{Device/Firmware/OpenLDAT} del repository ed è composto da 4 file:
 \begin{itemize}
 	\item \texttt{OpenLDAT.ino}: è il file principale del firmware, importa gli altri file del progetto, implementa la ricezione dei comandi dall'applicazione e il listing delle \textit{capability}
 	\item \texttt{BuildConfig.h}: permette di attivare/disattivare alcune funzioni del firmware e dichiara alcune variabili globali, come il numero di versione
 	\item \texttt{OscilloscopeDebug.h}: implementa delle macro che sono utilizzate all'interno del codice quando viene compilato con il debug con oscilloscopio attivo. Queste macro consentono di collegare un oscilloscopio al pin 10 della board del microcontroller e ottenere informazioni sui tempi di campionamento senza rallentare il funzionamento del dispositivo. Il funzionamento verrà discusso meglio in seguito
-	\item \texttt{LightSensor.h}: contiene tutto il codice di configurazione e campionamento del sensore di luminosità, del pulsante esterno, e dei click automatici
+	\item \texttt{LightSensor.h}: contiene tutto il codice di configurazione e campionamento del sensore di luminosità, del pulsante esterno e dei click automatici
 \end{itemize}
 
 \subsection{Formato dei comandi}
@@ -310,7 +308,7 @@ L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi
 
 L'elenco delle \textit{capability} è inviato come testo ASCII. Il seguente listato mostra un possibile output del comando \texttt{ID}.
 \lstinputlisting{Dispositivo_files/id_example.txt}
-L'elenco è un insieme di stringhe ASCII, separate da un carattere \textit{newline} (\texttt{\textbackslash n}), e terminate da una riga vuota (doppio \textit{newline}). La prima riga contiene il nome completo del dispositivo, mentre le righe successive sono un elenco di \textit{capability} in formato \texttt{Nome: Valore}.
+L'elenco è un insieme di stringhe ASCII, separate da un carattere \textit{newline} (\texttt{\textbackslash n}) e terminate da una riga vuota (doppio \textit{newline}). La prima riga contiene il nome completo del dispositivo, mentre le righe successive sono un elenco di \textit{capability} in formato \texttt{Nome: Valore}.
 
 Le \textit{capability} attualmente implementate sono le seguenti:
 \begin{itemize}
@@ -324,7 +322,7 @@ Le \textit{capability} attualmente implementate sono le seguenti:
 \end{itemize}
 
 \subsection{Configurazione e campionamento del sensore}
-All'accensione del dispositivo, il codice di inizializzazione avvia un'interfaccia USB HID mouse per simulare i click, e un'interfaccia seriale, così che possa comunicare con l'applicazione. Una caratteristica del microcontroller 32U4 è che utilizza l'USB CDC serial, per cui la comunicazione seriale avviene alla velocità del bus USB, e non ai baudrate della RS-232 come avviene nell'Arduino Uno. Questo consente una comunicazione molto più rapida ed evita di introdurre ritardi nel codice.
+All'accensione del dispositivo, il codice di inizializzazione avvia un'interfaccia USB HID mouse per simulare i click e un'interfaccia seriale, così che possa comunicare con l'applicazione. Una caratteristica del microcontroller 32U4 è che utilizza l'USB CDC serial, per cui la comunicazione seriale avviene alla velocità del bus USB, e non ai baudrate della RS-232 come avviene nell'Arduino Uno. Questo consente una comunicazione molto più rapida ed evita di introdurre ritardi nel codice.
 
 Il comando \texttt{LIGHTSENSOR} viene inviato dall'applicazione al dispositivo quando vuole utilizzare il sensore. Questo comando ha 7 possibili flag, che sono usati per configurare il dispositivo in vari modi. Considerando il byte di flag che segue il comando, partendo dal bit 0 (LSB) arrivando al bit 7 (MSB):
 \begin{itemize}
@@ -428,7 +426,7 @@ La figura \ref{fig:serialdebug} mostra un esempio di output sul \textit{serial p
 	\label{fig:serialdebug}
 \end{figure}
 
-Per misurare le tempistiche di esecuzione del firmware (e in particolar modo, determinare il \textit{sample rate} nelle varie modalità) non si può semplicemente fare una differenza tra \textit{timestamp} e stamparla su seriale, poiché questo rallenterebbe troppo l'esecuzione a causa dei calcoli necessari e le continue chiamate a \texttt{Serial.write}, per cui la tecnica che viene implementata quando il firmware è compilato col flag \texttt{OSCILLOSCOPE\_DEBUG} è quella di generare un segnale che è \texttt{HIGH} mentre il firmware sta leggendo il sensore, e \texttt{LOW} mentre sta scrivendo sulla seriale (o viceversa); collegando un oscilloscopio all'uscita di questo segnale è possibile misurarne la frequenza (e quindi il \textit{sample rate}) e verificare anche la presenza di ``buchi'' nel campionamento. Con la stessa tecnica è possibile misurare i tempi di esecuzione delle ISR.\\
+Per misurare le tempistiche di esecuzione del firmware (e in particolar modo, determinare il \textit{sample rate} nelle varie modalità) non si può semplicemente fare una differenza tra \textit{timestamp} e stamparla su seriale, poiché questo rallenterebbe troppo l'esecuzione a causa dei calcoli necessari e le continue chiamate a \texttt{Serial.write}, per cui la tecnica che viene implementata quando il firmware è compilato col flag \texttt{OSCILLOSCOPE\_DEBUG} è quella di generare un segnale che è \texttt{HIGH} mentre il firmware sta leggendo il sensore e \texttt{LOW} mentre sta scrivendo sulla seriale (o viceversa); collegando un oscilloscopio all'uscita di questo segnale è possibile misurarne la frequenza (e quindi il \textit{sample rate}) e verificare anche la presenza di ``buchi'' nel campionamento. Con la stessa tecnica è possibile misurare i tempi di esecuzione delle ISR.\\
 La generazione di questo segnale non può essere fatta utilizzando funzioni come \texttt{digitalWrite} poiché richiedono parecchi microsecondi per essere eseguite e questo invaliderebbe completamente la misura. Studiando la documentazione del microcontroller 32U4 si scopre la presenza di una funzione speciale del pin 10: quando il bit 6 del registro \texttt{PINB} viene scritto ad 1, il valore corrente di quel pin viene invertito\cite{atmega32u4_datasheet}. Scrivere il registro \texttt{PINB} richiede un singolo ciclo di clock, che corrisponde a 62ns, un ordine di grandezza inferiore ai tempi che stiamo cercando di misurare.\\
 Per rendere facilmente utilizzabile questa funzione nel firmware, sono state realizzate tre macro:
 \begin{itemize}
@@ -479,7 +477,7 @@ Una volta preparati tutti gli strumenti, si possono preparare i materiali (figur
 \paragraph{Passo 2} Saldare gli \textit{header} sul piccolo PCB del sensore ALS-PT19, in modo che la parte in plastica e la parte lunga dei pin sia sotto al PCB e il sensore sia sopra, come in figura \ref{fig:assembly_03}. Poiché il PCB è molto piccolo, bisogna prestare attenzione a non scaldarlo troppo col saldatore, altrimenti il sensore potrebbe danneggiarsi.
 
 \paragraph{Passo 3} Sulla parte posteriore del PCB OpenLDAT (quella dove ci sono le piste), posizionare le resistenze nelle posizioni corrette, piegando le gambette per tenerle ferme come in figura \ref{fig:assembly_04}, dopodiché saldarle e tagliare l'eccesso con il tronchesino, come in figura \ref{fig:assembly_05}.\\
-\textbf{Attenzione: se le resistenze non sono in posizione corretta, i livelli di gain del sensore saranno totalmente diversi da quelli che si aspetta l'applicazione, e questa produrrà risultati invalidi.}\\
+\textbf{Attenzione: se le resistenze non sono in posizione corretta, i livelli di gain del sensore saranno totalmente diversi da quelli che si aspetta l'applicazione, e questa produrrà risultati errati.}\\
 Il seguente elenco riassume le resistenze che devono essere saldate sul dispositivo, con i relativi valori e codici dei colori:
 \begin{itemize}
 	\item R1: 1k\si{\ohm} (Marrone-Nero-Rosso)
@@ -501,7 +499,7 @@ Il seguente elenco riassume le resistenze che devono essere saldate sul disposit
 	\item Sulla parte inferiore della base, dove il dispositivo viene appoggiato sul display da testare, è possibile posizionare dei feltrini o uno strato di carta adesiva vellutata, avendo cura di non ostruire neanche parzialmente il sensore ed evitando di creare potenziali infiltrazioni di luce (figura \ref{fig:assembly_13})
 \end{itemize}
 
-\paragraph{Passo 8} Inserire il PCB assemblato all'interno del case bloccandolo nei quattro incastri appositi, con il sensore rivolto verso il basso. Si consiglia di inserire prima la parte con il connettore USB, e poi premere la parte tra il connettore del pulsante esterno e il LED per completare l'incastro, come mostrato nelle immagini in figura \ref{fig:assembly_14}.\\
+\paragraph{Passo 8} Inserire il PCB assemblato all'interno del case bloccandolo nei quattro incastri appositi, con il sensore rivolto verso il basso. Si consiglia di inserire prima la parte con il connettore USB e poi premere la parte tra il connettore del pulsante esterno e il LED per completare l'incastro, come mostrato nelle immagini in figura \ref{fig:assembly_14}.\\
 Per via delle tolleranze di produzione del PCB e del case, l'incastro potrebbe non essere perfetto:\begin{itemize}
 	\item Se il PCB sforza troppo per entrare, si può utilizzare della carta vetrata per levigare i bordi del PCB, prestando la massima attenzione a non danneggiare il PCB o i componenti saldati su di esso
 	\item Se il PCB entra ma esce troppo facilmente dall'incastro, si può usare della colla a caldo per tenerlo fermo, oppure scaldare leggermente le alette del case per restringere il PLA del case
@@ -645,7 +643,7 @@ All'interno della cartella del firmware è presente una cartella chiamata \textt
 	sudo apt install python3 avrdude
 \end{verbatim}
 
-\paragraph{Passo 2} Aprire un terminale all'interno della cartella \texttt{Prebuilt}, collegare il dispositivo da programmare, e prendere nota del nome che viene assegnato alla porta seriale del dispositivo. Questo comando permette di elencare le porte seriali attualmente assegnate:
+\paragraph{Passo 2} Aprire un terminale all'interno della cartella \texttt{Prebuilt}, collegare il dispositivo da programmare e prendere nota del nome che viene assegnato alla porta seriale del dispositivo. Questo comando permette di elencare le porte seriali attualmente assegnate:
 \begin{verbatim}
 	ls -l /dev/serial/by-id
 \end{verbatim}

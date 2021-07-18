@@ -1,11 +1,9 @@
-\setlength{\parskip}{10pt}
-\setlength{\parindent}{0pt}
 \chapter{Conclusioni}
 \label{chap:outro}
 
-Nei capitoli precedenti sono stati illustrati il funzionamento del dispositivo e dell'applicazione OpenLDAT e i test che sono stati condotti su un campione di display per testarne l'utilità e il corretto funzionamento sul più ampio range possibile di scenari. Il progetto ha mostrato delle buone prestazioni, raggiungendo gli obiettivi che erano stati prefissati e mostrando anche alcuni risultati che potrebbero essere oggetto di studi più approfonditi, tuttavia durante lo sviluppo e il testing sono stati incontrati alcuni problemi, idee, e possibili aree di miglioramento per future iterazioni del dispositivo e dell'applicazione OpenLDAT che sono oggetto di questo capitolo.
+Nei capitoli precedenti sono stati illustrati il funzionamento del dispositivo e dell'applicazione OpenLDAT e i test che sono stati condotti su un campione di display per testarne l'utilità e il corretto funzionamento sul più ampio range possibile di scenari. Il progetto ha mostrato delle buone prestazioni, raggiungendo gli obiettivi che erano stati prefissati e mostrando anche alcuni risultati che potrebbero essere oggetto di studi più approfonditi, tuttavia durante lo sviluppo e il testing sono stati incontrati alcuni problemi, idee e possibili aree di miglioramento per future iterazioni del dispositivo e dell'applicazione OpenLDAT che sono oggetto di questo capitolo.
 
-La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le caratteristiche di Nvidia LDAT rispetto a quelle fornite dal progetto OpenLDAT. Poiché non sono note ufficialmente le caratteristiche di Nvidia LDAT, alcuni valori sono frutto di osservazioni sul dispositivo e sull'applicazione, e potrebbero essere errati; questi valori sono marcati con [?].
+La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le caratteristiche di Nvidia LDAT rispetto a quelle fornite dal progetto OpenLDAT. Poiché non sono note ufficialmente le caratteristiche di Nvidia LDAT, alcuni valori sono frutto di osservazioni sul dispositivo e sull'applicazione e potrebbero essere errati, questi valori sono marcati con \textit{*}.
 
 \begin{table}[h!]
 	\centering
@@ -13,13 +11,13 @@ La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le c
 		\hline
 		& \textbf{Nvidia LDAT} & \textbf{OpenLDAT}  \\ 
 		\hline
-		\textbf{Sensore} & Fotodiodo [?] & ALS-PT19 \\
+		\textbf{Sensore} & Fotodiodo\textit{*} & ALS-PT19 \\
 		\hline
 		\textbf{Livelli di gain} & 1 & 4 \\
 		\hline
-		\textbf{Risoluzione} & 10 bit [?] & 10 bit \\
+		\textbf{Risoluzione} & 10 bit\textit{*} & 10 bit \\
 		\hline
-		\textbf{Sample rate} & \textasciitilde 1000Hz [?] & Fino a \textasciitilde 30kHz \\
+		\textbf{Sample rate} & \textasciitilde 1000Hz\textit{*} & Fino a \textasciitilde 30kHz \\
 		\hline
 		\textbf{LED per validazione} & Si & Si \\
 		\hline
@@ -57,7 +55,7 @@ La tabella \ref{tab:openldat_nvidialdat_comparison} mostra un confronto tra le c
 Durante lo sviluppo sono state proposte e testate alcune idee che però non sono presenti nella versione presentata in questa tesi. In questa sezione verranno elencate alcune di queste proposte che sarebbero interessanti per l'evoluzione futura del progetto.
 
 \subsection{Colorimetro}
-Il colorimetro TCS34725 che è stato usato per alcuni test nel capitolo sull'hardware inizialmente voleva essere inserito permanentemente nel dispositivo, per poter implementare test di luminosità, contrasto, range dinamico, curve di gamma, uniformità della retroilluminazione, temperatura del bianco, e accuratezza dei colori. Tutti questi test sono stati inizialmente implementati, ma in fase di testing è emerso che il gamut di questo colorimetro non è sufficientemente ampio per poter coprire anche solo lo spazio colore sRGB, per cui è stato rimosso dal dispositivo e dall'applicazione.
+Il colorimetro TCS34725 che è stato usato per alcuni test nel capitolo sull'hardware inizialmente voleva essere inserito permanentemente nel dispositivo, per poter implementare test di luminosità, contrasto, range dinamico, curve di gamma, uniformità della retroilluminazione, temperatura del bianco e accuratezza dei colori. Tutti questi test sono stati inizialmente implementati, ma in fase di testing è emerso che il gamut di questo colorimetro non è sufficientemente ampio per poter coprire anche solo lo spazio colore sRGB, per cui è stato rimosso dal dispositivo e dall'applicazione.
 
 Future versioni del dispositivo OpenLDAT potrebbero utilizzare il colorimetro AMS AS73211 per i test che richiedono letture lente ma accurate; questo sensore è infatti più costoso ma risponde allo spettro dei tre componenti XYZ dello spazio colore CIE 1931, che è ideale per questa applicazione. Dato il costo del sensore e dell'elettronica necessaria per collegarlo a un microcontroller (circa 30€), probabilmente sarà un componente opzionale.
 
@@ -72,16 +70,16 @@ La causa di questo problema è una combinazione di tre fattori:\begin{itemize}
 
 Inoltre, per utilizzare il sensore ALS-PT19 per misurare il livello di luminosità in nit, sarebbe necessaria una calibrazione da eseguire su ogni dispositivo utilizzando un altro sensore.
 
-È stato implementato e successivamente rimosso anche un test riguardante il \textit{glare}, ovvero l'alone che un oggetto bianco ha attorno su uno sfondo nero. Questo era di interesse perché il \textit{glare} tende ad essere fastidioso su display dotati di \textit{local dimming}, ma purtroppo il test catturava semplicemente la dimensione del foro presente nel case: non appena un pixel bianco si avvicinava all'apertura, il sensore lo rilevava immediatamente come \textit{glare}. Una lente davanti al sensore potrebbe risolvere questo problema, o un'apertura più piccola, ma questa potrebbe peggiorare le prestazioni del sensore in altri test.
+È stato implementato e successivamente rimosso anche un test riguardante il \textit{glare}, ossia l'alone che un oggetto bianco ha attorno su uno sfondo nero. Questo era di interesse perché il \textit{glare} tende ad essere fastidioso su display dotati di \textit{local dimming}, ma purtroppo il test catturava semplicemente la dimensione del foro presente nel case: non appena un pixel bianco si avvicinava all'apertura, il sensore lo rilevava immediatamente come \textit{glare}. Una lente davanti al sensore potrebbe risolvere questo problema, o un'apertura più piccola, ma questa potrebbe peggiorare le prestazioni del sensore in altri test.
 
-Future versioni del dispositivo potrebbero continuare ad usare il sensore ALS-PT19 ma usare un microcontroller con un ADC a risoluzione più alta. Questo consentirebbe anche di aumentare l'accuratezza dei test già implementati, di ridurre il numero di livelli di gain necessari per il sensore, e di estendere il suo range di livelli di luminosità.
+Future versioni del dispositivo potrebbero continuare ad usare il sensore ALS-PT19 ma usare un microcontroller con un ADC a risoluzione più alta. Questo consentirebbe anche di aumentare l'accuratezza dei test già implementati, di ridurre il numero di livelli di gain necessari per il sensore e di estendere il suo range di livelli di luminosità.
 
 \subsection{Commercializzazione}
 Come spiegato nell'introduzione, poiché non esistono dispositivi simili sul mercato, potrebbe essere interessante commercializzare il dispositivo, consentendo a potenziali utenti che non hanno le capacità, la voglia, o gli strumenti necessari per realizzare il dispositivo di acquistarlo già pronto all'uso.
 
 Questa prima iterazione del dispositivo, pur avendo margine di miglioramento, ha il vantaggio di costare molto poco da realizzare, soprattutto se si acquistano i componenti in numeri piuttosto elevati, e potrebbe essere venduta direttamente come kit da saldare o come dispositivo pronto all'uso sul sito del progetto. Per finanziare lo sviluppo e la produzione di una versione futura con più funzionalità si potrebbe provare ad avviare una campagna di crowdfunding.
 
-Per far conoscere l'esistenza del progetto, potrebbe essere utile contattare alcuni potenziali utenti, soprattutto giornalisti tecnologici che avrebbero bisogno di uno strumento di questo tipo pronto all'uso. Questo consentirebbe anche di testare il dispositivo su un campione di display molto più grande di quello attuale, e di ricevere feedback sulle prestazioni e sull'usabilità del dispositivo e dell'applicazione.
+Per far conoscere l'esistenza del progetto, potrebbe essere utile contattare alcuni potenziali utenti, soprattutto giornalisti tecnologici che avrebbero bisogno di uno strumento di questo tipo pronto all'uso. Questo consentirebbe anche di testare il dispositivo su un campione di display molto più grande di quello attuale e di ricevere feedback sulle prestazioni e l'usabilità del dispositivo e dell'applicazione.
 
 Per dare un aspetto più professionale al dispositivo, sarebbe interessante anche provare a creare un nuovo case che non sia realizzato con la stampa 3D, ma con uno stampo e della plastica normale.
 

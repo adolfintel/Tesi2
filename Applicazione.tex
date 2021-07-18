@@ -1,9 +1,7 @@
-\setlength{\parskip}{10pt}
-\setlength{\parindent}{0pt}
 \chapter{L'applicazione OpenLDAT}
 \label{chap:app}
 
-Questo capitolo si concentra sull'applicazione OpenLDAT per PC, illustrandone i requisiti, le tecnologie utilizzate, e i dettagli del funzionamento, con un focus particolare agli algoritmi che analizzano i dati raccolti dal dispositivo.
+Questo capitolo si concentra sull'applicazione OpenLDAT per PC, illustrandone i requisiti, le tecnologie utilizzate e i dettagli del funzionamento, con un focus particolare agli algoritmi che analizzano i dati raccolti dal dispositivo.
 
 I requisiti principali per l'applicazione OpenLDAT sono i seguenti:
 \begin{itemize}
@@ -47,7 +45,7 @@ Il processo di \textit{discovery} dei dispositivi è svolto dalla classe \texttt
 \end{itemize}
 
 \subsection{Device}
-Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la classe \texttt{Device} passandole la porta seriale scelta. Il costruttore di questa classe esegue tutti i controlli necessari per identificare il dispositivo, verificare che sia supportato, e ottiene l'elenco delle \textit{capability}. In seguito, la classe mette a disposizione dei metodi per utilizzare il dispositivo. La classe utilizza un buffer in ricezione di 128kB per evitare di bloccare il dispositivo mentre qualcosa viene processato.
+Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la classe \texttt{Device} passandole la porta seriale scelta. Il costruttore di questa classe esegue tutti i controlli necessari per identificare il dispositivo, verificare che sia supportato e ottiene l'elenco delle \textit{capability}. In seguito, la classe mette a disposizione dei metodi per utilizzare il dispositivo. La classe utilizza un buffer in ricezione di 128kB per evitare di bloccare il dispositivo mentre qualcosa viene processato.
 
 \paragraph{Costruttori:}\begin{itemize}
 	\item \texttt{public Device(SerialPort com)}: crea l'istanza di \texttt{Device} utilizzando la porta seriale specificata. Durante l'inizializzazione, viene verificato il modello del dispositivo e viene richiesto l'elenco delle \textit{capability} per inizializzare tutte le variabili interne alla classe. Se il dispositivo non è riconosciuto, non è compatibile, richiede una versione più recente del driver, o l'elenco delle \textit{capability} non è valido, l'inizializzazione fallisce.\\
@@ -74,7 +72,7 @@ Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la cl
 		\item \texttt{boolean fastADC}: se impostato a \texttt{true}, campiona il segnale molto più velocemente
 		\item \texttt{LightSensorMonitorCallback callback}: il \textit{callback} da chiamare quando sono disponibili nuovi dati dal dispositivo. Questa classe verrà approfondita successivamente
 	\end{itemize}
-	Una volta avviato il campionamento il metodo non è bloccante, e ritorna il \textit{sample rate} del segnale che sta acquisendo.\\
+	Una volta avviato il campionamento il metodo non è bloccante e ritorna il \textit{sample rate} del segnale che sta acquisendo.\\
 	Se il dispositivo non ha un sensore di luminosità viene lanciata un'eccezione \texttt{MissingSensorException}, se si verificano errori di comunicazione, viene lanciata una \texttt{IOException}.\\
 	Se il metodo viene chiamato mentre è già in corso un'altra attività, questa viene terminata automaticamente e quella nuova viene eseguita
 	\item \texttt{public double getLightSensorMonitorModeSampleRate(boolean noBuffer, boolean fastADC)}: ritorna la frequenza di campionamento che offrirebbe il dispositivo nel campionare il sensore di luminosità senza il pulsante, con le impostazioni richieste.\begin{itemize}
@@ -91,7 +89,7 @@ Una volta scelto il dispositivo OpenLDAT da utilizzare, si può istanziare la cl
 		\item \texttt{boolean autoFire}: se impostato a \texttt{true}, i click vengono generati automaticamente, altrimenti vengono ricevuti tramite il pulsante esterno
 		\item \texttt{LightSensorButtonCallback callback}: il \textit{callback} da chiamare quando sono disponibili nuovi dati dal dispositivo. Questa classe verrà approfondita successivamente
 	\end{itemize}
-	Una volta avviato il campionamento il metodo non è bloccante, e ritorna il \textit{sample rate} del segnale che sta acquisendo.\\
+	Una volta avviato il campionamento il metodo non è bloccante e ritorna il \textit{sample rate} del segnale che sta acquisendo.\\
 	Se il dispositivo non ha un sensore di luminosità viene lanciata un'eccezione \texttt{MissingSensorException}, se si verificano errori di comunicazione, viene lanciata una \texttt{IOException}.\\
 	Se il metodo viene chiamato mentre è già in corso un'altra attività, questa viene terminata automaticamente e quella nuova viene eseguita
 	\item \texttt{public double getLightSensorButtonModeSampleRate(boolean noBuffer, boolean fastADC)}: ritorna la frequenza di campionamento che offrirebbe il dispositivo nel campionare il sensore di luminosità senza il pulsante, con le impostazioni richieste.\begin{itemize}
@@ -598,7 +596,7 @@ Non esiste uno standard per la misurazione dell'\textit{overdrive}, quindi in qu
 	\item \texttt{Relativo}: considera l'errore relativo al range di luminosità che la transizione deve percorrere. Ad esempio, se durante una transizione da 16 a 32 si raggiunge un livello di 48, l'\textit{overshoot} è  ${\frac{48-32}{32-16}=50\%}$. Questo metodo tende a sovrastimare molto i risultati su transizioni piccole, per cui è quindi generalmente sconsigliato
 \end{itemize}
 
-Tra tutti i test implementati nell'applicazione, questo è quello che soffre di più della presenza di rumore, soprattutto retroilluminazione PWM, poiché il test deve misurare delle caratteristiche nel segnale che potrebbero avere una frequenza molto alta. La figura \ref{fig:pixelOverdriveTest_example1} mostra come il segnale potrebbe presentarsi, prima in modo pulito, e poi in presenza di PWM. Si può osservare fin da subito che se la frequenza della retroilluminazione PWM è troppo bassa, è completamente impossibile ricostruire il segnale originale, per cui in presenza di retroilluminazione PWM il test tende a sottostimare significativamente l'errore.
+Tra tutti i test implementati nell'applicazione, questo è quello che soffre di più della presenza di rumore, soprattutto retroilluminazione PWM, poiché il test deve misurare delle caratteristiche nel segnale che potrebbero avere una frequenza molto alta. La figura \ref{fig:pixelOverdriveTest_example1} mostra come il segnale potrebbe presentarsi, prima in modo pulito e poi in presenza di PWM. Si può osservare fin da subito che se la frequenza della retroilluminazione PWM è troppo bassa, è completamente impossibile ricostruire il segnale originale, per cui in presenza di retroilluminazione PWM il test tende a sottostimare significativamente l'errore.
 
 \begin{figure}[H]
 	\centering
@@ -680,7 +678,7 @@ Il test prosegue indefinitamente fino a quando non viene terminato manualmente d
 
 Il test può essere utilizzato in due modi:\begin{itemize}
 	\item \textbf{Sulla stessa macchina}: in questo caso è sufficiente avviare il test e attivare la generazione automatica dei click. Il dispositivo genera click a una frequenza di circa 1 click al secondo, e posizionando il dispositivo in corrispondenza del \textit{muzzle flash} di un'arma o qualche altro elemento del gioco che genera un flash in risposta ai click, è possibile misurare quanto tempo passa tra un click e la generazione del flash
-	\item \textbf{Su una macchina separata}: si avvia il test utilizzando come fonte dei click il pulsante esterno, si collegano i pin del pulsante esterno ad un mouse o appositamente modificato come spiegato nel capitolo precedente sull'hardware, si posiziona il sensore sul display della macchina da testare come nel caso precedente, e il test misura il tempo che passa tra la pressione del pulsante e la generazione del flash. Si consiglia di far passare almeno mezzo secondo tra un click e l'altro
+	\item \textbf{Su una macchina separata}: si avvia il test utilizzando come fonte dei click il pulsante esterno, si collegano i pin del pulsante esterno ad un mouse o appositamente modificato come spiegato nel capitolo precedente sull'hardware, si posiziona il sensore sul display della macchina da testare come nel caso precedente e il test misura il tempo che passa tra la pressione del pulsante e la generazione del flash. Si consiglia di far passare almeno mezzo secondo tra un click e l'altro
 \end{itemize}
 
 Durante il test, è possibile regolare manualmente la soglia di rilevazione del flash e la sensibilità del sensore. La soglia di rilevazione deve essere impostata il più bassa possibile, ma alta abbastanza da non attivarsi accidentalmente. Per risultati migliori, è consigliabile posizionarsi in un'area scura e utilizzare un'arma o un altro elemento del gioco che genera un flash immediatamente quando viene premuto il pulsante, senza eseguire un'animazione prima.
@@ -749,7 +747,7 @@ Il menu principale fornisce accesso alle seguenti funzioni:\begin{itemize}
 	\item \textbf{Pixel Response Time}: esegue il test che misura il tempo di risposta dei pixel tra diverse sfumature di grigio
 	\item \textbf{Pixel Overdrive (Overshoot/Undershoot)}: esegue il test che misura l'errore di transizione causato dall'\textit{overdrive} dei pixel
 	\item \textbf{Light To Sound}: avvia la modalità Light To Sound, per ascoltare i dati catturati dal sensore di luminosità
-	\item \textbf{Driver test}: fornisce accesso a un pannello da cui è possibile testare tutte le funzioni del dispositivo, del driver, e dell'elaborazione di base
+	\item \textbf{Driver test}: fornisce accesso a un pannello da cui è possibile testare tutte le funzioni del dispositivo, del driver e dell'elaborazione di base
 	\item \textbf{Advanced settings}: permette di cambiare alcune impostazioni dell'applicazione che normalmente sono determinate automaticamente
 	\item \textbf{About OpenLDAT}: mostra informazioni sull'applicazione
 \end{itemize}
@@ -770,7 +768,7 @@ Questo test ha dei parametri che possono essere configurati, mostrati in figura 
 	\item \textbf{Test duration}: permette di selezionare la durata del test tra 20 secondi, 1 minuto (default), 2 minuti o 5 minuti. Test più lunghi garantiscono risultati più accurati
 \end{itemize}
 
-Al termine del test, viene visualizzata una schermata con i risultati come in figura \ref{fig:gui_inputlag_results}. Da quì è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale.
+Al termine del test, viene visualizzata una schermata con i risultati come in figura \ref{fig:gui_inputlag_results}. Da qui è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale.
 
 \begin{figure}[H]
 	\centering
@@ -787,7 +785,7 @@ Al termine del test, viene visualizzata una schermata con i risultati come in fi
 \end{figure}
 
 \subsubsection{Rilevamento del microstuttering}
-Questo test non ha parametri da configurare, per cui viene eseguito immediatamente. Al termine viene mostrata una schermata con i risultati come in figura \ref{fig:gui_microstuttering_results}. Da quì è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. La presenza di picchi sopra la linea rossa nel grafico indica la presenza di \textit{microstuttering}.
+Questo test non ha parametri da configurare, per cui viene eseguito immediatamente. Al termine viene mostrata una schermata con i risultati come in figura \ref{fig:gui_microstuttering_results}. Da qui è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. La presenza di picchi sopra la linea rossa nel grafico indica la presenza di \textit{microstuttering}.
 
 Nota: è stato osservato che su alcune piattaforme, il \textit{backend} Swing, non essendo in grado di sincronizzarsi con il display, può generare esso stesso \textit{microstuttering}; per questo motivo, al fine di evitare di fornire dati potenzialmente errati, è stato scelto di far funzionare questo test solo con il \textit{backend} OpenGL. Il codice del test supporta entrambi i \textit{backend}, la restrizione è presente solo nel codice della GUI che avvia il test.
 
@@ -799,7 +797,7 @@ Nota: è stato osservato che su alcune piattaforme, il \textit{backend} Swing, n
 \end{figure}
 
 \subsubsection{Rilevamento di PWM e noise}
-Questo test non ha parametri da configurare, per cui viene eseguito immediatamente. Al termine viene mostrata una schermata con i risultati come in figura \ref{fig:gui_pwm_results}. Da quì è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. Il grafico mostra il segnale catturato dal sensore durante il test.
+Questo test non ha parametri da configurare, per cui viene eseguito immediatamente. Al termine viene mostrata una schermata con i risultati come in figura \ref{fig:gui_pwm_results}. Da qui è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. Il grafico mostra il segnale catturato dal sensore durante il test.
 
 \begin{figure}[H]
 	\centering
@@ -814,7 +812,7 @@ Questo test ha due parametri che possono essere configurati, mostrati in figura 
 	\item \textbf{Step size}: il passo tra due sfumature di grigio. Valori più piccoli testano più sfumature di grigio ma rendono il test molto più lungo. I valori implementati sono 16 (lento), 32 (default) e 64 (veloce). Questi valori sono su una scala tra 0 e 255 solo per comodità, il test utilizza il formato dei pixel del desktop
 \end{itemize}
 
-Al termine del test, viene visualizzata una schermata con i risultati come in figura \ref{fig:gui_pixelresponse_results}. Da quì è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. I colori nella tabella indicano in modo intuitivo quanto è buono il tempo di quella transizione con una sfumatura dal verde al rosso.
+Al termine del test, viene visualizzata una schermata con i risultati come in figura \ref{fig:gui_pixelresponse_results}. Da qui è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. I colori nella tabella indicano in modo intuitivo quanto è buono il tempo di quella transizione con una sfumatura dal verde al rosso.
 
 Nota: i valori di luminosità sono su una scala tra 0 e 255 solo per comodità, il test utilizza il formato dei pixel del desktop.
 
@@ -839,7 +837,7 @@ Questo test ha tre parametri che possono essere configurati, mostrati in figura 
 	\item \textbf{Skip transitions to 0 and 255}: velocizza il test saltando le transizioni verso il nero e verso il bianco, dato che normalmente il display non può visualizzare colori più scuri del nero o più chiari del bianco
 \end{itemize}
 
-Al termine del test, viene visualizzata una schermata con i risultati come in figura \ref{fig:gui_pixeloverdrive_results}. Da quì è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. I colori nella tabella indicano in modo intuitivo quanto è buono il tempo di quella transizione con una sfumatura dal verde al rosso.
+Al termine del test, viene visualizzata una schermata con i risultati come in figura \ref{fig:gui_pixeloverdrive_results}. Da qui è possibile salvarli su un file importabile in un foglio di calcolo oppure tornare al menu principale. I colori nella tabella indicano in modo intuitivo quanto è buono il tempo di quella transizione con una sfumatura dal verde al rosso.
 
 Attenzione: questo test è estremamente sensibile alla presenza di PWM o altri disturbi.
 
@@ -866,7 +864,7 @@ I test interattivi mostrano una schermata di test in cui è possibile configurar
 Questo test permette di misurare il ritardo in risposta ai click di virtualmente qualsiasi applicazione.
 
 L'interfaccia grafica del test (figura \ref{fig:gui_interactiveinputlag_results}) è organizzata in questo modo:\begin{itemize}
-	\item Il grafico mostra i dati del sensore di luminosità (bianco), i click (azzurro), e la soglia di attivazione (linea verde orizzontale)
+	\item Il grafico mostra i dati del sensore di luminosità (bianco), i click (azzurro) e la soglia di attivazione (linea verde orizzontale)
 	\item Alla destra del grafico è possibile regolare la soglia di attivazione con il cursore
 	\item Sotto al grafico, sulla destra è possibile cambiare il gain del sensore tra i quattro livelli disponibili e scegliere se i click devono essere generati automaticamente dal dispositivo o se devono essere ricevuti dall'esterno (default)
 	\item Sotto al grafico, a sinistra è presente un elenco di tempi misurati finora con la relativa media e la possibilità di salvare i tempi su file e di resettare il test qualora siano stati catturati dati errati
@@ -961,7 +959,7 @@ Essendo il codice multipiattaforma, è possibile utilizzarlo anche su altre piat
 Tutti i file e le istruzioni necessarie per il \textit{packaging} sulle piattaforme target sono presenti nella cartella \texttt{Packaging stuff} all'interno della cartella dell'applicazione.
 
 \subsection{Windows}
-Il pacchetto di installazione per Windows è stato realizzato utilizzando Inno Setup\footnote{\url{https://jrsoftware.org/isinfo.php}}. All'interno del \textit{package} sono presenti l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE\footnote{\url{https://adoptopenjdk.net/releases.html}}), e un launcher eseguibile per Windows realizzato con Launch4J\footnote{\url{https://launch4j.sourceforge.net/}}.
+Il pacchetto di installazione per Windows è stato realizzato utilizzando Inno Setup\footnote{\url{https://jrsoftware.org/isinfo.php}}. All'interno del \textit{package} sono presenti l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE\footnote{\url{https://adoptopenjdk.net/releases.html}}) e un launcher eseguibile per Windows realizzato con Launch4J\footnote{\url{https://launch4j.sourceforge.net/}}.
 
 La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 	\item Fare una copia della cartella \texttt{Windows-InnoSetup}
@@ -989,7 +987,7 @@ La procedura per realizzare il \textit{package} è la seguente:\begin{itemize}
 \end{itemize}
 
 \subsection{MacOS}
-Il pacchetto per MacOS è distribuito sotto forma di immagine DMG contenente un'applicazione nel formato standard .app, la quale contiene al suo interno l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE), e un wrapper per consentire l'avvio di applicazioni Java su MacOS\footnote{\url{https://github.com/tofi86/universalJavaApplicationStub}}.
+Il pacchetto per MacOS è distribuito sotto forma di immagine DMG contenente un'applicazione nel formato standard .app, la quale contiene al suo interno l'applicazione OpenLDAT con le relative librerie, il \textit{runtime} Java (OpenJDK 11 JRE) e un wrapper per consentire l'avvio di applicazioni Java su MacOS\footnote{\url{https://github.com/tofi86/universalJavaApplicationStub}}.
 
 Nota: il testing su questa piattaforma è stato estremamente limitato e non è stato eseguito dall'autore di questa tesi.
 
