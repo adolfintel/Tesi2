@@ -19,6 +19,7 @@
 \usetikzlibrary{calc}
 \usepackage{todonotes}
 \usepackage{url}
+\usepackage[export]{adjustbox}
 
 \title{OpenLDAT}
 \subtitle{Un sistema di misurazione di metriche di latenza dei display}
@@ -32,59 +33,92 @@
 	\titlepage
 \end{frame}
 
-\section{Sezione 1}
+\section{Introduzione}
 \begin{frame}
-\frametitle{Una slide}
-\lipsum[2]
+	\frametitle{Introduzione}
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+\frametitle{Nvidia LDAT (1)}
+\begin{itemize}
+	\item A Settembre 2020, Nvidia ha inviato dei prototipi di \textcolor{blue}{Nvidia LDAT} a dei giornalisti specializzati, ma non ha poi commercializzato il prodotto
+	\item Il dispositivo permetteva di misurare la \textcolor{blue}{latenza totale del sistema} in modo manuale o semi-automatico
+	\item Il progetto \textcolor{blue}{OpenLDAT} vuole ricreare questo dispositivo, aggiungere più funzioni, utilizzarlo per testare dei display, e distribuirlo su \textcolor{blue}{licenza libera}.
+\end{itemize}
+\begin{block}{Latenza totale del sistema}
+	Tempo che intercorre tra un'azione nel mondo fisico, come un click del mouse, e la visualizzazione del risultato sul display.
+\end{block}
+\end{frame}
+\begin{frame}
+	\frametitle{Nvidia LDAT (2)}
+	\centering
+	\includegraphics[height=0.45\textheight]{StatoDellArte_files/nvldat_front.jpg}
+	\includegraphics[height=0.45\textheight]{StatoDellArte_files/nvldat_back.jpg}
 \end{frame}
 
+\section{Dispositivo}
 \begin{frame}
-	\frametitle{Altra slide}
+\frametitle{Dispositivo OpenLDAT}
+\begin{columns}
+	\column{0.5\textwidth}
 	\begin{itemize}
-		\item Primo punto
-		\item Secondo punto \begin{itemize}
-			\item Primo punto
-			\item Secondo punto
-			\item Terzo punto
-		\end{itemize}
-		\item Terzo punto
+		\item Microcontroller \textcolor{blue}{ATmega32U4}
+		\item Fototransistor \textcolor{blue}{ALS-PT19}
+		\item \textcolor{blue}{PCB} personalizzato
+		\item Generazione dei \textcolor{blue}{click automatica o manuale}
+		\item \textcolor{blue}{LED per validazione} con telecamera ad alta velocità
+		\item Campionamento fino a \textcolor{blue}{\textasciitilde 30kHz 10-bit}
+		\item Poco costoso e facile da realizzare
 	\end{itemize}
+	\column{0.5\textwidth}
+	\adjincludegraphics[trim={{.22\width} 0 {.22\width} 0},clip,width=0.6\textheight]{Dispositivo_files/assembly_15.jpg}
+\end{columns}
 \end{frame}
 
-\section{Sezione 2}
+\section{Applicazione}
 \begin{frame}
-	\frametitle{Slide con immagine}
-	\begin{figure}
-		\includegraphics[scale=0.5]{Dispositivo_files/assembly_15.jpg}
-	\end{figure}
-	Una bella slide con una fotografia
+	\frametitle{Applicazione OpenLDAT (1)}
+	\lipsum[1]
 \end{frame}
-
 \begin{frame}
-	\frametitle{La slide con la tabella}
-	\begin{table}
-		\centering
-		\resizebox{\columnwidth}{!}{\begin{tabular}{|c|c|c|} 
-			\hline
-			\textbf{Configurazione (D14,D15)} & \textbf{Resistenza (k\si{\ohm})} & \textbf{Gain relativo}  \\ 
-			\hline
-			L,L & 24.334   & 1.000         \\ 
-			\hline
-			Z,L & 30.620   & 1.258         \\ 
-			\hline
-			L,Z & 51.123   & 2.101         \\ 
-			\hline
-			Z,Z & 337.847    & 13.883          \\
-			\hline
-		\end{tabular}}
-	\end{table}
-	Una bella slide con una tabella
+	\frametitle{Applicazione OpenLDAT (2)}
+	\lipsum[1]
 \end{frame}
 
-\section{Fine}
+\section{Risultati sperimentali}
+\begin{frame}
+	\frametitle{Input lag (1)}
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+	\frametitle{Input lag (2)}
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+	\frametitle{PWM e noise}
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+	\frametitle{Risposta dei pixel}
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+	\frametitle{Overdrive}
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+	\frametitle{Microstuttering}
+	\lipsum[1]
+\end{frame}
+
+\section{Conclusioni}
 \begin{frame}
 	\frametitle{Conclusioni}
-	\lipsum[2]
+	\lipsum[1]
+\end{frame}
+\begin{frame}
+	\frametitle{Grazie per l'attenzione}
+	Link al progetto...
 \end{frame}
 
 \end{document}
