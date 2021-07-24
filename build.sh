@@ -19,13 +19,13 @@ pdfA(){
 echo "Compilazione parallela avviata"
 echo "L'output è nascosto, ma vengono generati i file di log"
 {
-    buildTex Main
-    pdfA Main
-    echo "Main: Fine"
+    buildTex Tesi
+    pdfA Tesi
+    echo "Tesi: fine"
 } &
 {
     buildTex Presentazione
-    echo "Presentazione: Fine"
+    echo "Presentazione: fine"
 } &
 wait
-echo "Tutto finito"
+echo "Build completata"
