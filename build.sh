@@ -1,4 +1,5 @@
 #!/bin/bash
+export TEXMFCNF='.:'
 buildTex () {
     echo "$1: passo 1"
     xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
