@@ -1,3 +1,5 @@
+% !TeX spellcheck = it_IT
+
 \documentclass{beamer}
 \usetheme{Berkeley}
 \usecolortheme{seagull}
@@ -227,6 +229,26 @@
 	\frametitle{Input lag (2)}
 	\begin{figure}
 		\pgfplotstableread[col sep=comma]{
+			config,novsync,vsync
+			Linux + AMD,28.7,86.1
+			Linux + Nvidia (Proprietary),28.0,69.1
+			Linux + Nvidia (Nouveau),44.3,86.0
+			Linux + Intel,34.1,86.6
+			Windows + AMD,29.6,93.9
+			Windows + Nvidia,28.4,95.3
+			Windows + Intel,31.3,103.4
+		}\dataset
+		\begin{tikzpicture}
+			\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{config}, yticklabel style={text width=5.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(16.5cm,0.5)},anchor=east}, xlabel=Ritardo (ms), width=15cm, height=8cm, ymin=-1, ymax=7,xmax=120]
+				\addplot table[x=vsync] {\dataset};
+				\addplot table[x=novsync] {\dataset};
+				\legend{VSync On, VSync Off}
+			\end{axis}
+		\end{tikzpicture}
+		%\caption*{Input lag con combinazioni hardware/software diverse}
+	\end{figure}
+	\begin{figure}
+		\pgfplotstableread[col sep=comma]{
 			app,lag,emin,emax
 			Mass Effect Legendary Ed. (2021),45.7,8.4,7.7
 			Crysis (2007),51.9,6.7,8.6
@@ -238,31 +260,11 @@
 			Crysis Remastered (2020),182.5,17.8,23.5
 		}\dataset
 		\begin{tikzpicture}
-			\begin{axis}[xbar, bar width=10pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{app}, yticklabel style={text width=5.5cm, align=right}, table/y expr = \coordindex, nodes near coords, xlabel=Ritardo (ms), width=11cm, height=8cm, ymin=-1, ymax=8] %ymax messo a mano con il numero di test per migliore formattazione
+			\begin{axis}[xbar, bar width=10pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{app}, yticklabel style={text width=5.5cm, align=right}, table/y expr = \coordindex, nodes near coords, xlabel=Ritardo (ms), width=15cm, height=8cm, ymin=-1, ymax=8] %ymax messo a mano con il numero di test per migliore formattazione
 				\addplot[fill=gray, error bars/.cd, x dir = both, x explicit] table[x=lag, x error plus=emax, x error minus=emin] {\dataset};
 			\end{axis}
 		\end{tikzpicture}
 		%\caption*{Input lag di alcune applicazioni. (150ms è generalmente considerato il limite accettabile per un videogioco)}
-	\end{figure}
-	\begin{figure}
-		\pgfplotstableread[col sep=comma]{
-			config,novsync,vsync
-			Linux + AMD,28.7,86.1
-			Linux + Nvidia (Proprietary),28.0,69.1
-			Linux + Nvidia (Nouveau),44.3,86.0
-			Linux + Intel,34.1,86.6
-			Windows + AMD,29.6,93.9
-			Windows + Nvidia,28.4,95.3
-			Windows + Intel,31.3,103.4
-		}\dataset
-		\begin{tikzpicture}
-			\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{config}, yticklabel style={text width=5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(13.5cm,0.5)},anchor=east}, xlabel=Ritardo (ms), width=12cm, height=8cm, ymin=-1, ymax=7,xmax=120]
-				\addplot table[x=vsync] {\dataset};
-				\addplot table[x=novsync] {\dataset};
-				\legend{VSync On, VSync Off}
-			\end{axis}
-		\end{tikzpicture}
-		%\caption*{Input lag con combinazioni hardware/software diverse}
 	\end{figure}
 \end{frame}
 \begin{frame}
@@ -400,7 +402,14 @@
 \section{Conclusioni}
 \begin{frame}
 	\frametitle{Conclusioni}
-	\lipsum[1]
+	Questa prima versione del progetto funziona piuttosto bene, ma durante lo sviluppo e il testing sono emersi diverse aree migliorabili le future iterazioni
+	\begin{itemize}
+		\item Utilizzare un \textcolor{blue}{ADC con più bit} di precisione, per ridurre i livelli di gain e permettere una misurazione accurata di livelli molto bassi di luminosità
+		\item Aggiungere un \textcolor{blue}{colorimetro} per eseguire anche test sull'accuratezza dei colori
+		\item Implementare \textcolor{blue}{altri test} nell'applicazione
+		\item \textcolor{blue}{Migliorare il supporto ai display HDR} nell'applicazione
+		\item \textcolor{blue}{Commercializzare il dispositivo}, dato che nessuno l'ha fatto finora
+	\end{itemize}
 \end{frame}
 \begin{frame}
 	\frametitle{Grazie per l'attenzione}
