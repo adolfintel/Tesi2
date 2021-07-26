@@ -46,7 +46,7 @@ if [[ $? -ne 0 ]]; then
 fi;
 command -v gs > /dev/null
 if [[ $? -ne 0 ]]; then
-    echo "Manca GhostScript"
+    echo "Manca Ghostscript"
     return 1
 fi;
 echo "Compilazione parallela avviata"
