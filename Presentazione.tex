@@ -1,8 +1,15 @@
 % !TeX spellcheck = it_IT
 
-\documentclass{beamer}
+\documentclass[xcolor={dvipsnames}]{beamer}
 \usetheme{Berkeley}
-\usecolortheme{seagull}
+\setbeamercolor*{structure}{bg=RoyalBlue!20,fg=RoyalBlue}
+%\setbeamercolor*{structure}{bg=ForestGreen!20,fg=ForestGreen} %anche questo non è brutto
+%\setbeamercolor*{structure}{bg=MidnightBlue!20,fg=MidnightBlue} %anche questo non è brutto
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg}
+\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=structure.fg!60}
+\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=structure.fg!50!black}
+\setbeamercolor*{palette quaternary}{fg=white,bg=black}
+\setbeamercolor*{alerted text}{use=structure,fg=black!35!-structure.fg}
 \usefonttheme{serif}
 %\usefonttheme{structuresmallcapsserif} %forse un po' troppo pretenzioso
 
@@ -19,7 +26,6 @@
 }
 \usepgfplotslibrary{ternary}
 \usetikzlibrary{calc}
-%\usepackage{todonotes} %non sembra funzionare con beamer
 \usepackage{url}
 \usepackage[export]{adjustbox}
 \usepackage[font={footnotesize,color=darkgray},justification=centering]{caption}
@@ -40,10 +46,10 @@
 \begin{frame}
 	\frametitle{Introduzione}
 	\begin{itemize}
-		\item Progetto nato dall'esigenza di \textcolor{blue}{misurare la latenza totale di un sistema} in modo automatico
-		\item \textcolor{blue}{Nessun dispositivo simile sul mercato}, solitamente si usa un mouse con collegato un LED e una telecamera ad alta velocità
-		\item \textcolor{blue}{OpenLDAT può misurarla in modo automatico}, e può fare anche molto altro
-		\item Progetto totalmente \textcolor{blue}{libero}
+		\item Progetto nato dall'esigenza di \alert{misurare la latenza totale di un sistema} in modo automatico
+		\item \alert{Nessun dispositivo simile sul mercato}, solitamente si usa un mouse con collegato un LED e una telecamera ad alta velocità
+		\item \alert{OpenLDAT può misurarla in modo automatico}, e può fare anche molto altro
+		\item Progetto totalmente \alert{libero}
 	\end{itemize}
 	\begin{block}{Latenza totale del sistema}
 		Tempo che intercorre tra un'azione nel mondo fisico, come un click del mouse, e la visualizzazione del risultato sul display.
@@ -54,9 +60,9 @@
 	\begin{columns}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item A Settembre 2020, Nvidia ha inviato dei prototipi di \textcolor{blue}{Nvidia LDAT} ad alcuni giornalisti specializzati, ma poi \textcolor{blue}{non ha commercializzato il prodotto}
-			\item Il dispositivo permetteva di misurare la \textcolor{blue}{latenza totale del sistema} in modo manuale o semi-automatico
-			\item Il progetto \textcolor{blue}{OpenLDAT} vuole ricreare questo dispositivo, aggiungere più funzioni, e utilizzarlo per testare dei display
+			\item A Settembre 2020, Nvidia ha inviato dei prototipi di \alert{Nvidia LDAT} ad alcuni giornalisti specializzati, ma poi \alert{non ha commercializzato il prodotto}
+			\item Il dispositivo permetteva di misurare la \alert{latenza totale del sistema} in modo manuale o semi-automatico
+			\item Il progetto \alert{OpenLDAT} vuole ricreare questo dispositivo, aggiungere più funzioni, e utilizzarlo per testare dei display
 		\end{itemize}
 		\column{0.5\textwidth}
 		\begin{figure}
@@ -76,14 +82,14 @@
 	\begin{columns}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item Microcontroller \textcolor{blue}{ATmega32U4}
-			\item Fototransistor \textcolor{blue}{ALS-PT19} con \textcolor{blue}{4 livelli di gain} del sensore controllabili via software
+			\item Microcontroller \alert{ATmega32U4}
+			\item Fototransistor \alert{ALS-PT19} con \alert{4 livelli di gain} del sensore controllabili via software
 		\end{itemize}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item \textcolor{blue}{PCB} personalizzato
-			\item Campionamento fino a \textcolor{blue}{\textasciitilde 30kHz 10-bit}
-			\item Comunicazione via USB HID e CDC Serial, \textcolor{blue}{nessun driver richiesto}
+			\item \alert{PCB} personalizzato
+			\item Campionamento fino a \alert{\textasciitilde 30kHz 10-bit}
+			\item Comunicazione via USB HID e CDC Serial, \alert{nessun driver richiesto}
 		\end{itemize}
 	\end{columns}
 	\begin{figure}
@@ -98,10 +104,10 @@
 	\begin{columns}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item Generazione dei \textcolor{blue}{click automatica o manuale} tramite input esterno
-			\item \textcolor{blue}{LED per validazione} con telecamera ad alta velocità
-			\item \textcolor{blue}{Case stampabile} in 3D
-			\item \textcolor{blue}{Poco costoso e facile da realizzare} anche da un maker
+			\item Generazione dei \alert{click automatica o manuale} tramite input esterno
+			\item \alert{LED per validazione} con telecamera ad alta velocità
+			\item \alert{Case stampabile} in 3D
+			\item \alert{Poco costoso e facile da realizzare} anche da un maker
 		\end{itemize}
 		\column{0.5\textwidth}
 		\begin{figure}
@@ -117,14 +123,14 @@
 	\begin{columns}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item \textcolor{blue}{Applicazione grafica} Java SE e OpenGL
-			\item Permette di \textcolor{blue}{configurare, eseguire i test, e visualizzarne i risultati} in modo semplice
+			\item \alert{Applicazione grafica} Java SE e OpenGL
+			\item Permette di \alert{configurare ed eseguire i test, e visualizzarne i risultati} in modo semplice
 		\end{itemize}
 		\column{0.5\textwidth}
 		\begin{itemize}
-			\item \textcolor{blue}{Esportazione dei dati} per un analisi esterna
-			\item \textcolor{blue}{Include un manuale} che spiega i test
-			\item \textcolor{blue}{Multipiattaforma} (Windows, GNU/Linux, MacOS)
+			\item \alert{Esportazione dei dati} per analisi esterna
+			\item \alert{Include un manuale} dei test
+			\item \alert{Multipiattaforma} (Windows, GNU/Linux, MacOS)
 		\end{itemize}
 	\end{columns}
 	\begin{figure}
@@ -135,18 +141,18 @@
 \begin{frame}[shrink=7]
 	\frametitle{Applicazione OpenLDAT (2)}
 	Elenco dei test:\begin{itemize}
-		\item \textcolor{blue}{Latenza totale del sistema}:\begin{itemize}
-			\item \textcolor{blue}{Test automatico} con OpenGL e generazione automatica dei click
-			\item \textcolor{blue}{Test manuale} utilizzando un'applicazione e la generazione automatica dei click o un mouse/controller modificato
+		\item \alert{Latenza totale del sistema}:\begin{itemize}
+			\item \alert{Test automatico} con OpenGL e generazione automatica dei click
+			\item \alert{Test interattivo} utilizzando un'applicazione e la generazione automatica dei click o un mouse/controller modificato
 		\end{itemize}
-		\item \textcolor{blue}{Rilevamento del microstuttering}: rileva perdita/duplicazione di fotogrammi
-		\item \textcolor{blue}{Rilevamento di PWM e noise}: rileva la frequenza del lampeggio della retroilluminazione e altri tipi di noise
-		\item \textcolor{blue}{Tempi di risposta dei pixel}: misura il tempo di transizione dei pixel
-		\item \textcolor{blue}{Misurazione dell'overdrive}: misura l'errore commesso durante la transizione dei pixel
-		\item \textcolor{blue}{Light To Sound}: permette di ascoltare il segnale dal sensore, utile per rilevare fonti di rumore, ma anche per divertimento
+		\item \alert{Rilevamento del microstuttering}: rileva perdita/duplicazione di fotogrammi
+		\item \alert{Rilevamento di PWM e noise}: rileva la frequenza del lampeggio della retroilluminazione e altri tipi di rumore
+		\item \alert{Tempi di risposta dei pixel}: misura il tempo di transizione dei pixel
+		\item \alert{Overdrive dei pixel}: misura l'errore commesso durante la transizione dei pixel
+		\item \alert{Light to Sound}: permette di ascoltare il segnale dal sensore, utile per rilevare fonti di rumore
 	\end{itemize}
 \end{frame}
-\begin{frame}
+\begin{frame}[shrink=10]
 	\frametitle{Applicazione OpenLDAT (3)}
 	\begin{figure}
 		\includegraphics[width=\textwidth]{Applicazione_files/gui_pixelresponse_results.png}
@@ -157,7 +163,7 @@
 \section{Risultati sperimentali}
 \begin{frame}[shrink=10]
 	\frametitle{Risultati sperimentali}
-	\textcolor{blue}{Oltre 20 display di tipi e periodi diversi sono stati testati} dall'autore e da terzi che hanno ricevuto un prototipo e istruzioni su come eseguire i test.
+	\alert{Oltre 20 display di tipi e periodi diversi sono stati testati} dall'autore e da terzi che hanno ricevuto un prototipo e istruzioni su come eseguire i test.
 	\begin{table}
 		\centering
 		\resizebox{11cm}{!}{\begin{tabular}{|l|c|c|c|c|c|c|} 
@@ -178,7 +184,12 @@
 			MacBook Pro 13" & Laptop & 2017 & 60Hz & IPS & Edge LED & Terzi \\ \hline
 			Octigen M19W & Monitor & 2008 & 60Hz & TN & CCFL & Autore \\ \hline
 			OnePlus 3T & Smartphone & 2016 & 60Hz & AMOLED & N/A & Autore \\ \hline
-			OnePlus 7 Pro & Smartphone & 2019 & 90Hz VRR & AMOLED & N/A & Terzi \\ \hline
+			OnePlus 7 Pr\setbeamercolor*{structure}{bg=RoyalPurple!20,fg=RoyalPurple}
+			\setbeamercolor*{palette primary}{use=structure,fg=white,bg=structure.fg}
+			\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=structure.fg!75}
+			\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=structure.fg!50!black}
+			\setbeamercolor*{palette quaternary}{fg=white,bg=black}
+			\setbeamercolor*{alerted text}{fg=RawSienna}o & Smartphone & 2019 & 90Hz VRR & AMOLED & N/A & Terzi \\ \hline
 			Philips 32PFS4132 & TV & 2020 & 60Hz & TN & Edge LED & Autore \\ \hline
 			Philips 105MB & Monitor & 1997 & N/A & CRT & N/A & Autore \\ \hline
 			Samsung C34H890 & Monitor & 2019 & 100Hz VRR & VA & LED Array & Terzi \\ \hline
@@ -404,18 +415,18 @@
 	\frametitle{Conclusioni}
 	Questa prima versione del progetto funziona piuttosto bene, ma durante lo sviluppo e il testing sono emersi diverse aree migliorabili le future iterazioni
 	\begin{itemize}
-		\item Utilizzare un \textcolor{blue}{ADC con più bit} di precisione, per ridurre i livelli di gain e permettere una misurazione accurata di livelli molto bassi di luminosità
-		\item Aggiungere un \textcolor{blue}{colorimetro} per eseguire anche test sull'accuratezza dei colori
-		\item Implementare \textcolor{blue}{altri test} nell'applicazione
-		\item \textcolor{blue}{Migliorare il supporto ai display HDR} nell'applicazione
-		\item \textcolor{blue}{Commercializzare il dispositivo}, dato che nessuno l'ha fatto finora
+		\item Implementare \alert{altri test} nell'applicazione
+		\item Aggiungere un \alert{colorimetro} per eseguire anche test sull'accuratezza dei colori
+		\item Utilizzare un \alert{ADC con più bit} di precisione, per ridurre i livelli di gain necessari e permettere una misurazione accurata di livelli molto bassi di luminosità
+		\item Aggiungere \alert{altri backend grafici e modalità di fullscreen} nell'applicazione, e \alert{migliorarne il supporto HDR}
+		\item \alert{Commercializzare il dispositivo}, dato che nessuno l'ha fatto finora
 	\end{itemize}
 \end{frame}
 \begin{frame}
 	\frametitle{Grazie per l'attenzione}
 	\centering
 	Per maggiori informazioni:
-	\textcolor{blue}{\url{https://openldat.fdossena.com}}
+	\alert{\url{https://openldat.fdossena.com}}
 \end{frame}
 
 \end{document}
