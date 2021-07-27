@@ -44,9 +44,9 @@
 \begin{frame}
 	\frametitle{Introduzione}
 	\begin{itemize}
-		\item Progetto nato dall'esigenza di \alert{misurare la latenza totale di un sistema} in modo automatico
-		\item \alert{Nessun dispositivo simile sul mercato}, solitamente si usa un mouse con collegato un LED e una telecamera ad alta velocità
+		\item Progetto nato dall'esigenza di \alert{misurare la latenza totale di un sistema}
 		\item \alert{OpenLDAT può misurarla in modo automatico}, e può fare anche molto altro
+		\item \alert{Nessun dispositivo simile sul mercato}, solitamente si usa un mouse con collegato un LED e una telecamera ad alta velocità
 		\item Progetto totalmente \alert{libero}
 	\end{itemize}
 	\begin{block}{Latenza totale del sistema}
@@ -118,7 +118,7 @@
 \end{frame}
 \begin{frame}[shrink=7]
 	\frametitle{Applicazione OpenLDAT (2)}
-	Elenco dei test:\begin{itemize}
+	\begin{itemize}
 		\item \alert{Latenza totale del sistema}:\begin{itemize}
 			\item \alert{Test automatico} con OpenGL e generazione automatica dei click
 			\item \alert{Test interattivo} utilizzando un'applicazione e la generazione automatica dei click o un mouse/controller modificato
@@ -173,7 +173,7 @@
 				Samsung P2770HD (60Hz TV),41.1,111.9
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(5.25cm,-0.75cm)},anchor=east},xlabel=Ritardo (ms), width=6.5cm, height=8.25cm, xmin=0, ymin=-1, ymax=8] %ymax messo a mano con il numero di display per migliore formattazione
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(5.25cm,-0.75cm)},anchor=east},xlabel=Ritardo (ms), width=6.5cm, height=8.25cm, xmin=0, ymin=-1, ymax=8, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione
 					\addplot table[x=vsync] {\dataset};
 					\addplot table[x=novsync] {\dataset};
 					\legend{VSync On, VSync Off}
@@ -183,29 +183,29 @@
 		\end{figure}
 	\end{columns}
 \end{frame}
-\begin{frame}[fragile,shrink=25]
+\begin{frame}[fragile,shrink=20]
 	\frametitle{Input lag (2)}
 	\begin{columns}
 		\column{0.35\textwidth}
 		\begin{itemize}
 			\item Il \alert{driver Nvidia per Linux ha dato i risultati migliori}, nonostante la pessima reputazione
 			\item Il \alert{ritardo su Linux è leggermente inferiore rispetto a Windows}, almeno per OpenGL
-			\item Le \alert{GPU Intel hanno un ritardo sensibilmente maggiore}, la cui causa è probabilmente il framerate inferiore durante il test
+			\item Le \alert{GPU Intel hanno un ritardo sensibilmente maggiore}, probabilmente a causa del framerate inferiore durante il test
 		\end{itemize}
 		\column{0.65\textwidth}
 		\begin{figure}
 			\pgfplotstableread[col sep=comma]{
 				config,novsync,vsync
-				Linux + AMD,28.7,86.1
-				Linux + Nvidia,28.0,69.1
-				Linux + Nouveau,44.3,86.0
-				Linux + Intel,34.1,86.6
-				Windows + AMD,29.6,93.9
-				Windows + Nvidia,28.4,95.3
-				Windows + Intel,31.3,103.4
+				Linux AMD,28.7,86.1
+				Linux Nvidia,28.0,69.1
+				Linux Nouveau,44.3,86.0
+				Linux Intel,34.1,86.6
+				Windows AMD,29.6,93.9
+				Windows Nvidia,28.4,95.3
+				Windows Intel,31.3,103.4
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{config}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,6.2cm)},anchor=south}, xlabel=Ritardo (ms), width=7cm, height=7.5cm, ymin=-1, ymax=7,xmax=125]
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{config}, yticklabel style={text width=1.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,6.2cm)},anchor=south}, xlabel=Ritardo (ms), width=7cm, height=7.5cm, ymin=-1, ymax=7,xmax=110, axis x line*=bottom, axis y line*=left]
 					\addplot table[x=vsync] {\dataset};
 					\addplot table[x=novsync] {\dataset};
 					\legend{VSync On, VSync Off}
@@ -238,7 +238,7 @@
 				Crysis Remastered (2020),182.5,17.8,23.5
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=10pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{app}, yticklabel style={text width=2.5cm, align=right}, table/y expr = \coordindex, nodes near coords, xlabel=Ritardo (ms), width=6cm, height=7.5cm, ymin=-1, ymax=8] %ymax messo a mano con il numero di test per migliore formattazione
+				\begin{axis}[xbar, bar width=10pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{app}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, xlabel=Ritardo (ms), width=6.5cm, height=7.5cm, ymin=-1, ymax=8, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di test per migliore formattazione
 					\addplot[fill=gray, error bars/.cd, x dir = both, x explicit] table[x=lag, x error plus=emax, x error minus=emin] {\dataset};
 				\end{axis}
 			\end{tikzpicture}
@@ -268,7 +268,7 @@
 				MacBook Pro 13" 2017 (IPS),19.49,8.74,12.60,NaN,NaN,NaN,-10
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Tempo di risposta (ms), width=6.25cm, height=7.25cm, xmin=0, ymin=-1, ymax=6] %ymax messo a mano con il numero di display per migliore formattazione
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Tempo di risposta (ms), width=6.25cm, height=7.25cm, xmin=0, ymin=-1, ymax=6, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione
 					\addplot plot[forget plot] table[x=fix] {\dataset};
 					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
 					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
@@ -290,7 +290,7 @@
 				MacBook Pro 13" 2017 (IPS),0.22,0.22,0.59,NaN,NaN,NaN,-10
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Errore di transizione (\%), width=6.25cm, height=7.25cm, xmin=0, ymin=-1, ymax=6] %ymax messo a mano con il numero di display per migliore formattazione]
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Errore di transizione (\%), width=6.25cm, height=7.25cm, xmin=0, ymin=-1, ymax=6, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione]
 					\addplot plot[forget plot] table[x=fix] {\dataset};
 					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
 					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
