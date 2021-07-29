@@ -22,6 +22,7 @@ buildTex () {
         return 1
     fi;
     echo "$1: compilato"
+    echo "$1: $(gs -q  -o - -sDEVICE=inkcov \"$1.pdf\" | wc -l) pagine, di cui $(gs -q  -o - -sDEVICE=inkcov \"$1.pdf\" | grep -v '^ 0.00000  0.00000  0.00000' | wc -l) a colori e $(gs -q  -o - -sDEVICE=inkcov \"$1.pdf\" | grep '^ 0.00000  0.00000  0.00000' | wc -l) bianco/nero"
     return 0
 }
 pdfA(){
@@ -56,11 +57,9 @@ echo "L'output è nascosto, ma vengono generati i file di log"
     if [[ $? -eq 0 ]]; then
         pdfA Tesi
     fi;
-    echo "Tesi: fine"
 } &
 {
     buildTex Presentazione
-    echo "Presentazione: fine"
 } &
 wait
 echo "Build completata"
