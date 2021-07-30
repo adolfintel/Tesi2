@@ -61,5 +61,8 @@ echo "L'output è nascosto, ma vengono generati i file di log"
 {
     buildTex Presentazione
 } &
+{
+    buildTex Riassunto
+} &
 wait
 echo "Build completata"
