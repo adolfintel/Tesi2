@@ -49,6 +49,8 @@
 \makeglossaries
 \input{Glossario.tex}
 
+\newcommand{\emptypage}{\newpage \thispagestyle{empty} \mbox{} \newpage}
+
 \begin{document}
 
 \begin{titlepage}
@@ -90,21 +92,21 @@
 \sloppy
 \setlength{\parskip}{10pt}
 \setlength{\parindent}{0pt}
-\newpage
+\emptypage
 \input{Introduzione.tex}
-\newpage
+\emptypage
 \input{StatoDellArte.tex}
-\newpage
+\emptypage
 \input{Dispositivo.tex}
-\newpage
+\emptypage
 \input{Applicazione.tex}
-\newpage
+\emptypage
 \input{RisultatiSperimentali.tex}
-\newpage
+\emptypage
 \input{Conclusioni.tex}
-\newpage
+\emptypage
 \printunsrtglossaries
-\newpage
+\emptypage
 \bibliographystyle{plain}
 \bibliography{Biblio}
 
