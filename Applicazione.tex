@@ -598,6 +598,8 @@ Non esiste uno standard per la misurazione dell'\textit{overdrive}, quindi in qu
 
 Tra tutti i test implementati nell'applicazione, questo è quello che soffre di più della presenza di rumore, soprattutto retroilluminazione PWM, poiché il test deve misurare delle caratteristiche nel segnale che potrebbero avere una frequenza molto alta. La figura \ref{fig:pixelOverdriveTest_example1} mostra come il segnale potrebbe presentarsi, prima in modo pulito e poi in presenza di PWM. Si può osservare fin da subito che se la frequenza della retroilluminazione PWM è troppo bassa, è completamente impossibile ricostruire il segnale originale, per cui in presenza di retroilluminazione PWM il test tende a sottostimare significativamente l'errore.
 
+Il grafico in figura \ref{fig:pixelOverdriveTest_example2} mostra il segnale ricostruito dall'algoritmo osservando i picchi in presenza di retroilluminazione PWM. Il segnale ricostruito in questo caso ha comunque un picco in corrispondenza dell'\textit{overshoot}, ma è più piccolo e potrebbe essere addirittura assente, per cui non può essere misurato accuratamente dall'applicazione. Le transizioni dal chiaro allo scuro sono più affette da questo problema rispetto a quelle dallo scuro al chiaro.
+
 \begin{figure}[H]
 	\centering
 	\begin{tikzpicture}
@@ -613,8 +615,6 @@ Tra tutti i test implementati nell'applicazione, questo è quello che soffre di 
 	\caption{Segnale senza PWM (sinistra) e segnale con PWM (destra). (Simulato, non è una cattura reale)}
 	\label{fig:pixelOverdriveTest_example1}
 \end{figure}
-
-Il grafico in figura \ref{fig:pixelOverdriveTest_example2} mostra il segnale ricostruito dall'algoritmo osservando i picchi in presenza di retroilluminazione PWM. Il segnale ricostruito in questo caso ha comunque un picco in corrispondenza dell'\textit{overshoot}, ma è più piccolo e potrebbe essere addirittura assente, per cui non può essere misurato accuratamente dall'applicazione. Le transizioni dal chiaro allo scuro sono più affette da questo problema rispetto a quelle dallo scuro al chiaro.
 
 \begin{figure}[H]
 	\centering

@@ -55,6 +55,9 @@ Il sensore ha un tempo di risposta di circa 0.1ms in salita e 0.2ms in discesa \
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.75\textwidth]{Dispositivo_files/sensor_scope_rise.png}
+	
+	\vspace{0.2cm}
+	
 	\includegraphics[width=0.75\textwidth]{Dispositivo_files/sensor_scope_fall.png}
 	\caption{Salita e discesa del sensore ALS-PT19 catturata con un oscilloscopio}
 	\label{fig:sensor_scope_risefall}
@@ -195,14 +198,17 @@ Se stampato correttamente, la distribuzione del peso del case stesso gli permett
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/openldat_case_base1.jpg}
+	\adjincludegraphics[trim={{.10\width} 0 0 0},clip,width=\textwidth]{Dispositivo_files/openldat_case_base1.jpg}
 	\caption{Base del case}
 	\label{fig:case_base}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=\textwidth]{Dispositivo_files/openldat_case_top1.jpg}
-	\includegraphics[width=\textwidth]{Dispositivo_files/openldat_case_top2.jpg}
+	\adjincludegraphics[trim={{.10\width} 0 0 0},clip,width=\textwidth]{Dispositivo_files/openldat_case_top1.jpg}
+	
+	\vspace{0.5cm}
+	
+	\adjincludegraphics[trim={{.10\width} 0 0 0},clip,width=\textwidth]{Dispositivo_files/openldat_case_top2.jpg}
 	\caption{Coperchio del case}
 	\label{fig:case_top}
 \end{figure}
@@ -411,7 +417,7 @@ Il timer 4 è un timer a 10 bit configurabile tramite un set di registri\cite{at
 Durante la configurazione vengono disattivati gli \textit{interrupt} per evitare di generare click accidentali.
 
 Il flag \texttt{FASTADC}, se impostato a 1, permette di campionare il sensore di luminosità molto più velocemente del normale, seppur con alcune limitazioni. L'ADC del microcontroller 32U4 è composto da due parti: un ADC ad approssimazioni successive (SAR) e un circuito \textit{sample-and-hold} che carica un condensatore da 14pF che mantiene il valore da campionare mentre l'ADC esegue il suo compito.\\
-Normalmente, l'esecuzione di una \texttt{analogRead} richiede circa 112us, il che limita la frequenza di campionamento a circa 8.9kHz, e una volta considerata l'elaborazione che va fatta per memorizzare e inviare il \textit{sample}, la frequenza di campionamento è limitata a circa 7kHz. Leggendo la documentazione del microcontroller 32U4, si scopre che alterando il registro \texttt{ADCSRA} è possibile variare il clock dell'ADC dal default di 125kHz fino un massimo di 1MHz\cite{atmega32u4_datasheet}, a costo di due limitazioni: una maggiore sensibilità a rumori di conversione, e un'impedenza massima del segnale da campionare drasticamente ridotta poiché il condensatore del circuito \textit{sample-and-hold} ha meno tempo di caricarsi.\\
+Normalmente, l'esecuzione di una \texttt{analogRead} richiede circa 112us, il che limita la frequenza di campionamento a circa 8.9kHz, e una volta considerata l'elaborazione che va fatta per memorizzare e inviare il \textit{sample}, la frequenza di campionamento è limitata a circa 7kHz. Leggendo la documentazione del microcontroller 32U4, si scopre che alterando il registro \texttt{ADCSRA} è possibile variare il clock dell'ADC dal default di 125kHz fino un massimo di 1MHz\cite{atmega32u4_datasheet}, a costo di due limitazioni: una maggiore sensibilità a rumori di conversione, e un'impedenza massima del segnale da campionare drasticamente ridotta poiché il condensatore del circuito \textit{sample-and-hold} ha meno tempo per caricarsi.\\
 Nel firmware del dispositivo, quando il flag \texttt{FASTADC} è impostato a 1, il clock viene portato a 500kHz, ottenendo così un tempo di circa 30us per \texttt{analogRead} (dai 112us originali), per una frequenza massima teorica di campionamento di circa 33.2kHz, che scende a circa 30kHz una volta aggiunto il tempo di elaborazione. L'impedenza del sensore è abbastanza bassa da non creare problemi a questa velocità di campionamento, indipendentemente dal livello di gain selezionato. La rumorosità del segnale catturato non sembra essere alterata in questa modalità nella versione finale del dispositivo assemblato su PCB, ma era misurabile a circa 1-2 bit nei primi prototipi assemblati su schede millefori, poiché captavano molte più interferenze dall'esterno.
 
 \subsection{Debugging e misurazione delle tempistiche}
