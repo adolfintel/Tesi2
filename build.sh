@@ -1,4 +1,5 @@
 #!/bin/bash
+export LC_ALL=en_US.UTF-8
 export TEXMFCNF='.:'
 buildTex () {
     echo "$1: passo 1"
@@ -22,7 +23,16 @@ buildTex () {
         return 1
     fi;
     echo "$1: compilato"
-    echo "$1: $(gs -q  -o - -sDEVICE=inkcov \"$1.pdf\" | wc -l) pagine, di cui $(gs -q  -o - -sDEVICE=inkcov \"$1.pdf\" | grep -v '^ 0.00000  0.00000  0.00000' | wc -l) a colori e $(gs -q  -o - -sDEVICE=inkcov \"$1.pdf\" | grep '^ 0.00000  0.00000  0.00000' | wc -l) bianco/nero"
+    local gsout=$(gs  -o - -sDEVICE=inkcov \"$1.pdf\")
+    local gsoutQ=$(grep "CMYK" <<< "$gsout")
+    local pages=$(wc -l <<< "$gsoutQ")
+    local color=$(grep -v '^ 0.00000  0.00000  0.00000' <<< "$gsoutQ" | wc -l)
+    local bw=$(grep '^ 0.00000  0.00000  0.00000' <<< "$gsoutQ" | wc -l)
+    echo "$1: $pages pagine, di cui $color a colori e $bw in bianco e nero"
+    local colorPageList=$(grep -v '^ 0.00000  0.00000  0.00000' <<< "$gsout" | grep "CMYK" -B 1 | grep "Page " | paste -s -d, | sed 's/Page //g')
+    local bwPageList=$(grep '^ 0.00000  0.00000  0.00000' -B 1 <<< "$gsout" | grep "CMYK" -B 1 | grep "Page " | paste -s -d, | sed 's/Page //g')
+    echo "$1: pagine Col: $colorPageList"
+    echo "$1: pagine B/N: $bwPageList"
     return 0
 }
 pdfA(){
@@ -48,6 +58,11 @@ fi;
 command -v gs > /dev/null
 if [[ $? -ne 0 ]]; then
     echo "Manca Ghostscript"
+    return 1
+fi;
+command -v sed > /dev/null
+if [[ $? -ne 0 ]]; then
+    echo "Manca GNU sed"
     return 1
 fi;
 echo "Compilazione parallela avviata"
