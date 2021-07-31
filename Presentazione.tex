@@ -27,19 +27,61 @@
 \usepackage{url}
 \usepackage[export]{adjustbox}
 \usepackage[font={footnotesize,color=darkgray},justification=centering]{caption}
+\usepackage{calc}
 
 \title{OpenLDAT}
 \subtitle{Un sistema di misurazione di metriche di latenza dei display}
 \author{Federico Dossena}
-\institute{Università degli Studi di Milano}
-\date{2021-??-??}
+\date{Anno Accademico 2020/2021}
+
+\newlength\leftsidebar
+\newlength\rightsidebar
+\makeatletter
+\setlength\leftsidebar{\beamer@leftsidebar}
+\setlength\rightsidebar{\beamer@rightsidebar}
+\makeatother
 
 \begin{document}
-	
-\begin{frame}
-	\titlepage
+
+\hoffset=-1\leftsidebar
+\begin{frame}[plain]
+	\begin{minipage}{\textwidth+1\leftsidebar}
+		\begin{center}
+			\includegraphics[width=0.6\textwidth]{Logo.png}\\
+			\usebeamerfont{institute}{\bf Corso di Laurea Magistrale in Informatica}
+		\end{center}
+		\begin{beamercolorbox}[sep=8pt,center]{title}
+			\usebeamerfont{title} \inserttitle\\
+			\vspace{1mm}
+			\usebeamerfont{subtitle} \insertsubtitle
+		\end{beamercolorbox}
+		\begin{columns}[T]
+			\setlength{\topsep}{0pt}
+			\column{0.45\textwidth}
+			\begin{flushleft}
+				\usebeamerfont{institute}
+				{\bf Relatore:}\\
+				Prof. Andrea TRENTINI\\
+				\vspace{2mm}
+				{\bf Correlatore:}\\
+				Prof. Alessandro RIZZI
+			\end{flushleft}
+			\column{0.45\textwidth}
+			\begin{flushright}
+				\usebeamerfont{institute}
+				{\bf Tesi di Laurea di:}\\
+				Federico DOSSENA\\
+				Matr. 909390
+			\end{flushright}
+		\end{columns}
+		\vspace{5mm}
+		\begin{center}
+			\usebeamerfont{institute} \insertdate
+		\end{center}
+	\end{minipage}
 \end{frame}
 
+\hoffset=0mm
 \section{Introduzione}
 \begin{frame}
 	\frametitle{Introduzione}
