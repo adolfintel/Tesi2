@@ -1,7 +1,7 @@
 #!/bin/bash
 export LC_ALL=en_US.UTF-8
 export TEXMFCNF='.:'
-buildTex () {
+buildTex(){
     echo "$1: passo 1"
     xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
@@ -23,17 +23,15 @@ buildTex () {
         return 1
     fi;
     echo "$1: compilato"
+    return 0
+}
+countPages(){
+    echo "$1: conteggio pagine"
     local gsout=$(gs  -o - -sDEVICE=inkcov \"$1.pdf\")
     local gsoutQ=$(grep "CMYK" <<< "$gsout")
-    local pages=$(wc -l <<< "$gsoutQ")
-    local color=$(grep -v '^ 0.00000  0.00000  0.00000' <<< "$gsoutQ" | wc -l)
-    local bw=$(grep '^ 0.00000  0.00000  0.00000' <<< "$gsoutQ" | wc -l)
-    echo "$1: $pages pagine, di cui $color a colori e $bw in bianco e nero"
-    local colorPageList=$(grep -v '^ 0.00000  0.00000  0.00000' <<< "$gsout" | grep "CMYK" -B 1 | grep "Page " | paste -s -d, | sed 's/Page //g')
-    local bwPageList=$(grep '^ 0.00000  0.00000  0.00000' -B 1 <<< "$gsout" | grep "CMYK" -B 1 | grep "Page " | paste -s -d, | sed 's/Page //g')
-    echo "$1: pagine Col: $colorPageList"
-    echo "$1: pagine B/N: $bwPageList"
-    return 0
+    echo "$1: $(wc -l <<< "$gsoutQ") pagine, di cui $(grep -v '^ 0.00000  0.00000  0.00000' <<< "$gsoutQ" | wc -l) a colori e $(grep '^ 0.00000  0.00000  0.00000' <<< "$gsoutQ" | wc -l) in bianco e nero"
+    echo "$1: pagine Col: $(grep -v '^ 0.00000  0.00000  0.00000' <<< "$gsout" | grep "CMYK" -B 1 | grep "Page " | paste -s -d, | sed 's/Page //g')"
+    echo "$1: pagine B/N: $(grep '^ 0.00000  0.00000  0.00000' -B 1 <<< "$gsout" | grep "CMYK" -B 1 | grep "Page " | paste -s -d, | sed 's/Page //g')"
 }
 pdfA(){
     echo "$1: generazione PDF/A"
@@ -70,14 +68,18 @@ echo "L'output è nascosto, ma vengono generati i file di log"
 {
     buildTex Tesi
     if [[ $? -eq 0 ]]; then
-        pdfA Tesi
+        pdfA Tesi &
+        countPages Tesi &
+        wait
     fi;
 } &
 {
     buildTex Presentazione
+    countPages Presentazione
 } &
 {
     buildTex Riassunto
+    countPages Riassunto
 } &
 wait
 echo "Build completata"
