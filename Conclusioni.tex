@@ -85,11 +85,11 @@ Per dare un aspetto più professionale al dispositivo, sarebbe interessante anch
 
 \subsection{Migliorie all'applicazione OpenLDAT}
 Durante lo sviluppo e il testing sono emerse alcuni possibili aree di espansione e miglioramento per l'applicazione OpenLDAT:\begin{itemize}
-	\item Per poter testare un maggior numero di dispositivi, l'applicazione andrebbe portata su più piattaforme, in particolar modo Android, così da poter testare degli smartphone. Questo richiederebbe la realizzazione di un nuovo \textit{backend} grafico e una nuova GUI per dispositivi mobili
-	\item La GUI attualmente implementata potrebbe essere resa più \textit{user-friendly} e mostrare più informazioni. Ad esempio, il test del ritardo di input potrebbe mostrare oltre ai tempi la distribuzione di probabilità
-	\item L'implementazione di ulteriori \textit{backend} grafici consentirebbero di confrontare il ritardo di API grafiche come DirectX e Vulkan, oltre a toolkit grafici come GDI, GTK e Qt. L'implementazione di varie modalità di fullscreen potrebbe anch'essa essere interessante
-	\item Il supporto a HDR e WCG è migliorabile. Nonostante il codice dei test lo supporti, il \textit{backend} grafico OpenGL è attualmente vittima di un bug della libreria LWJGL che fa si che non dichiari al sistema Windows il supporto HDR/WCG. Gli sviluppatori della libreria LWJGL garantiscono che questo problema verrà risolto nella prossima versione della libreria. Il \textit{backend} Swing non è affetto da questo problema
-	\item Il supporto ai display con DPI alti è migliorabile. Attualmente questa feature è implementata dall'applicaizone stessa, ma versioni più recenti di Java implementano esse stesse lo \textit{scaling} in modo trasparente all'applicazione. Questa nuova modalità di \textit{scaling} sarà probabilmente utilizzata nelle versioni successive dell'applicazione, se non introduce problemi
+	\item Per poter testare un maggior numero di dispositivi, l'applicazione andrebbe portata su più piattaforme, in particolar modo Android, così da poter testare degli smartphone. Questo richiederebbe la realizzazione di un nuovo backend grafico e una nuova GUI per dispositivi mobili
+	\item La GUI attualmente implementata potrebbe essere resa più user-friendly e mostrare più informazioni. Ad esempio, il test del ritardo di input potrebbe mostrare oltre ai tempi la distribuzione di probabilità
+	\item L'implementazione di ulteriori backend grafici consentirebbero di confrontare il ritardo di API grafiche come DirectX e Vulkan, oltre a toolkit grafici come GDI, GTK e Qt. L'implementazione di varie modalità di fullscreen potrebbe anch'essa essere interessante
+	\item Il supporto a HDR e WCG è migliorabile. Nonostante il codice dei test lo supporti, il backend grafico OpenGL è attualmente vittima di un bug della libreria LWJGL che fa si che non dichiari al sistema Windows il supporto HDR/WCG. Gli sviluppatori della libreria LWJGL garantiscono che questo problema verrà risolto nella prossima versione della libreria. Il backend Swing non è affetto da questo problema
+	\item Il supporto ai display con DPI alti è migliorabile. Attualmente questa feature è implementata dall'applicaizone stessa, ma versioni più recenti di Java implementano esse stesse lo scaling in modo trasparente all'applicazione. Questa nuova modalità sarà probabilmente utilizzata nelle versioni successive dell'applicazione se non introduce problemi
 	\item Creazione di un database pubblico di display testati dagli utenti, su cui l'applicazione può caricare nuove informazioni
 \end{itemize}
 
@@ -97,7 +97,7 @@ Durante lo sviluppo e il testing sono emerse alcuni possibili aree di espansione
 Tutti i file e la documentazione relativi al progetto OpenLDAT possono essere trovati sui seguenti link:\begin{itemize} %attualmente sono tutti privati fino a fine tesi
 	\item \url{https://openldat.fdossena.com}: minisito dedicato al progetto sul sito dell'autore
 	\item \url{https://github.com/adolfintel/OpenLDAT}: repository con tutti i file relativi al dispositivo e all'applicazione OpenLDAT e della documentazione
-	\item \url{https://github.com/adolfintel/Tesi2}: repository con tutti i file relativi a questa tesi %lo tolgo?
+	\item \url{https://github.com/adolfintel/Tesi2}: repository con tutti i file relativi a questa tesi
 \end{itemize}
 
 Il progetto OpenLDAT (hardware, firmware e software) è distribuito su licenza libera GNU GPL v3.

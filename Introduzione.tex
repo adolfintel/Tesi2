@@ -2,7 +2,7 @@
 \label{chap:intro}
 
 Uno dei problemi che da sempre affliggono gli appassionati di videogiochi, soprattutto chi lo fa in ambito competitivo, è la latenza totale del sistema, ossia l'intervallo di tempo che passa tra un'azione nel mondo fisico, come la pressione di un tasto del mouse, e la visualizzazione del risultato sullo schermo.\\
-Il problema non è nulla di nuovo, ed esiste dagli albori della computer grafica in tempo reale. Nel 2012, John Carmack, uno dei più influenti e famosi sviluppatori di engine per videogiochi, ha puntualizzato questo problema nel seguente \textit{tweet}\footnote{\url{https://twitter.com/id_aa_carmack/status/193480622533120001}}:
+Il problema non è nulla di nuovo, ed esiste dagli albori della computer grafica in tempo reale. Nel 2012, John Carmack, uno dei più influenti e famosi sviluppatori di engine per videogiochi, ha puntualizzato questo problema nel seguente tweet\footnote{\url{https://twitter.com/id_aa_carmack/status/193480622533120001}}:
 \begin{quotation}
 	``I can send an IP packet to Europe faster than I can send a pixel to the screen.  How f’d up is that?''
 \end{quotation}
@@ -171,7 +171,7 @@ A Novembre 2019, il lancio di Google Stadia ha attirato l'attenzione dei giornal
 
 A Settembre 2020, Nvidia ha inviato un prototipo di un dispositivo chiamato Nvidia LDAT (\textit{Latency Display Analysis Tool}) a diversi giornalisti del settore\cite{gamersnexus_nvidialdat}, un dispositivo quasi del tutto analogo a quello descritto in precedenza, ma con un sensore e un software migliori. Vedere questo progetto in azione ha fornito lo stimolo a far ripartire il progetto, che è poi stato realizzato nei mesi successivi. Sfortunatamente Nvidia ha deciso di non commercializzare il dispositivo, per cui si conosce poco dei dettagli sul funzionamento, ma verrà comunque discusso nel capitolo successivo sullo stato dell'arte.
 
-Nel periodo tra Dicembre 2020 e Marzo 2021 è stato svolto gran parte del lavoro sul progetto OpenLDAT che, assieme ai dati sperimentali, è oggetto di questa tesi.
+Nel periodo tra Dicembre 2020 e Marzo 2021 è stato svolto gran parte del lavoro sul progetto OpenLDAT che, assieme ai dati sperimentali, è oggetto di questa tesi. Il nome OpenLDAT è un richiamo al dispositivo di Nvidia, pur non essendone una replica, ed è l'abbreviazione di \textit{Open Latency Display and Analysis Tool}.
 
 Nel periodo tra Marzo 2021 e Giugno 2021 è stata scritta questa tesi, sono stati eseguiti test su vari tipi di display, e sono state fatte migliorie agli algoritmi per assicurarne il buon funzionamento sul maggior numero possibile di display.
 
@@ -191,9 +191,9 @@ Inizialmente, il progetto è rivolto principalmente a un pubblico tecnico, poich
 Tutti i file relativi al progetto OpenLDAT sono disponibili sul relativo repository GitHub\footnote{\url{https://github.com/adolfintel/OpenLDAT}}. %è privato fino a fine tesi
 
 Il respository è strutturato in questo modo:\begin{itemize}
-	\item \texttt{App}: contiene il codice dell'applicazione OpenLDAT per PC e i file necessari per creare i \textit{package} distribuibili. \begin{itemize}
+	\item \texttt{App}: contiene il codice dell'applicazione OpenLDAT per PC e i file necessari per creare i package distribuibili. \begin{itemize}
 		\item \texttt{OpenLDAT}: progetto dell'applicazione per NetBeans
-		\item \texttt{Packaging stuff}: file necessari per creare i \textit{package} distribuibili per Windows, GNU/Linux e MacOS
+		\item \texttt{Packaging stuff}: file necessari per creare i package distribuibili per Windows, GNU/Linux e MacOS
 	\end{itemize}
 	\item \texttt{Device}: contiene tutti i file relativi al dispositivo fisico OpenLDAT: \begin{itemize}
 		\item \texttt{Case}: modelli 3D per il case stampabile e relative istruzioni
