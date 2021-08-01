@@ -20,7 +20,9 @@
 \pgfplotsset{
 	compat=newest,
 	every tick label/.append style={font=\tiny},
-	every node near coord/.append style={font=\small}
+	every node near coord/.append style={font=\small},
+	label style={font=\small},
+	legend style={font=\small}
 }
 \usepgfplotslibrary{ternary}
 \usetikzlibrary{calc}
@@ -171,7 +173,7 @@
 		\caption*{Schermata principale dell'applicazione}
 	\end{figure}
 \end{frame}
-\begin{frame}[shrink=7]
+\begin{frame}[shrink=3]
 	\frametitle{Applicazione OpenLDAT (2)}
 	\begin{itemize}
 		\item \alert{Latenza totale del sistema}:\begin{itemize}
@@ -200,8 +202,8 @@
 		\item Sono stati testati \alert{oltre 20 display di tipi e periodi diversi} con modalità controllate
 		\item Test eseguiti anche su \alert{combinazioni hardware e software diverse} per determinarne l'impatto
 		\item Oltre ai test automatici, sono anche state \alert{testate diverse applicazioni} per determinare quanto l'implementazione impatti le prestazioni
-		\item In fase di test sono emersi \alert{alcuni comportamenti inaspettati}
-		\item Sono stati selezionati alcuni test interessanti per questa presentazione
+		\item In fase di test sono emersi \alert{alcuni comportamenti interessanti}
+		\item Sono stati selezionati alcuni test rappresentativi per questa presentazione
 	\end{itemize}
 \end{frame}
 \begin{frame}[fragile,shrink=20]
@@ -209,9 +211,10 @@
 	\begin{columns}
 		\column{0.35\textwidth}
 		\begin{itemize}
+			\setlength\itemsep{1mm}
 			\item I display ad \alert{alto refresh rate hanno il ritardo minore}
 			\item Alcuni display hanno un ritardo inferiore a un refresh, quindi \alert{mostrano l'immagine mentre la stanno ricevendo}
-			\item Alcuni display aspettano di avere 1+ fotogrammi prima di visualizzarli, per \alert{applicare dell'elaborazione}
+			\item Altri aspettano di avere 1+ fotogrammi prima di visualizzarli per \alert{applicare dell'elaborazione}
 			\item I \alert{televisori hanno il ritardo peggiore}
 		\end{itemize}
 		\column{0.65\textwidth}
@@ -243,24 +246,25 @@
 	\begin{columns}
 		\column{0.35\textwidth}
 		\begin{itemize}
+			\setlength\itemsep{1mm}
 			\item Il \alert{driver Nvidia per Linux ha dato i risultati migliori}, nonostante la pessima reputazione
 			\item Il \alert{ritardo su Linux è leggermente inferiore rispetto a Windows}, almeno per OpenGL
-			\item Le \alert{GPU Intel hanno un ritardo sensibilmente maggiore}, probabilmente a causa del framerate inferiore durante il test
+			\item Le \alert{GPU Intel hanno un ritardo maggiore}, probabilmente a causa del framerate inferiore durante il test
 		\end{itemize}
 		\column{0.65\textwidth}
 		\begin{figure}
 			\pgfplotstableread[col sep=comma]{
 				config,novsync,vsync
-				Linux AMD,28.7,86.1
 				Linux Nvidia,28.0,69.1
-				Linux Nouveau,44.3,86.0
-				Linux Intel,34.1,86.6
-				Windows AMD,29.6,93.9
 				Windows Nvidia,28.4,95.3
+				Linux AMD,28.7,86.1
+				Windows AMD,29.6,93.9
 				Windows Intel,31.3,103.4
+				Linux Intel,34.1,86.6
+				Linux Nouveau,44.3,86.0
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{config}, yticklabel style={text width=1.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,6.2cm)},anchor=south}, xlabel=Ritardo (ms), width=7cm, height=7.5cm, ymin=-1, ymax=7,xmax=110, axis x line*=bottom, axis y line*=left]
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{config}, yticklabel style={text width=1cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(0.5,5.8cm)},anchor=south}, xlabel=Ritardo (ms), width=7cm, height=7.5cm, ymin=-1, ymax=7,xmax=110, axis x line*=bottom, axis y line*=left]
 					\addplot table[x=vsync] {\dataset};
 					\addplot table[x=novsync] {\dataset};
 					\legend{VSync On, VSync Off}
@@ -270,14 +274,15 @@
 		\end{figure}
 	\end{columns}
 \end{frame}
-\begin{frame}[fragile,shrink=15]
+\begin{frame}[fragile,shrink=12]
 	\frametitle{Input lag (3)}
 	\begin{columns}
 		\column{0.35\textwidth}
 		\begin{itemize}
+			\setlength\itemsep{1mm}
 			\item Utilizzato il \alert{test manuale} su alcune applicazioni
 			\item \alert{150ms è generalmente considerato il limite accettabile} per un videogioco, 400ms per un'applicazione
-			\item \alert{Ritardo di Google Stadia diminuito rispetto al lancio} (era 180-300ms), ma varianza elevata causa stuttering
+			\item \alert{Ritardo di Google Stadia diminuito rispetto al lancio} (era 180-300ms), ma varianza molto elevata
 		\end{itemize}
 		\column{0.65\textwidth}
 		\begin{figure}
@@ -301,16 +306,17 @@
 		\end{figure}
 	\end{columns}
 \end{frame}
-\begin{frame}[fragile,shrink=30]
-	\frametitle{Risposta dei pixel e overdrive}
+\begin{frame}[fragile,shrink=20]
+	\frametitle{Tempi di risposta dei pixel e overdrive}
 	\begin{itemize}
-		\item \alert{Test automatico} tra ogni coppia di sfumature di grigio, \alert{quì mostrati media geometrica e varianza}
-		\item Display recenti, TN, e \alert{"da gaming" hanno i migliori tempi di risposta}
-		\item \alert{IPS moderni non sono molto più lenti} rispetto ai TN
-		\item \alert{Produttori spingono l'overdrive} al massimo per ridurre i tempi di risposta a scapito della qualità dell'immagine
+		\setlength\itemsep{1mm}
+		\item Grafici mostrano \alert{media geometrica e varianza}
+		\item Display recenti, TN, e "da gaming" hanno i migliori tempi di risposta
+		\item Display \alert{IPS moderni non sono molto più lenti} rispetto ai TN
+		\item \alert{Produttori spingono l'overdrive} per ridurre i tempi di risposta a scapito della qualità dell'immagine
 	\end{itemize}
-	\begin{columns}
-		\column{0.5\textwidth}
+	
+	\begin{minipage}{0.57\textwidth}
 		\begin{figure}
 			\centering
 			\pgfplotstableread[col sep=comma]{
@@ -323,49 +329,51 @@
 				MacBook Pro 13" 2017 (IPS),19.49,8.74,12.60,NaN,NaN,NaN,-10
 			}\dataset
 			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Tempo di risposta (ms), width=6.25cm, height=7.25cm, xmin=0, ymin=-1, ymax=6, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione
-					\addplot plot[forget plot] table[x=fix] {\dataset};
-					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
-					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
-					\legend{Overdrive Off, Overdrive On}
-				\end{axis}
-			\end{tikzpicture}
-			%\caption*{Tempi di riposta di alcuni dei display testati}
-		\end{figure}
-		\column{0.5\textwidth}
-		\begin{figure}
-			\centering
-			\pgfplotstableread[col sep=comma]{
-				model,odoff,odoffemin,odoffemax,odon,odonemin,odonemax,fix
-				BenQ XL2420T (TN),NaN,NaN,NaN,2.80,2.56,14.55,-10
-				Samsung C34H890 (VA),0.32,0.32,1.79,1.21,1.21,6.43,-10
-				LG 27GL850-B (IPS HDR),0.39,0.39,0.22,26.39,24.82,22.98,-10
-				AOC Q2770P (IPS),0.17,0.17,0.41,4.14,4.14,16.32,-10
-				Octigen M19W (TN),0.25,0.25,0.65,NaN,NaN,NaN,-10
-				MacBook Pro 13" 2017 (IPS),0.22,0.22,0.59,NaN,NaN,NaN,-10
-			}\dataset
-			\begin{tikzpicture}
-				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Errore di transizione (\%), width=6.25cm, height=7.25cm, xmin=0, ymin=-1, ymax=6, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione]
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Tempo di risposta (ms), width=6.25cm, height=7cm, xmin=0, ymin=-1, ymax=6, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione
 					\addplot plot[forget plot] table[x=fix] {\dataset};
 					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
 					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
 					%\legend{Overdrive Off, Overdrive On}
 				\end{axis}
 			\end{tikzpicture}
+			%\caption*{Tempi di riposta di alcuni dei display testati}
+		\end{figure}
+	\end{minipage}
+	\begin{minipage}{0.33\textwidth}
+		\begin{figure}
+			\centering
+			\pgfplotstableread[col sep=comma]{
+				model,odoff,odoffemin,odoffemax,odon,odonemin,odonemax,fix
+				,NaN,NaN,NaN,2.80,2.56,14.55,-10
+				,0.32,0.32,1.79,1.21,1.21,6.43,-10
+				,0.39,0.39,0.22,26.39,24.82,22.98,-10
+				,0.17,0.17,0.41,4.14,4.14,16.32,-10
+				,0.25,0.25,0.65,NaN,NaN,NaN,-10
+				,0.22,0.22,0.59,NaN,NaN,NaN,-10
+			}\dataset
+			\begin{tikzpicture}
+				\begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=0cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, xlabel=Errore di transizione (\%), width=6.25cm, height=7cm, xmin=0, ymin=-1, ymax=6, axis x line*=bottom, axis y line*=left, legend style={at={(5.75cm,-0.75cm)},anchor=east}] %ymax messo a mano con il numero di display per migliore formattazione]
+					\addplot plot[forget plot] table[x=fix] {\dataset};
+					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odoff, x error plus=odoffemax, x error minus=odoffemin] {\dataset};
+					\addplot plot [error bars/.cd, x dir = both, x explicit] table[x=odon, x error plus=odonemax, x error minus=odonemin] {\dataset};
+					\legend{Overdrive Off, Overdrive On}
+				\end{axis}
+			\end{tikzpicture}
 			%\caption*{Errore di transizione in percentuale assoluta}
 		\end{figure}
-	\end{columns}
+	\end{minipage}
 \end{frame}
 \begin{frame}
 	\frametitle{Altri test}
 	\begin{itemize}
+		\setlength\itemsep{4mm}
 		\item PWM e noise: \begin{itemize}
 			\item \alert{Retroilluminazione PWM trovata solo su TV e display di fascia bassa}, tipicamente a 240Hz
 			\item Nessuno dei display testati ha mostrato rumore sulla retroilluminazione
-			\item \alert{Su alcuni display è rilevabile il ciclo di refresh dei pixel}, cosa inaspettata
+			\item \alert{Su alcuni display è rilevabile il ciclo di refresh dei pixel}
 		\end{itemize}
 		\item Microstuttering: \begin{itemize}
-			\item \alert{Nessun display ha mostrato microstuttering a refresh rate nativo}, come atteso
+			\item \alert{Nessun display ha mostrato microstuttering a refresh rate nativo}
 			\item \alert{Alcuni dei display hanno mostrato microstuttering in overclock}, ma non quelli "da gaming" o con refresh rate variabile
 		\end{itemize}
 	\end{itemize}
@@ -374,12 +382,12 @@
 \section{Conclusioni}
 \begin{frame}
 	\frametitle{Conclusioni}
-	Questa prima versione del progetto funziona piuttosto bene, ma durante lo sviluppo e il testing sono emersi diverse aree migliorabili le future iterazioni
+	Durante lo sviluppo e il testing sono emersi diverse aree di miglioramento per le future iterazioni
 	\begin{itemize}
-		\item Implementare \alert{altri test} nell'applicazione
 		\item Aggiungere un \alert{colorimetro} per eseguire anche test sull'accuratezza dei colori
 		\item Utilizzare un \alert{ADC con più bit} di precisione, per ridurre i livelli di gain necessari e permettere una misurazione accurata di livelli molto bassi di luminosità
 		\item Aggiungere \alert{altri backend grafici e modalità di fullscreen} nell'applicazione, e \alert{migliorarne il supporto HDR}
+		\item \alert{Portare l'applicazione} su altre piattaforme, in particolar modo Android
 		\item \alert{Commercializzare il dispositivo}, dato che nessuno l'ha fatto finora
 	\end{itemize}
 \end{frame}
