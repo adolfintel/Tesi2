@@ -1,22 +1,20 @@
 #!/bin/bash
+SECONDS=0
 export LC_ALL=en_US.UTF-8
 export TEXMFCNF='.:'
-buildTex(){
-    echo "$1: passo 1"
+compile(){
+    echo "$1: compilazione"
     xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         echo "$1: fallito"
         return 1
     fi;
-    echo "$1: bibtex"
     bibtex $1 >/dev/null 2>&1
-    echo "$1: passo 2"
     xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         echo "$1: fallito"
         return 1
     fi;
-    echo "$1: passo 3"
     xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         echo "$1: fallito"
@@ -42,7 +40,21 @@ pdfA(){
     fi;
     echo "$1: PDF/A generato"
 }
-echo "Controllo..."
+build(){
+    local startT=$SECONDS
+    compile $1
+    if [[ $? -eq 0 ]]; then
+        if [[ $2 -eq 1 ]]; then
+            pdfA $1 &
+        fi;
+        if [[ $3 -eq 1 ]]; then
+            countPages $1 &
+        fi;
+        wait
+    fi;
+    echo "$1: completato in $(($SECONDS-$startT)) secondi"
+}
+echo "Controllo... "
 command -v xelatex > /dev/null
 if [[ $? -ne 0 ]]; then
     echo "Manca xelatex, forse texlive-full non è installato?"
@@ -63,23 +75,9 @@ if [[ $? -ne 0 ]]; then
     echo "Manca GNU sed"
     return 1
 fi;
-echo "Compilazione parallela avviata"
-echo "L'output è nascosto, ma vengono generati i file di log"
-{
-    buildTex Tesi
-    if [[ $? -eq 0 ]]; then
-        pdfA Tesi &
-        countPages Tesi &
-        wait
-    fi;
-} &
-{
-    buildTex Presentazione
-    countPages Presentazione
-} &
-{
-    buildTex Riassunto
-    countPages Riassunto
-} &
+echo "Compilazione parallela avviata. L'output è nascosto, ma vengono generati i file di log"
+build Tesi 1 1 &
+build Presentazione 0 1 &
+build Riassunto 0 1 &
 wait
-echo "Build completata"
+echo "Build completata in $SECONDS secondi"
