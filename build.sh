@@ -79,7 +79,11 @@ if [[ $? -ne 0 ]]; then
 fi;
 echo "Compilazione parallela avviata. L'output è nascosto, ma vengono generati i file di log"
 build Tesi 1 1 &
-build Presentazione 0 1 &
-build Riassunto 0 1 &
+{
+    build Presentazione 0 1
+    build Riassunto 0 1
+    build TestStampa 0 1
+} &
+
 wait
 echo "Build completata in $SECONDS secondi"
