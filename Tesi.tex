@@ -1,10 +1,12 @@
 % !TeX spellcheck = it_IT
 
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt]{report}
+\usepackage[a4paper,top=3cm,bottom=3cm,outer=3.07cm,inner=3.07cm,verbose,heightrounded]{geometry}
 
 \usepackage[english,italian]{babel}
 \usepackage[nottoc]{tocbibind}
 \usepackage[pdftitle={OpenLDAT - Un sistema di misurazione di metriche di latenza dei display},pdfauthor={Federico Dossena},hidelinks=true]{hyperref}
+\usepackage[square,super]{natbib}
 %\usepackage[htt]{hyphenat}
 \usepackage{siunitx}
 \usepackage{tikz}
@@ -39,7 +41,6 @@
 \usepackage[export]{adjustbox}
 \usepackage{csvsimple}
 \usepackage{pdflscape}
-\usepackage[a4paper,top=3cm,bottom=3cm,outer=3cm,verbose,headheight=1cm,heightrounded]{geometry}
 \setlength{\marginparwidth}{4cm} %per farci stare todonotes, nel final si può rimuovere
 \usepackage{todonotes}
 \usepackage{url}
