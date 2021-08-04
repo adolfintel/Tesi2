@@ -13,7 +13,7 @@ compile(){
             log $1 "fallito"
             return 1
         fi
-        if [[ $i -eq 0 ]]; then
+        if [[ $i -eq 1 ]]; then
             bibtex $1 >/dev/null 2>&1
         fi
     done
