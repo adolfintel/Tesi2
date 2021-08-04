@@ -301,7 +301,7 @@ I comandi che l'applicazione può mandare al dispositivo sono composti da 2 o pi
 \subsection{Identificazione del dispositivo}
 L'identificazione del dispositivo da parte dell'applicazione avviene in due fasi:
 \begin{itemize}
-	\item I dispositivi OpenLDAT vengono trovati in base all'ID hardware personalizzato. Il dispositivo si dichiara con il nome ``OpenLDAT Model 1'' e ID hardware (VID:PID) 4370:0001, il che lo rende facilmente distinguibile da altri dispositivi basati sulla stessa board che potrebbero essere connessi al PC. La figura \ref{fig:lsusb} mostra un output del comando \texttt{lsusb} di GNU/Linux mentre il dispositivo è connesso. Non è necessario installare nessun driver per comunicare col dispositivo
+	\item I dispositivi OpenLDAT vengono trovati in base all'ID hardware personalizzato. Il dispositivo si dichiara con il nome ``OpenLDAT Model 1'' e ID hardware (VID:PID) 4370:0001, il che lo rende facilmente distinguibile da altri dispositivi basati sulla stessa board che potrebbero essere connessi al PC. La figura \ref{fig:lsusb} mostra un output del comando \texttt{lsusb} di GNU/Linux mentre il dispositivo è connesso. Non è necessario installare alcun driver per comunicare col dispositivo
 	\item Una volta stabilita la connessione, l'applicazione utilizza il comando \texttt{ID} per chiedere al dispositivo le sue \textit{capability}, in base alle quale decide se il dispositivo è supportato. Il formato di questo elenco verrà discusso nel paragrafo successivo.
 \end{itemize}
 

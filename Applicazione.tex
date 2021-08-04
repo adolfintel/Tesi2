@@ -674,7 +674,7 @@ Oltre ai metodi dell'interfaccia standard \texttt{ITest}, questa classe implemen
 	\item \texttt{public byte getState()}: ritorna lo stato attuale dell'automa in figura \ref{fig:interactiveInputLagTest_fsm}
 \end{itemize}
 
-Il test prosegue indefinitamente fino a quando non viene terminato manualmente dall'utente chiamando il metodo \texttt{onCancel}. Il callback \texttt{onDone} viene comunque chiamato alla terminazione ma non gli viene passato nessun dato.
+Il test prosegue indefinitamente fino a quando non viene terminato manualmente dall'utente chiamando il metodo \texttt{onCancel}. Il callback \texttt{onDone} viene comunque chiamato alla terminazione ma non gli vengono passati dati.
 
 Il test può essere utilizzato in due modi:\begin{itemize}
 	\item \textbf{Sulla stessa macchina}: in questo caso è sufficiente avviare il test e attivare la generazione automatica dei click. Il dispositivo genera click a una frequenza di circa 1 click al secondo, e posizionando il dispositivo in corrispondenza del \textit{muzzle flash} di un'arma o qualche altro elemento del gioco che genera un flash in risposta ai click, è possibile misurare quanto tempo passa tra un click e la generazione del flash
@@ -697,7 +697,7 @@ Oltre ai metodi dell'interfaccia standard \texttt{ITest}, questa classe implemen
 	\item \texttt{public double getStrongestFrequency(double from, double to)}: ritorna la frequenza in Hz più forte nel range specificato, oppure -1 se non ce ne sono o sono troppo deboli per essere rilevanti
 \end{itemize}
 
-Il test prosegue indefinitamente fino a quando non viene terminato manualmente dall'utente chiamando il metodo \texttt{onCancel}. Il callback \texttt{onDone} viene comunque chiamato alla terminazione ma non gli viene passato nessun dato.
+Il test prosegue indefinitamente fino a quando non viene terminato manualmente dall'utente chiamando il metodo \texttt{onCancel}. Il callback \texttt{onDone} viene comunque chiamato alla terminazione ma non gli vengono passati dati.
 
 %RIMOSSO PER DUBBIA UTILITÀ, meglio metterlo nella documentazione
 %\subsection{Template per test automatici}
