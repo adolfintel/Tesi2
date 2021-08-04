@@ -31,6 +31,7 @@
 	tabsize=2
 }
 \usepackage[font={small}]{caption}
+\usepackage[export]{adjustbox}
 \usepackage{pdflscape}
 \usepackage{lipsum}
 
@@ -73,7 +74,7 @@
 		
 		\begin{table}[H]
 			\centering
-			\begin{tabular}{|l|c|c|c|c|c|c|} 
+			\adjustbox{max width=\textwidth}{\begin{tabular}{|l|c|c|c|c|c|c|} 
 				\hline
 				\textbf{Dispositivo} & \textbf{Tipo} & \textbf{Anno} & \textbf{Refresh} & \textbf{Tecnologia} & \textbf{Retroilluminazione} & \textbf{Testato da}  \\ 
 				\hline
@@ -99,7 +100,7 @@
 				Sony VAIO SVF1532C5E & Laptop & 2014 & 60Hz & TN & Edge LED & Terzi \\ \hline
 				Sharp Aquos LC-40FG3242E & TV & 2020 & 60Hz & TN & Edge LED & Autore \\ \hline
 				Thinkpad T480 & Laptop & 2018 & 60Hz & IPS & Edge LED & Autore \\ \hline
-			\end{tabular}
+			\end{tabular}}
 			\caption{\label{tab:display_list}Lista completa dei dispositivi testati}
 		\end{table}
 	\end{landscape}
