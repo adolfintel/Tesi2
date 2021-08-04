@@ -30,7 +30,7 @@ countPages(){
 }
 pdfA(){
     log $1 "generazione PDF/A"
-    gs -dPDFA=1 -dBATCH -dNOPAUSE -sProcessColorModel=DeviceRGB -sDEVICE=pdfwrite -sPDFACompatibilityPolicy=1 -sOutputFile="$1.A.pdf" "$1.pdf" >/dev/null 2>&1
+    gs -dPDFA=1 -dPDFACompatibilityPolicy=1 -dBATCH -dNOPAUSE -dNOOUTERSAVE -sDEVICE=pdfwrite -dNOSAFER -sColorConverionStrategy=/UseDeviceIndependentColor -dPDFSETTINGS=/prepress -dDownsampleColorImages=false -dDownsampleGrayImages=false -dDownsampleMonoImages=false -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -sOutputFile="$1.A.pdf" PDFA_def.ps "$1.pdf" >/dev/null 2>&1
     if [[ $? -ne 0 ]]; then
         log $1 "fallito"
         return 1
@@ -41,18 +41,13 @@ build(){
     local startT=$SECONDS
     compile $1
     if [[ $? -eq 0 ]]; then
-        if [[ $2 -eq 1 && $3 -eq 1 ]]; then
-            pdfA $1 &
+        if [[ $2 -eq 1 ]]; then
             countPages $1 &
-            wait
-        else
-            if [[ $2 -eq 1 ]]; then
-                pdfA $1
-            fi;
-            if [[ $3 -eq 1 ]]; then
-                countPages $1
-            fi;
         fi;
+        if [[ $3 -eq 1 ]]; then
+            pdfA $1 &
+        fi;
+        wait
     fi;
     log $1 "completato in $(($SECONDS-$startT)) secondi"
 }
@@ -80,10 +75,9 @@ fi;
 echo "Compilazione parallela avviata. L'output è nascosto, ma vengono generati i file di log"
 build Tesi 1 1 &
 {
-    build Presentazione 0 1
-    build Riassunto 0 1
-    build TestStampa 0 1
+    build Presentazione 1 0
+    build Riassunto 1 0
+    build TestStampa 1 1
 } &
-
 wait
 echo "Build completata in $SECONDS secondi"
