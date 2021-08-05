@@ -39,6 +39,8 @@ pdfA(){
 }
 build(){
     local startT=$SECONDS
+    rm -f $1.pdf
+    rm -f $1.*.pdf
     compile $1
     if [[ $? -eq 0 ]]; then
         if [[ $2 -eq 1 ]]; then
@@ -51,7 +53,6 @@ build(){
     fi;
     log $1 "completato in $(($SECONDS-$startT)) secondi"
 }
-echo "Controllo... "
 command -v xelatex > /dev/null
 if [[ $? -ne 0 ]]; then
     echo "Manca xelatex, forse texlive-full non è installato?"
@@ -72,12 +73,19 @@ if [[ $? -ne 0 ]]; then
     echo "Manca GNU sed"
     return 1
 fi;
-echo "Compilazione parallela avviata. L'output è nascosto, ma vengono generati i file di log"
-build Tesi 1 1 &
-{
-    build Presentazione 1 0
-    build Riassunto 1 0
-    build TestStampa 1 1
-} &
+if [ "$1" == "release" ]; then
+    echo "$(tput setaf 11)Tipo di build: completa, parallela$(tput sgr 0)"
+    build Tesi 1 1 &
+    {
+        build Presentazione 1 0
+        build Riassunto 1 0
+        build TestStampa 1 1
+    } &
+else
+    echo "$(tput setaf 11)Tipo di build: rapida, parallela (usa ./build.sh release per fare una build completa)$(tput sgr 0)"
+    build Tesi 0 0 &
+    build Presentazione 0 0 &
+    build Riassunto 0 0 &
+fi;
 wait
 echo "Build completata in $SECONDS secondi"
