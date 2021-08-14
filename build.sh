@@ -7,8 +7,13 @@ log(){
 }
 compile(){
     log $1 "compilazione"
-    for i in 1 2 3; do
-        xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
+    local PASSES=3
+    for i in $(seq $PASSES); do
+        if [[ $i -eq $PASSES ]]; then
+            xelatex -interaction=nonstopmode "$1.tex" >/dev/null 2>&1
+        else
+            xelatex -interaction=nonstopmode -no-pdf "$1.tex" >/dev/null 2>&1
+        fi
         if [[ $? -ne 0 ]]; then
             log $1 "fallito"
             return 1
