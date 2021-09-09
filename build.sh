@@ -42,6 +42,15 @@ pdfA(){
     fi;
     log $1 "PDF/A generato"
 }
+extractFrontespizio(){
+    log $1 "generazione PDF solo frontespizio"
+    gs -dPDFA=1 -dPDFACompatibilityPolicy=1 -dBATCH -dNOPAUSE -dNOOUTERSAVE -sDEVICE=pdfwrite -dNOSAFER -sColorConverionStrategy=/UseDeviceIndependentColor -dPDFSETTINGS=/prepress -dDownsampleColorImages=false -dDownsampleGrayImages=false -dDownsampleMonoImages=false -dAutoFilterColorImages=false -dColorImageFilter=/FlateEncode -dFirstPage=1 -dLastPage=1 -sOutputFile="$1.Frontespizio.pdf" PDFA_def.ps "$1.pdf" >/dev/null 2>&1
+    if [[ $? -ne 0 ]]; then
+        log $1 "fallito"
+        return 1
+    fi;
+    log $1 "PDF solo frontespizio generato"
+}
 build(){
     local startT=$SECONDS
     rm -f $1.pdf
@@ -53,6 +62,9 @@ build(){
         fi;
         if [[ $3 -eq 1 ]]; then
             pdfA $1 &
+        fi;
+        if [[ $4 -eq 1 ]]; then
+            extractFrontespizio $1 &
         fi;
         wait
     fi;
@@ -80,17 +92,17 @@ if [[ $? -ne 0 ]]; then
 fi;
 if [ "$1" == "release" ]; then
     echo "$(tput setaf 11)Tipo di build: completa, parallela$(tput sgr 0)"
-    build Tesi 1 1 &
+    build Tesi 1 1 1 &
     {
-        build Presentazione 1 0
-        build Riassunto 1 0
-        build TestStampa 1 1
+        build Presentazione 1 0 0
+        build Riassunto 1 0 0
+        build TestStampa 1 1 0
     } &
 else
     echo "$(tput setaf 11)Tipo di build: rapida, parallela (usa ./build.sh release per fare una build completa)$(tput sgr 0)"
-    build Tesi 0 0 &
-    build Presentazione 0 0 &
-    build Riassunto 0 0 &
+    build Tesi 0 0 0 &
+    build Presentazione 0 0 0 &
+    build Riassunto 0 0 0 &
 fi;
 wait
 echo "Build completata in $SECONDS secondi"
