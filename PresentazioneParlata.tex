@@ -99,17 +99,13 @@
 
 \section{Introduzione}
 \begin{frame}
-	\frametitle{Introduzione}
+	\frametitle{Cos'è OpenLDAT}
 	\begin{itemize}
-		\item Progetto nato dall'esigenza di \alert{misurare la latenza totale di un sistema} in modo automatico
+		\item Sistema automatico di \alert{misurazione di metriche di latenza dei display}
+		\item Nato dall'esigenza di misurare la \alert{latenza totale di un sistema}
 		\item \alert{Nessun dispositivo simile sul mercato}
 		\item Progetto totalmente \alert{libero}
-		\item \alert{OpenLDAT può fare anche molto altro}
 	\end{itemize}
-	\vspace{3mm}
-	\begin{block}{Latenza totale del sistema}
-		Tempo che intercorre tra un'azione nel mondo fisico, come un click del mouse, e la visualizzazione del risultato sul display.
-	\end{block}
 \end{frame}
 
 \section{Dispositivo}
@@ -136,18 +132,21 @@
 \begin{frame}
 	\frametitle{Dispositivo OpenLDAT (2)}
 	\begin{columns}
-		\column{0.4\textwidth}
+		\column{0.5\textwidth}
 		\begin{itemize}
-			\item Generazione dei \alert{click automatica o manuale}
+			\item \alert{Click autogenerati} o dall'esterno
 			\item \alert{LED per validazione} dei risultati
-			\item \alert{Case stampabile}
-			\item \alert{Poco costoso}, facile da realizzare
 		\end{itemize}
-		\column{0.6\textwidth}
-		\begin{figure}
-			\adjincludegraphics[trim={{.16\width} 0 {.16\width} 0},clip,width=\textwidth]{Dispositivo_files/assembly_15.jpg}
-		\end{figure}
+		\column{0.5\textwidth}
+		\begin{itemize}
+			\item \alert{Case stampabile}
+			\item \alert{Poco costoso}
+			\item Facile da realizzare
+		\end{itemize}
 	\end{columns}
+	\begin{figure}
+		\centering \adjincludegraphics[clip,height=0.65\textheight]{Dispositivo_files/assembly_15.jpg}
+	\end{figure}
 \end{frame}
 
 \section{Applicazione}
@@ -158,7 +157,7 @@
         \item \alert{Multipiattaforma} (Windows, GNU/Linux, MacOS)
     \end{itemize}
 	\begin{figure}
-		\includegraphics[height=0.7\textheight]{Applicazione_files/gui_mainMenu2.png}
+		\centering \includegraphics[height=0.7\textheight]{Applicazione_files/gui_mainMenu2.png}
 	\end{figure}
 \end{frame}
 \begin{frame}
@@ -176,7 +175,7 @@
 	\frametitle{Applicazione OpenLDAT (3)}
 	\begin{figure}
 		\includegraphics[width=\textwidth]{Applicazione_files/gui_pixelresponse_results.png}
-		\caption*{Esempio di risultati di un test dei tempi di risposta dei pixel (AOC Q2770P)}
+		\caption*{Risultati di un test dei tempi di risposta dei pixel (AOC Q2770P)}
 	\end{figure}
 \end{frame}
 
@@ -184,7 +183,9 @@
 \begin{frame}
 	\frametitle{Risultati sperimentali}
 	\begin{itemize}
-		\item Testati \alert{oltre 20 display di tipi e periodi diversi} con modalità controllate su \alert{combinazioni hardware e software diverse}
+		\item Testati \alert{oltre 20 display di tipi e periodi diversi}
+		\item Modalità controllate
+		\item \alert{Combinazioni hardware e software diverse}
 		\item In fase di test sono emersi \alert{alcuni comportamenti interessanti}
 		\item Sono stati selezionati alcuni test rappresentativi per questa presentazione
 	\end{itemize}
@@ -204,7 +205,7 @@
             Samsung P2770HD (60Hz TV),41.1,111.9
         }\dataset
         \begin{tikzpicture}
-            \begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=2.5cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(7.25cm,-0.75cm)},anchor=east},xlabel=Ritardo (ms), width=9cm, height=8.25cm, xmin=0, ymin=-1, ymax=8, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione
+            \begin{axis}[xbar, bar width=8pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{model}, yticklabel style={text width=3cm, align=right}, table/y expr = \coordindex, nodes near coords, reverse legend, legend style={at={(7.25cm,-0.75cm)},anchor=east},xlabel=Ritardo (ms), width=9cm, height=8.25cm, xmin=0, ymin=-1, ymax=8, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di display per migliore formattazione
                 \addplot table[x=vsync] {\dataset};
                 \addplot table[x=novsync] {\dataset};
                 \legend{VSync On, VSync Off}
@@ -251,7 +252,7 @@
             Crysis Remastered (2020),182.5,17.8,23.5
         }\dataset
         \begin{tikzpicture}
-            \begin{axis}[xbar, bar width=10pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{app}, yticklabel style={text width=3cm, align=right}, table/y expr = \coordindex, nodes near coords, xlabel=Ritardo (ms), width=9cm, height=7.5cm, ymin=-1, ymax=8, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di test per migliore formattazione
+            \begin{axis}[xbar, bar width=10pt, y dir=reverse, ytick=data, yticklabels from table={\dataset}{app}, yticklabel style={text width=4cm, align=right}, table/y expr = \coordindex, nodes near coords, xlabel=Ritardo (ms), width=8cm, height=7.5cm, ymin=-1, ymax=8, axis x line*=bottom, axis y line*=left] %ymax messo a mano con il numero di test per migliore formattazione
                 \addplot[fill=gray, error bars/.cd, x dir = both, x explicit] table[x=lag, x error plus=emax, x error minus=emin] {\dataset};
             \end{axis}
         \end{tikzpicture}
@@ -328,9 +329,10 @@
 	\frametitle{Sviluppi futuri}
 	\begin{itemize}
         \item Implementazione di \alert{altri backend grafici} nell'applicazione
-        \item Porting dell'applicazione su Android
         \item Migliorie all'hardware e all'applicazione per poter implementare \alert{altri test}
+        \item Porting dell'applicazione su Android
         \item \alert{Commercializzazione del dispositivo}
+        \item Realizzazione di un sito dove gli utenti possono postare i risultati
 	\end{itemize}
 \end{frame}
 \begin{frame}
