@@ -95,13 +95,19 @@ if [ "$1" == "release" ]; then
     build Tesi 1 1 1 &
     {
         build Presentazione 1 0 0
+        build PresentazioneParlata 1 0 0
+    } &
+    {
         build Riassunto 1 0 0
         build TestStampa 1 1 0
     } &
 else
     echo "$(tput setaf 11)Tipo di build: rapida, parallela (usa ./build.sh release per fare una build completa)$(tput sgr 0)"
     build Tesi 0 0 0 &
-    build Presentazione 0 0 0 &
+    {
+        build Presentazione 0 0 0
+        build PresentazioneParlata 0 0 0
+    } &
     build Riassunto 0 0 0 &
 fi;
 wait
