@@ -19,7 +19,7 @@ compile(){
             return 1
         fi
         if [[ $i -eq 1 ]]; then
-            bibtex $1 >/dev/null 2>&1
+            bibtex "$1" >/dev/null 2>&1
         fi
     done
     log $1 "compilato"
@@ -53,8 +53,8 @@ extractFrontespizio(){
 }
 build(){
     local startT=$SECONDS
-    rm -f $1.pdf
-    rm -f $1.*.pdf
+    rm -f "$1.pdf"
+    rm -f "$1.*.pdf"
     compile $1
     if [[ $? -eq 0 ]]; then
         if [[ $2 -eq 1 ]]; then
