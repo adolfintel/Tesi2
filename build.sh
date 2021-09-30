@@ -98,7 +98,7 @@ if [ "$1" == "release" ]; then
         build PresentazioneParlata 1 0 0
     } &
     {
-        build Riassunto 1 0 0
+        build Riassunto 1 1 0
         build TestStampa 1 1 0
     } &
 else
